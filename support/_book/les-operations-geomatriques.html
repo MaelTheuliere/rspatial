@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>  | Approche spatiale et temporelle des données avec R</title>
+  <meta name="description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="  | Approche spatiale et temporelle des données avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="  | Approche spatiale et temporelle des données avec R" />
+  
+  <meta name="twitter:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+<meta name="author" content="Maël THEULIERE">
+
+
+<meta name="date" content="2019-04-18">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="les-operations-spatiales-sur-les-donnees.html">
+<link rel="next" href="creer-des-cartes-avec-ggplot2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/tidyverse.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Approche spatiale et temporelle des données avec R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A propos</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#les-donnees-spatiales"><i class="fa fa-check"></i><b>2.1</b> Les données spatiales</a></li>
+</ul></li>
+<li class="part"><span><b>I Introduction aux données spatiales</b></span></li>
+<li class="chapter" data-level="3" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html"><i class="fa fa-check"></i><b>3</b> La modélisation des données spatiales</a><ul>
+<li class="chapter" data-level="3.1" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#les-donnees-vecteurs"><i class="fa fa-check"></i><b>3.1</b> Les données vecteurs</a></li>
+<li class="chapter" data-level="3.2" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#les-donnees-raster"><i class="fa fa-check"></i><b>3.2</b> Les données raster</a></li>
+<li class="chapter" data-level="3.3" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#la-structuration-des-donnees-geographiques-avec-r"><i class="fa fa-check"></i><b>3.3</b> La structuration des données géographiques avec R</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="les-operations-sur-donnees-attributaires.html"><a href="les-operations-sur-donnees-attributaires.html"><i class="fa fa-check"></i><b>4</b> Les opérations sur données attributaires</a></li>
+<li class="chapter" data-level="5" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html"><i class="fa fa-check"></i><b>5</b> Les opérations spatiales sur les données</a><ul>
+<li class="chapter" data-level="5.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#filtrer"><i class="fa fa-check"></i><b>5.1</b> filtrer</a></li>
+<li class="chapter" data-level="5.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#predicats-spatiaux"><i class="fa fa-check"></i><b>5.2</b> Prédicats spatiaux</a></li>
+<li class="chapter" data-level="5.3" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#les-jointures-spatiales"><i class="fa fa-check"></i><b>5.3</b> Les jointures spatiales</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#jointure-de-points-avec-des-polygones"><i class="fa fa-check"></i><b>5.3.1</b> jointure de points avec des polygones</a></li>
+<li class="chapter" data-level="5.3.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#jointure-de-polygones-avec-des-polygones"><i class="fa fa-check"></i><b>5.3.2</b> jointure de polygones avec des polygones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html"><i class="fa fa-check"></i><b>6</b> Les opérations géomatriques</a><ul>
+<li class="chapter" data-level="6.1" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#operations-unaires"><i class="fa fa-check"></i><b>6.1</b> Opérations unaires</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#simplification"><i class="fa fa-check"></i><b>6.1.1</b> Simplification</a></li>
+<li class="chapter" data-level="6.1.2" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#centroide"><i class="fa fa-check"></i><b>6.1.2</b> Centroïde</a></li>
+<li class="chapter" data-level="6.1.3" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#buffer"><i class="fa fa-check"></i><b>6.1.3</b> Buffer</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#operation-binaires"><i class="fa fa-check"></i><b>6.2</b> Opération binaires</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#transformation-affine"><i class="fa fa-check"></i><b>6.2.1</b> Transformation affine</a></li>
+<li class="chapter" data-level="6.2.2" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#decoupage"><i class="fa fa-check"></i><b>6.2.2</b> Découpage</a></li>
+<li class="chapter" data-level="6.2.3" data-path="les-operations-geomatriques.html"><a href="les-operations-geomatriques.html#union"><i class="fa fa-check"></i><b>6.2.3</b> Union</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Créer des cartes sous R</b></span></li>
+<li class="chapter" data-level="7" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Créer des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="7.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#presentation-du-package-ggplot2"><i class="fa fa-check"></i><b>7.1</b> Présentation du package ggplot2</a></li>
+<li class="chapter" data-level="7.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-tidyverse"><i class="fa fa-check"></i><b>7.2</b> Le Tidyverse</a></li>
+<li class="chapter" data-level="7.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#ggplot-2-les-concepts-clefs"><i class="fa fa-check"></i><b>7.3</b> ggplot 2 : les concepts clefs</a></li>
+<li class="chapter" data-level="7.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-mapping"><i class="fa fa-check"></i><b>7.4</b> Le mapping</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-parametres-du-mapping"><i class="fa fa-check"></i><b>7.4.1</b> Les paramètres du mapping</a></li>
+<li class="chapter" data-level="7.4.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-autres-parametres"><i class="fa fa-check"></i><b>7.4.2</b> Les “autres” paramètres</a></li>
+<li class="chapter" data-level="7.4.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-1"><i class="fa fa-check"></i><b>7.4.3</b> Exercice 1</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#lhabillage-simple"><i class="fa fa-check"></i><b>7.5</b> L’habillage simple</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#titre-et-libelle-des-axes"><i class="fa fa-check"></i><b>7.5.1</b> Titre et libellé des axes</a></li>
+<li class="chapter" data-level="7.5.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#legende"><i class="fa fa-check"></i><b>7.5.2</b> Légende</a></li>
+<li class="chapter" data-level="7.5.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#annotation"><i class="fa fa-check"></i><b>7.5.3</b> Annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-themes"><i class="fa fa-check"></i><b>7.6</b> Les thèmes</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-fonctions-element"><i class="fa fa-check"></i><b>7.6.1</b> Les fonctions “élément”</a></li>
+<li class="chapter" data-level="7.6.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-composantes"><i class="fa fa-check"></i><b>7.6.2</b> Les composantes</a></li>
+<li class="chapter" data-level="7.6.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#quelques-exemples"><i class="fa fa-check"></i><b>7.6.3</b> Quelques exemples</a></li>
+<li class="chapter" data-level="7.6.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#modifier-le-theme-par-defaut."><i class="fa fa-check"></i><b>7.6.4</b> Modifier le thème par défaut.</a></li>
+<li class="chapter" data-level="7.6.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#creer-son-propre-theme"><i class="fa fa-check"></i><b>7.6.5</b> Créer son propre thème</a></li>
+<li class="chapter" data-level="7.6.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-2"><i class="fa fa-check"></i><b>7.6.6</b> Exercice 2</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-scales"><i class="fa fa-check"></i><b>7.7</b> Les scales</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#formatage-specifique"><i class="fa fa-check"></i><b>7.7.1</b> Formatage spécifique</a></li>
+<li class="chapter" data-level="7.7.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-3"><i class="fa fa-check"></i><b>7.7.2</b> Exercice 3</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#la-mise-en-page-de-plusieurs-graphiques"><i class="fa fa-check"></i><b>7.8</b> La mise en page de plusieurs graphiques</a></li>
+<li class="chapter" data-level="7.9" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-facettes"><i class="fa fa-check"></i><b>7.9</b> Les facettes</a><ul>
+<li class="chapter" data-level="7.9.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-4"><i class="fa fa-check"></i><b>7.9.1</b> Exercice 4</a></li>
+</ul></li>
+<li class="chapter" data-level="7.10" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exporter-un-graphique"><i class="fa fa-check"></i><b>7.10</b> Exporter un graphique</a></li>
+<li class="chapter" data-level="7.11" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#faire-des-cartes-avec-ggplot2"><i class="fa fa-check"></i><b>7.11</b> Faire des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="7.11.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-choroplethe"><i class="fa fa-check"></i><b>7.11.1</b> Les cartes choroplèthe</a></li>
+<li class="chapter" data-level="7.11.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-a-ronds-proportionnels"><i class="fa fa-check"></i><b>7.11.2</b> Les cartes à ronds proportionnels</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html"><i class="fa fa-check"></i><b>8</b> Créer des cartes avec Tmap</a><ul>
+<li class="chapter" data-level="8.1" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-choroplethe"><i class="fa fa-check"></i><b>8.1</b> Exemple de carte choroplèthe</a></li>
+<li class="chapter" data-level="8.2" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-a-ronds-proportionnels"><i class="fa fa-check"></i><b>8.2</b> Exemple de carte à ronds proportionnels</a></li>
+<li class="chapter" data-level="8.3" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>8.3</b> Exemples de cartes avec facet</a></li>
+<li class="chapter" data-level="8.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>8.4</b> gestion des palettes</a></li>
+<li class="chapter" data-level="8.5" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>8.5</b> La mise en page</a></li>
+<li class="chapter" data-level="8.6" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>8.6</b> Export d’une carte</a></li>
+<li class="chapter" data-level="8.7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exercice-5"><i class="fa fa-check"></i><b>8.7</b> Exercice 5</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html"><i class="fa fa-check"></i><b>9</b> Créer des cartes pour le web</a><ul>
+<li class="chapter" data-level="9.1" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#les-cartes-leaflet"><i class="fa fa-check"></i><b>9.1</b> Les cartes Leaflet</a></li>
+<li class="chapter" data-level="9.2" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#exporter-une-sortie-html"><i class="fa fa-check"></i><b>9.2</b> Exporter une sortie html</a></li>
+</ul></li>
+<li class="part"><span><b>III Géostatistiques</b></span></li>
+<li class="chapter" data-level="10" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>10</b> Session info</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Approche spatiale et temporelle des données avec R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="les-operations-geomatriques" class="section level1">
+<h1><span class="header-section-number">Chapitre 6</span> Les opérations géomatriques</h1>
+<p>Nous allons voir dans ce chapitre comment opérer des opérations géométriques sur nos vecteurs.
+On distingue 2 types d’opérations : les opérations unaires et binaires.</p>
+<div id="operations-unaires" class="section level2">
+<h2><span class="header-section-number">6.1</span> Opérations unaires</h2>
+<div id="simplification" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Simplification</h3>
+<p>La simplification revient comme sont nom l’indique à simplifier une couche vectorielle. Le cas d’usage d’un tel procédé peut être un changement d’échelle et plus généralement le besoin de réduire la taille de stockage de notre objet (par exemple pour une publication ou une carte interactive).</p>
+<p>Le package <code>sf</code> contient une fonction <code>st_simplify</code> qui implémente l’algorithme de Douglas-Peucker<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> de GEOS.
+la fonction utilise le paramètre <code>dTolerance</code> pour controler le niveau de simplification.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/territoires.RData&quot;</span>)
+
+departement_<span class="dv">56</span> &lt;-<span class="st"> </span>departements_geo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(INSEE_DEP <span class="op">==</span><span class="st"> &quot;56&quot;</span>)
+
+departement_<span class="dv">56</span>_simplifie &lt;-<span class="st"> </span>departement_<span class="dv">56</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_simplify</span>(<span class="dt">dTolerance =</span> <span class="dv">900</span>)
+
+departement_<span class="dv">56</span>_super_simplifie &lt;-<span class="st"> </span>departement_<span class="dv">56</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_simplify</span>(<span class="dt">dTolerance =</span> <span class="dv">2000</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(patchwork)
+p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departement_<span class="dv">56</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(), <span class="dt">panel.border =</span> <span class="kw">element_blank</span>())
+
+p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departement_<span class="dv">56</span>_simplifie) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>()
+
+p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departement_<span class="dv">56</span>_super_simplifie) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>()
+
+p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>On peut mesurer le gain réalisé par chaque opération.</p>
+<ul>
+<li><p>Une simplification avec un <code>dTolerance</code> de 900 permet d’économiser 91.6 % du stockage.</p></li>
+<li><p>Une simplification avec un <code>dTolerance</code> de 2000 permet d’économiser 92.6 % du stockage.</p></li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">object.size</span>(departement_<span class="dv">56</span>)</code></pre>
+<pre><code>449480 bytes</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">object.size</span>(departement_<span class="dv">56</span>_simplifie)</code></pre>
+<pre><code>37968 bytes</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">object.size</span>(departement_<span class="dv">56</span>_super_simplifie)</code></pre>
+<pre><code>33448 bytes</code></pre>
+<p>Le problème de l’agorythme Douglas-Peucker est qu’il simplifie les géométries objet par objet. Cela conduit à ce que la topologie est perdue, et va conduire à des trous ou des chevauchements. L’option <code>preserveTopology = T</code> de st_simplify doit permettre en théorie d’éviter ce problème, mais ne marche pas au delà d’un certain seuil.</p>
+<p>Par exemple, prenons 2 départements autour du Morbihan.</p>
+<pre class="sourceCode r"><code class="sourceCode r">departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span> &lt;-<span class="st"> </span>departements_geo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(INSEE_DEP <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;35&quot;</span>, <span class="st">&quot;44&quot;</span>, <span class="st">&quot;56&quot;</span>))
+
+departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span>_super_simplifie &lt;-<span class="st"> </span>departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_simplify</span>(<span class="dt">dTolerance =</span> <span class="dv">3000</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(), <span class="dt">panel.border =</span> <span class="kw">element_blank</span>())
+p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span>_super_simplifie) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>()
+p1 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>On constate clairement des trous à la frontière des 3 départements.</p>
+<p>Un autre algorithme peut être utilisé qui n’a pas les mêmes limitations, l’algorithme de Visvalingam<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.
+Le package <code>rmapshaper</code> contient une fonction <code>ms_simplify()</code> qui implémente cet algorithme.
+Ce package est une interace vers Mapshaper<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> un éditeur de données cartographiques.</p>
+<pre class="sourceCode r"><code class="sourceCode r">departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span> &lt;-<span class="st"> </span>departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span> <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">AREA=</span><span class="kw">as.numeric</span>(AREA)) 
+departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span>_ms_simplifie&lt;-<span class="kw">ms_simplify</span>(departements_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span>, <span class="dt">method=</span><span class="st">&quot;vis&quot;</span>, <span class="dt">keep =</span> <span class="fl">0.01</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departement_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(), <span class="dt">panel.border =</span> <span class="kw">element_blank</span>())
+p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departement_<span class="dv">35</span>_<span class="dv">44</span>_<span class="dv">56</span>_ms_simplifie) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>()
+p1 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="centroide" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Centroïde</h3>
+<p>Le centroïde permet d’identifier le centre d’un objet géométrique. Il y a plusieur façon de définir un centroïde. La plus usuelle est le centroïde géographique, qui peut être défini comme le point d’équilibre d’un objet (celui en dessous duquel votre doigt peut faire tenir en équilibre cet objet).
+La fonction permettant de définir un centroïde dans <code>sf</code> est <code>st_centroid()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">centres_departements&lt;-<span class="kw">st_centroid</span>(departements)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> departements) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> centres_departements,<span class="dt">color=</span><span class="st">&quot;dark green&quot;</span>,<span class="dt">size=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(), <span class="dt">panel.border =</span> <span class="kw">element_blank</span>())<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;les départements et leur centroïdes&quot;</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Parfois, le centroïde peut se placer en dehors de l’objet lui même. Par exemple pensez à un atoll.</p>
+<p><img src="pic/atoll.jpg" /></p>
+<p>Dans ce cas on peut utiliser <code>st_point_on_surface()</code> qui garantit que le point est sur la surface de l’objet de départ.</p>
+</div>
+<div id="buffer" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> Buffer</h3>
+</div>
+</div>
+<div id="operation-binaires" class="section level2">
+<h2><span class="header-section-number">6.2</span> Opération binaires</h2>
+<div id="transformation-affine" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Transformation affine</h3>
+</div>
+<div id="decoupage" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Découpage</h3>
+</div>
+<div id="union" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> Union</h3>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Douglas, David H, and Thomas K Peucker. 1973. “Algorithms for the Reduction of the Number of Points Required to Represent a Digitized Line or Its Caricature.” Cartographica: The International Journal for Geographic Information and Geovisualization 10 (2): 112–22.<a href="les-operations-geomatriques.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Visvalingam, M., and J. D. Whyatt. 1993. “Line Generalisation by Repeated Elimination of Points.” The Cartographic Journal 30 (1): 46–51. <a href="https://doi.org/10.1179/000870493786962263" class="uri">https://doi.org/10.1179/000870493786962263</a>.<a href="les-operations-geomatriques.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p><a href="https://mapshaper.org/" class="uri">https://mapshaper.org/</a><a href="les-operations-geomatriques.html#fnref3" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="les-operations-spatiales-sur-les-donnees.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="creer-des-cartes-avec-ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

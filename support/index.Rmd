@@ -1,0 +1,60 @@
+--- 
+title: "Les données spatiales avec R"
+author: "Maël THEULIERE"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique"
+---
+
+# A propos {-}
+
+Ce support est le support du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique.
+
+![](pic/medas.jpg)
+
+L’objectif de ce cours est de présenter les éléments de manipulation des données spatiales à partir de R. Nous verrons ainsi :
+
+- Ce que sont les données spatiales
+- Comment lire des données spatiales
+- Comment manipuler les données spatiales
+- Comment visualiser les données spatiales
+
+```{r setup, eval=T,echo=F,message=F,warning=F}
+knitr::opts_chunk$set(cache=T,echo=T,comment="",message=F,warning = F)
+#Chargement des packages et des données.
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(tidyverse)
+library(hrbrthemes)
+library(stringr)
+library(purrr)
+library(sf)
+library(tmap)
+library(viridis)
+library(scales)
+library(tmaptools)
+library(highcharter)
+library(leaflet)
+library(cowplot)
+library(waffle)
+library(glue)
+library(gganimate)
+library(htmlwidgets)
+library(rmapshaper)
+library(patchwork)
+load("data/data_exercices_formation.RData")
+load("data/ODD.RData")
+theme_set(theme_grey())
+```
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown','sf','ggplot2','tmap'
+), 'packages.bib')
+```

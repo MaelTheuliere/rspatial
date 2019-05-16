@@ -1,0 +1,17 @@
+bookdown::gitbook:
+  highlight: kate
+  css: css/style.css
+  df_print: tibble
+  config:
+    toc:
+      collapse: section
+      before: |
+        <li><a href="./index.html">Les données spatiales avec R</a></li>
+      after: <center><a href="https://github.com/maeltheuliere">Maël THEULIERE</a></center>
+    sharing:
+      twitter: yes
+      github: no
+      facebook: no
+      weibo: no
+      instapper: no
+      vk: no

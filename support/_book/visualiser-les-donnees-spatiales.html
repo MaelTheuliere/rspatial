@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>  | Approche spatiale et temporelle des données avec R</title>
+  <meta name="description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="  | Approche spatiale et temporelle des données avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="  | Approche spatiale et temporelle des données avec R" />
+  
+  <meta name="twitter:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+<meta name="author" content="Maël THEULIERE">
+
+
+<meta name="date" content="2019-03-11">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="lire-les-donnees-spatiales.html">
+<link rel="next" href="traitement-spatial-des-donnees.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/tidyverse.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Approche spatiale et temporelle des données avec R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A propos</a></li>
+<li class="part"><span><b>I Introduction aux données spatiales</b></span></li>
+<li class="chapter" data-level="2" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html"><i class="fa fa-check"></i><b>2</b> La modélisation des données spatiales</a></li>
+<li class="chapter" data-level="3" data-path="lire-les-donnees-spatiales.html"><a href="lire-les-donnees-spatiales.html"><i class="fa fa-check"></i><b>3</b> Lire les données spatiales</a></li>
+<li class="chapter" data-level="4" data-path="visualiser-les-donnees-spatiales.html"><a href="visualiser-les-donnees-spatiales.html"><i class="fa fa-check"></i><b>4</b> Visualiser les données spatiales</a></li>
+<li class="chapter" data-level="5" data-path="traitement-spatial-des-donnees.html"><a href="traitement-spatial-des-donnees.html"><i class="fa fa-check"></i><b>5</b> Traitement spatial des données</a></li>
+<li class="part"><span><b>II Créer des cartes sous R</b></span></li>
+<li class="chapter" data-level="6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html"><i class="fa fa-check"></i><b>6</b> Créer des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="6.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#presentation-du-package-ggplot2"><i class="fa fa-check"></i><b>6.1</b> Présentation du package ggplot2</a></li>
+<li class="chapter" data-level="6.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-tidyverse"><i class="fa fa-check"></i><b>6.2</b> Le Tidyverse</a></li>
+<li class="chapter" data-level="6.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#ggplot-2-les-concepts-clefs"><i class="fa fa-check"></i><b>6.3</b> ggplot 2 : les concepts clefs</a></li>
+<li class="chapter" data-level="6.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-mapping"><i class="fa fa-check"></i><b>6.4</b> Le mapping</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-parametres-du-mapping"><i class="fa fa-check"></i><b>6.4.1</b> Les paramètres du mapping</a></li>
+<li class="chapter" data-level="6.4.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-autres-parametres"><i class="fa fa-check"></i><b>6.4.2</b> Les “autres” paramètres</a></li>
+<li class="chapter" data-level="6.4.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-1"><i class="fa fa-check"></i><b>6.4.3</b> Exercice 1</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#lhabillage-simple"><i class="fa fa-check"></i><b>6.5</b> L’habillage simple</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#titre-et-libelle-des-axes"><i class="fa fa-check"></i><b>6.5.1</b> Titre et libellé des axes</a></li>
+<li class="chapter" data-level="6.5.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#legende"><i class="fa fa-check"></i><b>6.5.2</b> Légende</a></li>
+<li class="chapter" data-level="6.5.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#annotation"><i class="fa fa-check"></i><b>6.5.3</b> Annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-themes"><i class="fa fa-check"></i><b>6.6</b> Les thèmes</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-fonctions-element"><i class="fa fa-check"></i><b>6.6.1</b> Les fonctions “élément”</a></li>
+<li class="chapter" data-level="6.6.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-composantes"><i class="fa fa-check"></i><b>6.6.2</b> Les composantes</a></li>
+<li class="chapter" data-level="6.6.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#quelques-exemples"><i class="fa fa-check"></i><b>6.6.3</b> Quelques exemples</a></li>
+<li class="chapter" data-level="6.6.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#modifier-le-theme-par-defaut."><i class="fa fa-check"></i><b>6.6.4</b> Modifier le thème par défaut.</a></li>
+<li class="chapter" data-level="6.6.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#creer-son-propre-theme"><i class="fa fa-check"></i><b>6.6.5</b> Créer son propre thème</a></li>
+<li class="chapter" data-level="6.6.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-2"><i class="fa fa-check"></i><b>6.6.6</b> Exercice 2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-scales"><i class="fa fa-check"></i><b>6.7</b> Les scales</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#formatage-specifique"><i class="fa fa-check"></i><b>6.7.1</b> Formatage spécifique</a></li>
+<li class="chapter" data-level="6.7.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-3"><i class="fa fa-check"></i><b>6.7.2</b> Exercice 3</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#la-mise-en-page-de-plusieurs-graphiques"><i class="fa fa-check"></i><b>6.8</b> La mise en page de plusieurs graphiques</a></li>
+<li class="chapter" data-level="6.9" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-facettes"><i class="fa fa-check"></i><b>6.9</b> Les facettes</a><ul>
+<li class="chapter" data-level="6.9.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-4"><i class="fa fa-check"></i><b>6.9.1</b> Exercice 4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exporter-un-graphique"><i class="fa fa-check"></i><b>6.10</b> Exporter un graphique</a></li>
+<li class="chapter" data-level="6.11" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#faire-des-cartes-avec-ggplot2"><i class="fa fa-check"></i><b>6.11</b> Faire des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="6.11.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-choroplethe"><i class="fa fa-check"></i><b>6.11.1</b> Les cartes choroplèthe</a></li>
+<li class="chapter" data-level="6.11.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-a-ronds-proportionnels"><i class="fa fa-check"></i><b>6.11.2</b> Les cartes à ronds proportionnels</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html"><i class="fa fa-check"></i><b>7</b> Créer des cartes avec Tmap</a><ul>
+<li class="chapter" data-level="7.1" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-choroplethe"><i class="fa fa-check"></i><b>7.1</b> Exemple de carte choroplèthe</a></li>
+<li class="chapter" data-level="7.2" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-a-ronds-proportionnels"><i class="fa fa-check"></i><b>7.2</b> Exemple de carte à ronds proportionnels</a></li>
+<li class="chapter" data-level="7.3" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>7.3</b> Exemples de cartes avec facet</a></li>
+<li class="chapter" data-level="7.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>7.4</b> gestion des palettes</a></li>
+<li class="chapter" data-level="7.5" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>7.5</b> La mise en page</a></li>
+<li class="chapter" data-level="7.6" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>7.6</b> Export d’une carte</a></li>
+<li class="chapter" data-level="7.7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exercice-5"><i class="fa fa-check"></i><b>7.7</b> Exercice 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html"><i class="fa fa-check"></i><b>8</b> Créer des cartes pour le web</a><ul>
+<li class="chapter" data-level="8.1" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#les-cartes-leaflet"><i class="fa fa-check"></i><b>8.1</b> Les cartes Leaflet</a></li>
+<li class="chapter" data-level="8.2" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#exporter-une-sortie-html"><i class="fa fa-check"></i><b>8.2</b> Exporter une sortie html</a></li>
+</ul></li>
+<li class="part"><span><b>III Géostatistiques</b></span></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Approche spatiale et temporelle des données avec R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualiser-les-donnees-spatiales" class="section level1">
+<h1><span class="header-section-number">Chapitre 4</span> Visualiser les données spatiales</h1>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lire-les-donnees-spatiales.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="traitement-spatial-des-donnees.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

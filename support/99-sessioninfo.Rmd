@@ -1,0 +1,7 @@
+# Session info
+
+
+```{r}
+devtools::session_info()
+```
+

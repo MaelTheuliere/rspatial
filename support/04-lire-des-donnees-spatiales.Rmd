@@ -1,0 +1,123 @@
+# (PART) Lire et écrire des données spatiales {-}
+
+# Lire et écrire des données spatiales avec R
+
+Dans ce chapitre, nous allons utiliser les packages suivants : 
+
+```{r}
+library(sf)
+library(DT)
+library(tidyverse)
+library(RPostgres)
+```
+
+Le package `sf` s'appuie sur `GDAL` (Geospatial Data Abstraction Library) pour lire et écrire les données spatiales.
+
+`GDAL` est une librairie permettant de lire et d'écrire des données vecteurs et raster de n'importe quel format de fichier ou base de données.
+
+Les fonctions de lecture et d'écriture de `sf` s'appellent `st_read()` et `st_write()`.
+
+Pour lire des données spatiale, `st_read()` a besoin :
+
+- d'une source de donnée : un fichier, un répertoire, une base de données ;
+- d'un layer: une table de données spatiale spécifique du du fichier, répertoire, ou de la base de données ;
+
+On peut avoir besoin de rajouter des options spécifiques au format de la source. Par exemple, sur des données en `csv`, il faut pouvoir spécifier la composante spatiale des données.
+
+## Lire des fichiers plats
+
+`st_read()` permet de lire des données spatiales disponibles en fichier plats.
+
+Le format de fichier plat le plus populaire en géomatique est `ESRI Shapefile`. Ce format, en plus de ne pas être un format ouvert, a des limites bien documentées^[voir http://switchfromshapefile.org/]. 
+
+Avec l'avènement du web, le format `GeoJSON` se développe beaucoup, bien qu'il soit aussi limité.
+
+Le format considéré comme le plus prometeur est le format `OGC GeoPackage` promu par l'Open Geospatial Consortium^[https://www.geopackage.org/].
+
+Mais la liste des formats lisibles par `sf` est bien plus vaste.
+
+Pour l'obtenir, on peut utiliser `st_drivers()`
+
+```{r}
+DT::datatable(st_drivers() %>% arrange(name))
+```
+
+Exemple de lecture d'une donnée au format `GeoPackage`: les données sur la Leucémie à New York disponibles dans le package `spData`^[Issues de Waller and Gotway (2004) Applied Spatial Statistics for Public Health Data.].
+
+```{r}
+geo_fichier <- system.file("shapes/NY8_bna_utm18.gpkg", package = "spData")
+NY_leukemia <- st_read(dsn = geo_fichier)
+```
+
+## Ecrire des fichiers plats
+
+Ecrire des fichiers plats va se faire avec la fonction `st_write()`.
+
+```{r,message = T,eval=F}
+st_write(obj = NY_leukemia, dsn = "extdata/NY_leukemia.gpkg")
+```
+
+Notez que si vous chercher à exporter une nouvelle fois ce fichier, vous aurez un message d'errreur.
+
+Pour pouvoir écraser ce fichier, vous avez deux options : 
+
+- Utiliser le paramètre `layer_option` qui vous permet d'inclure des options propres au driver utilisé.
+
+```{r,eval=F}
+st_write(obj = NY_leukemia, 
+         dsn = "extdata/NY_leukemia.gpkg", 
+         layer_options = "OVERWRITE=YES")
+```
+
+
+- Utiliser le paramètre `delete_layer = T` de `st_write()` qui vous permet d'écraser les layer avant sauvegarde (paramètre qui ne dépend pas du driver utilisé).
+
+```{r,eval=F}
+st_write(obj = NY_leukemia, 
+         dsn = "extdata/NY_leukemia.gpkg", 
+         layer_options = "OVERWRITE=YES")
+```
+
+## Lire/ecrire des données spatiales sur PostGIS
+
+`PostGIS`, c'est l'extension géomatique de `PostgreSQL` permettant de stocker des données géo sur un serveur de données et de les manipuler.
+
+R va vous permettre de vous connecter simplement à une base PostGIS, pour cela vous aurez besoin du package `DBI` (package permettant de s'interfacer à des bases de données) et du package `RPostgres` (interface à PostgreSQL)
+
+Rstudio a développé tout un site sur les interactions entre les bases de données et R, vous pouvez le trouver à l'adresse suivante : [db.rstudio.com](https://db.rstudio.com/).
+
+Rstudio possède même depuis la version 1.1 d'un onglet de connexion vous permetttant de visualiser vos connexions aux bases.
+
+Pour se connecter à une base, on va définir un driver (à quelle type de base on veut se connecter) et un connecteur (les informations de connexion).
+
+```{r,eval = F}
+drv <- dbDriver("PostgreSQL")
+con <- dbConnect(drv, 
+                 dbname="nom_de_ma_db",
+                 host="adresse_ip_du_serveur",
+                 port=numero_du_port,
+                 user="nom_utilisateur",
+                 password="mot_de_passe_super_secret")
+```
+
+
+Pour lire des données sur le serveur, on va utiliser encore la fonction `st_read()` en lui définissant 2 paramètres : le connecteur et la requête que l'on veut réaliser.
+
+```{r,eval = F}
+ma_table = st_read(con,query="SELECT * FROM le_schema.ma_table")
+```
+
+L'avantage ici est que vous pouvez faire travailler le serveur directement sans avoir à faire travailler votre poste de travail.
+
+Vous pouvez très bien dans cette requête sql réaliser quelques filtres, sélections et aggrégations. Celles-ci seront alors réalisées par le serveur posgreSQL et non R qui ne récupèrera que le résultat.
+
+Vous pouvez écrire vos données ensuite de la même façon avec `st_write()`
+
+```{r,eval = F}
+st_write(ma_table,
+         dsn=con,
+         layer=ID(schema="schema",table="ma_table")
+         )
+```
+
+

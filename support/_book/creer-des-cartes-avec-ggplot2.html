@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>  | Les données spatiales avec R</title>
+  <meta name="description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="  | Les données spatiales avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="  | Les données spatiales avec R" />
+  
+  <meta name="twitter:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+<meta name="author" content="Maël THEULIERE">
+
+
+<meta name="date" content="2019-05-16">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="les-reprojections.html">
+<link rel="next" href="creer-des-cartes-avec-tmap.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Les données spatiales avec R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>A propos</a></li>
+<li class="chapter" data-level="1" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>1</b> Bien commencer</a><ul>
+<li class="chapter" data-level="1.1" data-path="bien-commencer.html"><a href="bien-commencer.html#creer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux."><i class="fa fa-check"></i><b>1.1</b> Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.</a></li>
+<li class="chapter" data-level="1.2" data-path="bien-commencer.html"><a href="bien-commencer.html#integrer-vos-donnees"><i class="fa fa-check"></i><b>1.2</b> Intégrer vos données</a></li>
+<li class="chapter" data-level="1.3" data-path="bien-commencer.html"><a href="bien-commencer.html#creer-votre-arborescence-de-projet"><i class="fa fa-check"></i><b>1.3</b> Créer votre arborescence de projet</a></li>
+<li class="chapter" data-level="1.4" data-path="bien-commencer.html"><a href="bien-commencer.html#activer-les-packages-necessaires"><i class="fa fa-check"></i><b>1.4</b> Activer les packages nécessaires</a></li>
+<li class="chapter" data-level="1.5" data-path="bien-commencer.html"><a href="bien-commencer.html#bien-structurer-ses-projets-data"><i class="fa fa-check"></i><b>1.5</b> Bien structurer ses projets data</a></li>
+</ul></li>
+<li class="part"><span><b>I Introduction aux données spatiales</b></span></li>
+<li class="chapter" data-level="2" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html"><i class="fa fa-check"></i><b>2</b> La modélisation des données spatiales</a><ul>
+<li class="chapter" data-level="2.1" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#les-donnees-vecteurs"><i class="fa fa-check"></i><b>2.1</b> Les données vecteurs</a></li>
+<li class="chapter" data-level="2.2" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#les-donnees-raster"><i class="fa fa-check"></i><b>2.2</b> Les données raster</a></li>
+<li class="chapter" data-level="2.3" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#la-structuration-des-donnees-geographiques-avec-r"><i class="fa fa-check"></i><b>2.3</b> La structuration des données géographiques avec R</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html"><i class="fa fa-check"></i><b>3</b> Les Systèmes de Coordonnées de Référence</a><ul>
+<li class="chapter" data-level="3.1" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#le-systeme-geodesique-ou-datum"><i class="fa fa-check"></i><b>3.1</b> Le système géodésique ou datum</a></li>
+<li class="chapter" data-level="3.2" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#les-coordonnees"><i class="fa fa-check"></i><b>3.2</b> Les coordonnées</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#coordonnees-geographiques"><i class="fa fa-check"></i><b>3.2.1</b> coordonnées géographiques</a></li>
+<li class="chapter" data-level="3.2.2" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#coordonnees-en-projection"><i class="fa fa-check"></i><b>3.2.2</b> coordonnées en projection</a></li>
+<li class="chapter" data-level="3.2.3" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#exemple-de-projections"><i class="fa fa-check"></i><b>3.2.3</b> Exemple de projections</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#code-epsg"><i class="fa fa-check"></i><b>3.3</b> Code EPSG</a></li>
+</ul></li>
+<li class="part"><span><b>II Lire et écrire des données spatiales</b></span></li>
+<li class="chapter" data-level="4" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><i class="fa fa-check"></i><b>4</b> Lire et écrire des données spatiales avec R</a><ul>
+<li class="chapter" data-level="4.1" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html#lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.1</b> Lire des fichiers plats</a></li>
+<li class="chapter" data-level="4.2" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html#ecrire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.2</b> Ecrire des fichiers plats</a></li>
+<li class="chapter" data-level="4.3" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html#lireecrire-des-donnees-spatiales-sur-postgis"><i class="fa fa-check"></i><b>4.3</b> Lire/ecrire des données spatiales sur PostGIS</a></li>
+</ul></li>
+<li class="part"><span><b>III Manipuler des données spatiales</b></span></li>
+<li class="chapter" data-level="5" data-path="les-operations-sur-donnees-attributaires.html"><a href="les-operations-sur-donnees-attributaires.html"><i class="fa fa-check"></i><b>5</b> Les opérations sur données attributaires</a></li>
+<li class="chapter" data-level="6" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html"><i class="fa fa-check"></i><b>6</b> Les opérations spatiales sur les données</a><ul>
+<li class="chapter" data-level="6.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#filtrer"><i class="fa fa-check"></i><b>6.1</b> filtrer</a></li>
+<li class="chapter" data-level="6.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#predicats-spatiaux"><i class="fa fa-check"></i><b>6.2</b> Prédicats spatiaux</a></li>
+<li class="chapter" data-level="6.3" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#les-jointures-spatiales"><i class="fa fa-check"></i><b>6.3</b> Les jointures spatiales</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#jointure-de-points-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.1</b> jointure de points avec des polygones</a></li>
+<li class="chapter" data-level="6.3.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#jointure-de-polygones-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.2</b> jointure de polygones avec des polygones</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#les-calculs-de-distance"><i class="fa fa-check"></i><b>6.4</b> Les calculs de distance</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#matrice-de-distances"><i class="fa fa-check"></i><b>6.4.1</b> matrice de distances</a></li>
+<li class="chapter" data-level="6.4.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#identification-du-plus-proche-voisin"><i class="fa fa-check"></i><b>6.4.2</b> identification du plus proche voisin</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html"><i class="fa fa-check"></i><b>7</b> Les opérations géométriques</a><ul>
+<li class="chapter" data-level="7.1" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#operations-unaires"><i class="fa fa-check"></i><b>7.1</b> Opérations unaires</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#simplification"><i class="fa fa-check"></i><b>7.1.1</b> Simplification</a></li>
+<li class="chapter" data-level="7.1.2" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#centroide"><i class="fa fa-check"></i><b>7.1.2</b> Centroïde</a></li>
+<li class="chapter" data-level="7.1.3" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#buffer"><i class="fa fa-check"></i><b>7.1.3</b> Buffer</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#operation-binaires"><i class="fa fa-check"></i><b>7.2</b> Opération binaires</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#transformation-affine"><i class="fa fa-check"></i><b>7.2.1</b> Transformation affine</a></li>
+<li class="chapter" data-level="7.2.2" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#decoupage"><i class="fa fa-check"></i><b>7.2.2</b> Découpage</a></li>
+<li class="chapter" data-level="7.2.3" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#union"><i class="fa fa-check"></i><b>7.2.3</b> Union</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="les-reprojections.html"><a href="les-reprojections.html"><i class="fa fa-check"></i><b>8</b> Les reprojections</a><ul>
+<li class="chapter" data-level="8.1" data-path="les-reprojections.html"><a href="les-reprojections.html#un-premier-exemple-de-reprojection"><i class="fa fa-check"></i><b>8.1</b> Un premier exemple de reprojection</a></li>
+<li class="chapter" data-level="8.2" data-path="les-reprojections.html"><a href="les-reprojections.html#quand-reprojeter"><i class="fa fa-check"></i><b>8.2</b> Quand reprojeter ?</a></li>
+<li class="chapter" data-level="8.3" data-path="les-reprojections.html"><a href="les-reprojections.html#quel-crs-utiliser"><i class="fa fa-check"></i><b>8.3</b> Quel CRS utiliser ?</a></li>
+<li class="chapter" data-level="8.4" data-path="les-reprojections.html"><a href="les-reprojections.html#comment-projeter"><i class="fa fa-check"></i><b>8.4</b> Comment projeter ?</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="les-reprojections.html"><a href="les-reprojections.html#projeter-des-vecteurs"><i class="fa fa-check"></i><b>8.4.1</b> projeter des vecteurs</a></li>
+<li class="chapter" data-level="8.4.2" data-path="les-reprojections.html"><a href="les-reprojections.html#modifier-la-projection-dune-carte."><i class="fa fa-check"></i><b>8.4.2</b> modifier la projection d’une carte.</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Créer des cartes sous R</b></span></li>
+<li class="chapter" data-level="9" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html"><i class="fa fa-check"></i><b>9</b> Créer des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#presentation-du-package-ggplot2"><i class="fa fa-check"></i><b>9.1</b> Présentation du package ggplot2</a></li>
+<li class="chapter" data-level="9.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-tidyverse"><i class="fa fa-check"></i><b>9.2</b> Le Tidyverse</a></li>
+<li class="chapter" data-level="9.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#ggplot-2-les-concepts-clefs"><i class="fa fa-check"></i><b>9.3</b> ggplot 2 : les concepts clefs</a></li>
+<li class="chapter" data-level="9.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-mapping"><i class="fa fa-check"></i><b>9.4</b> Le mapping</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-parametres-du-mapping"><i class="fa fa-check"></i><b>9.4.1</b> Les paramètres du mapping</a></li>
+<li class="chapter" data-level="9.4.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-autres-parametres"><i class="fa fa-check"></i><b>9.4.2</b> Les “autres” paramètres</a></li>
+<li class="chapter" data-level="9.4.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-1"><i class="fa fa-check"></i><b>9.4.3</b> Exercice 1</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#lhabillage-simple"><i class="fa fa-check"></i><b>9.5</b> L’habillage simple</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#titre-et-libelle-des-axes"><i class="fa fa-check"></i><b>9.5.1</b> Titre et libellé des axes</a></li>
+<li class="chapter" data-level="9.5.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#legende"><i class="fa fa-check"></i><b>9.5.2</b> Légende</a></li>
+<li class="chapter" data-level="9.5.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#annotation"><i class="fa fa-check"></i><b>9.5.3</b> Annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-themes"><i class="fa fa-check"></i><b>9.6</b> Les thèmes</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-fonctions-element"><i class="fa fa-check"></i><b>9.6.1</b> Les fonctions “élément”</a></li>
+<li class="chapter" data-level="9.6.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-composantes"><i class="fa fa-check"></i><b>9.6.2</b> Les composantes</a></li>
+<li class="chapter" data-level="9.6.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#quelques-exemples"><i class="fa fa-check"></i><b>9.6.3</b> Quelques exemples</a></li>
+<li class="chapter" data-level="9.6.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#modifier-le-theme-par-defaut."><i class="fa fa-check"></i><b>9.6.4</b> Modifier le thème par défaut.</a></li>
+<li class="chapter" data-level="9.6.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#creer-son-propre-theme"><i class="fa fa-check"></i><b>9.6.5</b> Créer son propre thème</a></li>
+<li class="chapter" data-level="9.6.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-2"><i class="fa fa-check"></i><b>9.6.6</b> Exercice 2</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-scales"><i class="fa fa-check"></i><b>9.7</b> Les scales</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#formatage-specifique"><i class="fa fa-check"></i><b>9.7.1</b> Formatage spécifique</a></li>
+<li class="chapter" data-level="9.7.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-3"><i class="fa fa-check"></i><b>9.7.2</b> Exercice 3</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#la-mise-en-page-de-plusieurs-graphiques"><i class="fa fa-check"></i><b>9.8</b> La mise en page de plusieurs graphiques</a></li>
+<li class="chapter" data-level="9.9" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-facettes"><i class="fa fa-check"></i><b>9.9</b> Les facettes</a><ul>
+<li class="chapter" data-level="9.9.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-4"><i class="fa fa-check"></i><b>9.9.1</b> Exercice 4</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exporter-un-graphique"><i class="fa fa-check"></i><b>9.10</b> Exporter un graphique</a></li>
+<li class="chapter" data-level="9.11" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#faire-des-cartes-avec-ggplot2"><i class="fa fa-check"></i><b>9.11</b> Faire des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-choroplethe"><i class="fa fa-check"></i><b>9.11.1</b> Les cartes choroplèthe</a></li>
+<li class="chapter" data-level="9.11.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-a-ronds-proportionnels"><i class="fa fa-check"></i><b>9.11.2</b> Les cartes à ronds proportionnels</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html"><i class="fa fa-check"></i><b>10</b> Créer des cartes avec Tmap</a><ul>
+<li class="chapter" data-level="10.1" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-choroplethe"><i class="fa fa-check"></i><b>10.1</b> Exemple de carte choroplèthe</a></li>
+<li class="chapter" data-level="10.2" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-a-ronds-proportionnels"><i class="fa fa-check"></i><b>10.2</b> Exemple de carte à ronds proportionnels</a></li>
+<li class="chapter" data-level="10.3" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>10.3</b> Exemples de cartes avec facet</a></li>
+<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>10.4</b> gestion des palettes</a></li>
+<li class="chapter" data-level="10.5" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>10.5</b> La mise en page</a></li>
+<li class="chapter" data-level="10.6" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>10.6</b> Export d’une carte</a></li>
+<li class="chapter" data-level="10.7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exercice-5"><i class="fa fa-check"></i><b>10.7</b> Exercice 5</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html"><i class="fa fa-check"></i><b>11</b> Créer des cartes pour le web</a><ul>
+<li class="chapter" data-level="11.1" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#les-cartes-leaflet"><i class="fa fa-check"></i><b>11.1</b> Les cartes Leaflet</a></li>
+<li class="chapter" data-level="11.2" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#exporter-une-sortie-html"><i class="fa fa-check"></i><b>11.2</b> Exporter une sortie html</a></li>
+</ul></li>
+<li class="part"><span><b>V A propos</b></span></li>
+<li class="chapter" data-level="12" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>12</b> Session info</a></li>
+<li class="divider"></li>
+<center><a href="https://github.com/maeltheuliere">Maël THEULIERE</a></center>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Les données spatiales avec R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="creer-des-cartes-avec-ggplot2" class="section level1">
+<h1><span class="header-section-number">Chapitre 9</span> Créer des cartes avec ggplot2</h1>
+<div id="presentation-du-package-ggplot2" class="section level2">
+<h2><span class="header-section-number">9.1</span> Présentation du package ggplot2</h2>
+<ul>
+<li><p><a href="http://ggplot2.tidyverse.org/">ggplot 2</a> est un package créé par Hadley Wickham et Winston Chang pour implémenter dans R la vision développée par Leland Wilkinson dans <a href="https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448/ref=as_li_ss_tl?ie=UTF8&amp;qid=1477928463&amp;sr=8-1&amp;keywords=the+grammar+of+graphics&amp;linkCode=sl1&amp;tag=ggplot2-20&amp;linkId=f0130e557161b83fbe97ba0e9175c431">The Grammar of Graphics (Statistics and Computing)</a> de la conception de graphiques.</p></li>
+<li><p>Le but est de fournir une approche unique pour produire quasiment <strong>toute valorisation graphique</strong> de données que l’on peut trouver dans des revues scientifiques, les journaux, dans l’analyse statistique ou la data visualisation.</p></li>
+<li><p>Ce Package aujourd’hui s’inscrit dans R dans le <strong>framework tidyverse</strong> qui propose une approche cohérente entre l’importation et la préparation des données, leur analyse et leur valorisation.</p></li>
+</ul>
+</div>
+<div id="le-tidyverse" class="section level2">
+<h2><span class="header-section-number">9.2</span> Le Tidyverse</h2>
+<div class="figure">
+<img src="pic/tidyverse.png" title="le tidyverse" alt="le tidyverse" id="id" class="class" width="800" />
+<p class="caption">le tidyverse</p>
+</div>
+</div>
+<div id="ggplot-2-les-concepts-clefs" class="section level2">
+<h2><span class="header-section-number">9.3</span> ggplot 2 : les concepts clefs</h2>
+<p>Pour construire un graphique avec ggplot il va falloir lui définir plusieurs éléments :</p>
+<ul>
+<li><p><strong>la donnée</strong> : ggplot2 permet de travailler sur des vecteurs, des dataframes, des tibbles, ou des données spatiales ;</p></li>
+<li><p>le <strong>mapping</strong> : on définit dans l’aesthetic (ou aes) le <strong>mapping</strong>, c’est à dire ce que l’on veut représenter qui <strong>dépend des variables</strong> (quelle variable sur l’axe x, sur l’axe y, quelle variable pour définir une graduation de couleurs…) ;</p></li>
+<li><p>les <strong>paramètres</strong> : on définit les autres paramètres qui dépendent de constantes (par exemple : je veux que toutes mes lignes soient rouge ou de taille 2 pixels) ;</p></li>
+<li><p>le <strong>layer (“forme géométrique”)</strong> : on définie sous quelle représentation graphique on représente les paramètres précédents. Sous ggplot, ces fonctions sont de la forme geom_XX ;</p></li>
+</ul>
+<p>L’écriture type d’un graphique sera donc:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="er">&lt;</span>FORME_GEO<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>),<span class="dt">...=</span><span class="op">&lt;</span>PARAMS<span class="op">&gt;</span>)</code></pre>
+<p>On va ensuite pouvoir à partir de cette base pour enrichir avec des fonctions supplémentaires.
+Chaque fonction s’enchaine avec des <strong>+</strong> comme les pipe.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="er">&lt;</span>FORME_GEO<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>),<span class="dt">...=</span><span class="op">&lt;</span>PARAMS<span class="op">&gt;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="er">&lt;</span>FONCTION1<span class="op">&gt;+</span>
+<span class="st">  </span>...</code></pre>
+</div>
+<div id="le-mapping" class="section level2">
+<h2><span class="header-section-number">9.4</span> Le mapping</h2>
+<div id="les-parametres-du-mapping" class="section level3">
+<h3><span class="header-section-number">9.4.1</span> Les paramètres du mapping</h3>
+<p>Dans l’exemple qui suit, la représentation géographique utilisée est le nuage de point <strong>geom_point</strong>.
+D’autres types de représentations géographiques sont présentés dans la partie suivante.</p>
+<p>L’aesthetic sert à identifier les variables que l’on souhaite représenter.
+Par exemple, si l’on souhaite représenter le taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) :</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<p>De plus, la fonction <strong>aes</strong> admet d’autres arguments qui permettent de modifier l’apparence du graphique selon une 3ème variable du jeu de données.
+<strong>colour</strong> : la couleur,
+<strong>shape</strong> : la forme,
+<strong>size</strong> : la taille,
+<strong>alpha</strong> : la transparence,
+<strong>fill</strong> : le remplissage ;</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio,<span class="dt">colour=</span>Continent))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+</div>
+<div id="les-autres-parametres" class="section level3">
+<h3><span class="header-section-number">9.4.2</span> Les “autres” paramètres</h3>
+<p>Il est possible de spécifier des paramètres qui seront valables pour l’ensemble du graphique.
+On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais il faut alors les passer <strong>en dehors de l’aesthetic</strong>.</p>
+<p>Par exemple si l’on souhaite modifier la transparance et la taille de l’ensemble des points du graphique précédent:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio,<span class="dt">colour=</span>Continent),
+             <span class="dt">alpha=</span><span class="fl">0.5</span>,<span class="dt">size=</span><span class="fl">1.9</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
+<p>De même si l’on souhaite modifier la couleur générale:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio),
+             <span class="dt">color=</span><span class="st">&quot;red&quot;</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+<p>Pour choisir et modifier facilement les couleurs d’un graphe, il existe un addin développé par Dean Attali: <strong>Colour Picker</strong>
+Il est installable comme n’importe quel package.
+Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" class="uri">https://github.com/daattali/colourpicker</a></p>
+</div>
+<div id="exercice-1" class="section level3">
+<h3><span class="header-section-number">9.4.3</span> Exercice 1</h3>
+<blockquote>
+<p>A partir des données de la table rpls_aggrege_large (dans le data_exercices_formation.RData),</p>
+<p>créer un nuage de point entre :</p>
+<ul>
+<li><p>le % de parc social de moins de 5 ans;</p></li>
+<li><p>et le pourcentage de logement avec un DPE ges de classe A,B ou C;</p></li>
+<li><p>et une couleur différente pour distinguer les epci de la région PDL.</p></li>
+</ul>
+</blockquote>
+<p>Le résultat attendu :</p>
+<p><img src="support_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
+</div>
+</div>
+<div id="lhabillage-simple" class="section level2">
+<h2><span class="header-section-number">9.5</span> L’habillage simple</h2>
+<div id="titre-et-libelle-des-axes" class="section level3">
+<h3><span class="header-section-number">9.5.1</span> Titre et libellé des axes</h3>
+<p>Chaque nouvel élément graphique est à rajouter sous forme de layer, ici nous utilisons la fonction <strong>labs</strong> qui permet de labelliser tout les éléments possibles de l’aesthétic, ainsi que le titre (<em>title</em>), le sous titre (<em>subtitle</em>) et le bas de page (<em>caption</em>)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-96-1.png" width="960" /></p>
+<p>A noter qu’il existe plusieurs autres façons de spécifier ces élèments par des couches spécifiques: ggtitle, xlab, ylab,…</p>
+</div>
+<div id="legende" class="section level3">
+<h3><span class="header-section-number">9.5.2</span> Légende</h3>
+<p>Les fonctions <code>guide()</code> et <code>guides</code> permettent de modifier finement la légende.
+Les guides peuvent être spécifiées dans chaque scale_* ou dans une instruction <code>guides</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="kw">guide_legend</span>(<span class="dt">direction=</span><span class="st">&quot;horizontal&quot;</span>,
+                           <span class="dt">order=</span><span class="dv">1</span>,
+                           <span class="dt">title.position=</span><span class="st">&quot;top&quot;</span>,
+                           <span class="dt">title.hjust=</span><span class="fl">0.5</span>,
+                           <span class="dt">nrow=</span><span class="dv">1</span>,
+                           <span class="dt">label.position=</span><span class="st">&quot;bottom&quot;</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-97-1.png" width="960" /></p>
+</div>
+<div id="annotation" class="section level3">
+<h3><span class="header-section-number">9.5.3</span> Annotation</h3>
+<p>Il est aussi possible de rajouter des annotations de type texte, par exemple, “à la volée”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">6</span>, <span class="dt">y =</span> <span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;je rajoute mon texte&quot;</span>,<span class="dt">color=</span><span class="st">&quot;blue&quot;</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-98-1.png" width="960" /></p>
+<p>La fonction <strong>annotate</strong> permet aussi d’ajouter d’autre type d’annotation comme par exemple des rectangles:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
+<span class="st">   </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="dv">10</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="ot">Inf</span>,<span class="dt">fill=</span><span class="st">&quot;red&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.2</span>)<span class="op">+</span>
+<span class="st">   </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="dv">2</span>,<span class="dt">fill=</span><span class="st">&quot;green&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.2</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-99-1.png" width="960" /></p>
+</div>
+</div>
+<div id="les-themes" class="section level2">
+<h2><span class="header-section-number">9.6</span> Les thèmes</h2>
+<p>Pour modifier simplement la position de la légende,c’est la fonction <a href="http://ggplot2.tidyverse.org/reference/theme.html">theme()</a> qu’il faut utiliser.
+<strong><em>theme</em></strong> permet de créer des templates, c’est à dire de définir tout ce qui n’est pas lié directement aux données sur un graphique, notamment:</p>
+<ul>
+<li><p>la position, taille,couleur,police des éléments textuel</p></li>
+<li><p>la couleur des grilles primaires et secondaires du graphique</p></li>
+</ul>
+<p>Il existe des <a href="http://ggplot2.tidyverse.org/reference/index.html#section-themes">thèmes prédéfinis</a> dans ggplot que l’on peut déjà utiliser.
+Par exemple: theme_classic(), theme_bw(), theme_dark(), …</p>
+<p>Des packages externe permettent d’enrichir cette collection de thèmes, par exemple ggthemes ou hrbethemes.</p>
+<p>Lorsque l’on souhaite garder une cohérence entre plusieurs graphiques, le mieux est d’en définir un à part pour l’appeler ensuite.</p>
+<div id="les-fonctions-element" class="section level3">
+<h3><span class="header-section-number">9.6.1</span> Les fonctions “élément”</h3>
+<p>Elle utilise 4 types de fonctions:</p>
+<ul>
+<li><strong><em>element_text()</em></strong> : pour toutes les étiquettes</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>PARAMÈTRE</th>
+<th>VALEUR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>family</td>
+<td>la famille de la police</td>
+</tr>
+<tr class="even">
+<td>face</td>
+<td>le type de police (“plain”, “italic”, “bold”, “bold.italic”)</td>
+</tr>
+<tr class="odd">
+<td>colour</td>
+<td>couleur</td>
+</tr>
+<tr class="even">
+<td>size</td>
+<td>taille en points</td>
+</tr>
+<tr class="odd">
+<td>hjust</td>
+<td>justification horizontale, dans [0, 1]</td>
+</tr>
+<tr class="even">
+<td>vjust</td>
+<td>justification verticale, dans [0, 1]</td>
+</tr>
+<tr class="odd">
+<td>angle</td>
+<td>angle, dans [0, 360]</td>
+</tr>
+<tr class="even">
+<td>lineheight</td>
+<td>hauteur de ligne (pour l’espacement entre les lignes)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><em>element_rect()</em></strong> : pour les fonds et les cadres,</li>
+</ul>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>PARAMÈTRE</th>
+<th>VALEUR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fill</td>
+<td>la couleur de remplissage</td>
+</tr>
+<tr class="even">
+<td>colour</td>
+<td>la couleur de la bordure</td>
+</tr>
+<tr class="odd">
+<td>size</td>
+<td>la taille de la bordure</td>
+</tr>
+<tr class="even">
+<td>linetype</td>
+<td>le type de ligne (“blank”, “solid”, “dashed”, “dotted”, “dotdash”, “longdash”, &quot;twodash)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><em>element_line()</em></strong> : pour toutes les lignes tracées,</li>
+</ul>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>PARAMÈTRE</th>
+<th>VALEUR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>colour</td>
+<td>la couleur de ligne</td>
+</tr>
+<tr class="even">
+<td>size</td>
+<td>la taille</td>
+</tr>
+<tr class="odd">
+<td>linetype</td>
+<td>le type de ligne (“blank”, “solid”, “dashed”, “dotted”, “dotdash”,“longdash”, &quot;twodash)</td>
+</tr>
+<tr class="even">
+<td>lineend</td>
+<td>le type de fin de ligne (“round”, “butt” ou “square”)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><em>element_blank()</em></strong> : permet de ne rien dessiner.</li>
+</ul>
+</div>
+<div id="les-composantes" class="section level3">
+<h3><span class="header-section-number">9.6.2</span> Les composantes</h3>
+<p>Il s’agit des différents éléments modifiables dans le thème.
+Par exemple:</p>
+<p><strong>Axes</strong>
+axis.line, axis.text.x, axis.text.y, axis.ticks, axis.title.x, axis.title.y,…</p>
+<p><strong>Légende</strong>
+legend.background, legend.key, legend.text, legend.title,…</p>
+<p><strong>Fond de graphe</strong>
+panel.background, panel.border, panel.grid.major, panel.grid.minor,…</p>
+<p>etc</p>
+</div>
+<div id="quelques-exemples" class="section level3">
+<h3><span class="header-section-number">9.6.3</span> Quelques exemples</h3>
+<ul>
+<li>Changer le fond du graphique <strong><em>panel_background</em></strong></li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;Lavender&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;black&quot;</span>))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-100-1.png" width="960" /></p>
+<ul>
+<li>Changer l’apparence du quadrillage <strong><em>panel_background</em></strong></li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">colour=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">size=</span><span class="fl">0.5</span>,<span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-101-1.png" width="960" /></p>
+<ul>
+<li>Changer l’apparence des étiquettes des axes <strong><em>axis_xxx()</em></strong></li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">angle =</span> <span class="dv">45</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;orange&quot;</span>))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-102-1.png" width="960" /></p>
+<p>Certains changements de paramètres ne nécessitent pas l’utilisation de fonction <strong><em>element_()</em></strong> .
+Par exemple, pour changer la position de la légende <strong><em>legend.xxx()</em></strong></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;left&quot;</span>,<span class="dt">legend.title=</span><span class="kw">element_blank</span>())</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-103-1.png" width="960" /></p>
+</div>
+<div id="modifier-le-theme-par-defaut." class="section level3">
+<h3><span class="header-section-number">9.6.4</span> Modifier le thème par défaut.</h3>
+<p>La fonction theme_set() vous permet de définir un thème par défaut pour l’ensemble de vos graphiques.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">theme_set</span>(<span class="kw">theme_dark</span>())
+
+<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-104-1.png" width="960" /></p>
+</div>
+<div id="creer-son-propre-theme" class="section level3">
+<h3><span class="header-section-number">9.6.5</span> Créer son propre thème</h3>
+<p>Un thème est une fonction R qui va prendre ne paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.
+Créons ici un thème avec un fond vert pour le ministère de la transition écologique et solidaire. On rajoute un paramètre pour la taille de la police du titre du graphique.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(hrbrthemes)
+theme_mtes&lt;-<span class="cf">function</span>(<span class="dt">taille_police=</span><span class="dv">14</span>){
+  <span class="kw">theme_bw</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>,<span class="dt">size=</span>taille_police,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
+        <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>),
+        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>),
+        <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;lightgreen&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;lightgreen&quot;</span>),
+        <span class="dt">plot.background=</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;#006400&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;lightgreen&quot;</span>),
+        <span class="dt">legend.background =</span>  <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;lightgreen&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;lightgreen&quot;</span>),
+        <span class="dt">legend.key =</span> <span class="kw">element_blank</span>())
+
+}
+
+<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_mtes</span>()</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
+</div>
+<div id="exercice-2" class="section level3">
+<h3><span class="header-section-number">9.6.6</span> Exercice 2</h3>
+<blockquote>
+<p>A partir des données de la table graphique 1, reprendre le nuage de point obtenu à partir des données ODD : taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) (Chapitre 4.1)</p>
+<p>En modifier le thème:</p>
+<ul>
+<li>Insérer un titre de couleur, en gras, centré par rapport au graphe.</li>
+<li>Indiquer la source (ODD) et modifier sa taille</li>
+<li>Changer les titres des axes et leurs tailles.</li>
+<li>modifier la couleur de fond du graphe</li>
+<li>modifier le type de gadrillage (pointillés)</li>
+</ul>
+</blockquote>
+<p>Le résultat attendu</p>
+<p><img src="support_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
+</div>
+</div>
+<div id="les-scales" class="section level2">
+<h2><span class="header-section-number">9.7</span> Les scales</h2>
+<p>Les fonctions <strong>scales</strong> permettent globalement de paramétrer les éléments rentrés dans l’aesthétic :</p>
+<ul>
+<li><p>Si je veux un gradient de couleur fonction d’une variable continue : quelle palette de couleur je choisie, comment je cale mon dégradé en fonction de cette variable continue ?</p></li>
+<li><p>Si je met une variable continue en ordonnée, comment je définis le minimum et maximum de cette axe, sa position, les valeurs que j’affiche sur l’échelle…</p></li>
+</ul>
+<p>L’ensemble des scales possibles peuvent se décrire sous forme suivante:</p>
+<p>scale_xx_yy</p>
+<p>ou xx peut être un des paramètre de l’aesthétic :</p>
+<table>
+<thead>
+<tr class="header">
+<th>xx</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>alpha</td>
+<td>transparence</td>
+</tr>
+<tr class="even">
+<td>color</td>
+<td>couleur des lignes ou des points</td>
+</tr>
+<tr class="odd">
+<td>fill</td>
+<td>couleurs des aires</td>
+</tr>
+<tr class="even">
+<td>linetype</td>
+<td>type de ligne (continue,pointillée,…)</td>
+</tr>
+<tr class="odd">
+<td>shape</td>
+<td>forme des points</td>
+</tr>
+<tr class="even">
+<td>size</td>
+<td>aire des points</td>
+</tr>
+<tr class="odd">
+<td>x</td>
+<td>variable de l’axe x</td>
+</tr>
+<tr class="even">
+<td>y</td>
+<td>variable de l’axe y</td>
+</tr>
+</tbody>
+</table>
+<p>Et y un type de paramétrage :</p>
+<table>
+<colgroup>
+<col width="39%" />
+<col width="60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>yy</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>continuous</td>
+<td>gérer les variables continue</td>
+</tr>
+<tr class="even">
+<td>discrete</td>
+<td>gérer les variables discrètes</td>
+</tr>
+<tr class="odd">
+<td>date</td>
+<td>gérer une variable au format date</td>
+</tr>
+<tr class="even">
+<td>reverse</td>
+<td>inverser l’axe</td>
+</tr>
+<tr class="odd">
+<td>log</td>
+<td>convertire l’échelle d’une variable continue en échelle logarithmique</td>
+</tr>
+<tr class="even">
+<td>log10</td>
+<td>convertire l’échelle d’une variable continue en échelle logarithmique décimale</td>
+</tr>
+<tr class="odd">
+<td>viridis</td>
+<td>utiliser une palette de couleur viridis</td>
+</tr>
+<tr class="even">
+<td>brewer</td>
+<td>utiliser une palette de couleur brewer (variable discrète)</td>
+</tr>
+<tr class="odd">
+<td>distiller</td>
+<td>utiliser une palette de couleur brewer (variable continue)</td>
+</tr>
+<tr class="even">
+<td>gradient</td>
+<td>utiliser un gradient de 2 couleurs</td>
+</tr>
+<tr class="odd">
+<td>gradient2</td>
+<td>utiliser un gradient divergent de 3 couleurs</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
+                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type=</span><span class="st">&quot;qual&quot;</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
+<p>Par exemple on peut exploiter une fonction scale pour définir une échelle logarithimique sur un axe.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,
+                 <span class="dt">y=</span>Maternal_mortality_ratio,
+                 <span class="dt">color=</span>Continent))<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type=</span><span class="st">&quot;qual&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_log10</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<div id="formatage-specifique" class="section level3">
+<h3><span class="header-section-number">9.7.1</span> Formatage spécifique</h3>
+<ul>
+<li>Transformation en pourcentage;</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span>scales<span class="op">::</span>percent)</code></pre>
+<ul>
+<li>Ajout du séparateurs des milliers;</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span><span class="cf">function</span>(x) <span class="kw">format</span>(x,<span class="dt">big.mark=</span><span class="st">&quot; &quot;</span>,<span class="dt">scientific =</span> <span class="ot">FALSE</span>))</code></pre>
+<ul>
+<li>Ajout du symbole €;</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span><span class="cf">function</span>(x) <span class="kw">paste</span>(x,<span class="st">&quot; €&quot;</span>))</code></pre>
+</div>
+<div id="exercice-3" class="section level3">
+<h3><span class="header-section-number">9.7.2</span> Exercice 3</h3>
+<blockquote>
+<p>En réutilisant le graphe obtenu à l’exercice 1 (table rpls_aggrege_large), y rajouter:</p>
+<ul>
+<li><p>une palette brewer pour la couleur;</p></li>
+<li><p>la légende en bas;</p></li>
+<li><p>des libellés (axes et légende) parlant et un titre.</p></li>
+</ul>
+</blockquote>
+<p>Le résultat attendu</p>
+<p><img src="support_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+</div>
+</div>
+<div id="la-mise-en-page-de-plusieurs-graphiques" class="section level2">
+<h2><span class="header-section-number">9.8</span> La mise en page de plusieurs graphiques</h2>
+<p>Le package cowplot permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.</p>
+<ul>
+<li>le fonction <strong>plot_grid</strong> qui permet de disposer <strong><em>n</em></strong> graphes sur <strong><em>i</em></strong> colonnes et <strong><em>j</em></strong> lignes</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">gg1&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,
+                 <span class="dt">y=</span>Maternal_mortality_ratio))<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_log10</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>))
+
+gg2&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP))
+  )
+
+<span class="kw">plot_grid</span>(gg1,gg2, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
+<ul>
+<li>le fonction <strong>draw_plot</strong> associée à <strong>ggdraw</strong> qui permet de disposer les graphiques à des places spécifiques</li>
+</ul>
+<p>ggdraw initialise le graphique</p>
+<pre class="sourceCode r"><code class="sourceCode r">gg1&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,
+                 <span class="dt">y=</span>Maternal_mortality_ratio))<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_log10</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>))
+
+gg2&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP)) )<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Log(PIB)&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Densité&quot;</span>)
+
+gg3&lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Continent,<span class="dt">fill=</span>Continent))<span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(),
+        <span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>())
+
+<span class="kw">ggdraw</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">draw_plot</span>(gg1, <span class="dt">x=</span><span class="dv">0</span>, <span class="dt">y=</span>.<span class="dv">5</span>, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">height=</span>.<span class="dv">5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">draw_plot</span>(gg2, <span class="dt">x=</span><span class="dv">0</span>, <span class="dt">y=</span><span class="dv">0</span>, <span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">height=</span>.<span class="dv">5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">draw_plot</span>(gg3, <span class="dt">x=</span><span class="fl">0.3</span>, <span class="dt">y=</span><span class="dv">0</span>, <span class="dt">width=</span><span class="fl">0.7</span>, <span class="dt">height=</span>.<span class="dv">5</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+</div>
+<div id="les-facettes" class="section level2">
+<h2><span class="header-section-number">9.9</span> Les facettes</h2>
+<p>Lorsque l’on veut pouvoir réaliser un graphique pour plusieurs sous ensemble, les facettes sont alors très utiles. On va ici l’illustrer avec la réalisation du même graphique ci dessus mais pour plusieurs années différentes.</p>
+<pre class="sourceCode r"><code class="sourceCode r">indicateur311 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
+         Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
+         Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
+         Location<span class="op">==</span><span class="st">&quot;Total (national level)&quot;</span>,
+         <span class="kw">is.na</span>(Value_type)
+         ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>,<span class="dv">2005</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Country_or_Area_Name,<span class="dt">weight=</span>Value,<span class="dt">fill=</span>Country_or_Area_Name))<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_ipsum</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;Zone&quot;</span>,
+       <span class="dt">fill=</span><span class="st">&quot;Zone&quot;</span>
+  )<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-115-1.png" width="768" /></p>
+<p>L’exemple pris ici “scinde” notre table en fonction d’une seule variable, mais on peut le faire sur plusieurs variables également.</p>
+<p>On peut choisir avec facet_wrap :
+- le nombre de colonnes ou de ligne sur lesquel on veut voir s’afficher le graphique
+- si on veut fixer l’échelle de l’un ou l’autre des axes ou les deux</p>
+<pre class="sourceCode r"><code class="sourceCode r">indicateur311 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
+         Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
+         Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
+         Location<span class="op">==</span><span class="st">&quot;Total (national level)&quot;</span>,
+         <span class="kw">is.na</span>(Value_type)
+         ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>,<span class="dv">2005</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Country_or_Area_Name,<span class="dt">weight=</span>Value,<span class="dt">fill=</span>Country_or_Area_Name))<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_ipsum</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;Zone&quot;</span>,
+       <span class="dt">fill=</span><span class="st">&quot;Zone&quot;</span>
+  )<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year,<span class="dt">ncol=</span><span class="dv">4</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-116-1.png" width="1152" /></p>
+<div id="exercice-4" class="section level3">
+<h3><span class="header-section-number">9.9.1</span> Exercice 4</h3>
+<blockquote>
+<p>A partir de la table rpls_aggrege, réaliser une facette sur un diagramme barre avec :</p>
+<ul>
+<li>en variable discrète les régions</li>
+<li>en variables continues les indicateurs suivants :
+<ul>
+<li>% de logements de 3 et 4 pièces</li>
+<li>% DPE énergie A,B,C</li>
+<li>% DPE GES A,B,C</li>
+<li>% de parc de moins de 5 ans</li>
+</ul></li>
+<li>une façon d’identifier la région Pays de la Loire</li>
+</ul>
+</blockquote>
+<p>Pour avoir la liste des modalités dune variable :</p>
+<ul>
+<li>Variables caractères ou factorielles :</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(rpls_aggrege<span class="op">$</span>Indicateur)</code></pre>
+<ul>
+<li>Variables factorielles :</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(rpls_aggrege<span class="op">$</span>Indicateur)</code></pre>
+<p>Résultat attendu</p>
+<p><img src="support_files/figure-html/unnamed-chunk-119-1.png" width="1152" /></p>
+</div>
+</div>
+<div id="exporter-un-graphique" class="section level2">
+<h2><span class="header-section-number">9.10</span> Exporter un graphique</h2>
+<p>ggplot contient une fonction <strong><em>ggsave()</em></strong> permet d’exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf</p>
+<pre class="sourceCode r"><code class="sourceCode r">p&lt;-indicateur311 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
+         Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
+         Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
+         Location<span class="op">==</span><span class="st">&quot;Total (national level)&quot;</span>,
+         <span class="kw">is.na</span>(Value_type)
+         ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>,<span class="dv">2005</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Country_or_Area_Name,<span class="dt">weight=</span>Value,<span class="dt">fill=</span>Country_or_Area_Name))<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_ipsum</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
+       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
+       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+       <span class="dt">x=</span><span class="st">&quot;Zone&quot;</span>,
+       <span class="dt">fill=</span><span class="st">&quot;Zone&quot;</span>
+  )<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year,<span class="dt">ncol=</span><span class="dv">4</span>)
+<span class="kw">ggsave</span>(<span class="st">&quot;figures/Mortalité maternelle sur quelques zones du globe.svg&quot;</span>,p,<span class="dt">width=</span><span class="dv">12</span>,<span class="dt">height =</span> <span class="dv">5</span>)</code></pre>
+</div>
+<div id="faire-des-cartes-avec-ggplot2" class="section level2">
+<h2><span class="header-section-number">9.11</span> Faire des cartes avec ggplot2</h2>
+<div id="les-cartes-choroplethe" class="section level3">
+<h3><span class="header-section-number">9.11.1</span> Les cartes choroplèthe</h3>
+<p>ggplot2 intègre une fonction geom permettant l’utilisation de données géomatrique : <strong>geom_sf</strong></p>
+<p>Le premier exemple que nous allons pouvoir voir, c’est une carte choroplèthe</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)
+
+tt&lt;-World <span class="op">%&gt;%</span>
+<span class="kw">rename</span>(<span class="dt">Country_or_Area_Code=</span>iso_a3) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">inner_join</span>(indicateur311 <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
+                     Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
+                     Type_Zone<span class="op">==</span><span class="st">&quot;Pays&quot;</span>,
+                   <span class="kw">is.na</span>(Value_type)) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(Year<span class="op">==</span><span class="kw">max</span>(Year)))
+
+<span class="kw">ggplot</span>(<span class="dt">data=</span>tt)<span class="op">+</span>
+<span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Value))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-121-1.png" width="1152" /></p>
+<p>On peut exploiter de la même façon les différents fonctions vue précédement. Par exemple avec un peu de thème et de facet.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)
+World&lt;-<span class="kw">st_as_sf</span>(World)
+
+tt&lt;-World <span class="op">%&gt;%</span>
+<span class="kw">rename</span>(<span class="dt">Country_or_Area_Code=</span>iso_a3) <span class="op">%&gt;%</span>
+<span class="kw">inner_join</span>(indicateur311 <span class="op">%&gt;%</span>
+<span class="st">            </span><span class="kw">filter</span>(Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
+                   Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
+                   Type_Zone<span class="op">==</span><span class="st">&quot;Pays&quot;</span>,
+                   <span class="kw">is.na</span>(Value_type)) <span class="op">%&gt;%</span>
+<span class="st">            </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
+<span class="st">            </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">            </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1990</span>,<span class="dv">2000</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">            </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">complete</span>(Year)
+          )
+
+<span class="kw">ggplot</span>(<span class="dt">data=</span>tt)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">log</span>(Value)))<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>(<span class="dt">option =</span> <span class="st">&quot;magma&quot;</span>,
+                   <span class="dt">direction=</span><span class="dv">1</span>,
+                   <span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour=</span>F,
+         <span class="dt">order=</span><span class="dv">0</span>,
+         <span class="dt">fill=</span><span class="kw">guide_legend</span>(<span class="dt">direction=</span><span class="st">&quot;horizontal&quot;</span>,
+                           <span class="dt">keyheight=</span><span class="kw">unit</span>(<span class="dv">2</span>,<span class="dt">units=</span><span class="st">&quot;mm&quot;</span>),
+                           <span class="dt">keywidth=</span><span class="kw">unit</span>(<span class="dv">20</span>,<span class="dt">units=</span><span class="st">&quot;mm&quot;</span>),
+                           <span class="dt">order=</span><span class="dv">1</span>,
+                           <span class="dt">title.position=</span><span class="st">&quot;top&quot;</span>,
+                           <span class="dt">title.hjust=</span><span class="fl">0.5</span>,
+                           <span class="dt">nrow=</span><span class="dv">1</span>,
+                           <span class="dt">label.position=</span><span class="st">&quot;bottom&quot;</span>,
+                           <span class="dt">label.hjust=</span><span class="dv">1</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Log du taux de mortalité infantile&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year,<span class="dt">drop=</span>T)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-122-1.png" width="1152" /></p>
+</div>
+<div id="les-cartes-a-ronds-proportionnels" class="section level3">
+<h3><span class="header-section-number">9.11.2</span> Les cartes à ronds proportionnels</h3>
+<p>ggplot ne peut attribuer par défaut un rond proportionnel à un polygone.
+pour travailler sur des ronds proportionnels,il faut d’abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec geom_sf.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)
+World&lt;-<span class="kw">st_as_sf</span>(World)
+
+tt&lt;-World <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Country_or_Area_Code=</span>iso_a3) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">inner_join</span>(indicateur311 <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
+                     Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
+                     Type_Zone<span class="op">==</span><span class="st">&quot;Pays&quot;</span>,
+                     <span class="kw">is.na</span>(Value_type)) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(Year<span class="op">==</span><span class="kw">max</span>(Year)))
+ttc&lt;-<span class="kw">st_centroid</span>(tt)
+
+<span class="kw">ggplot</span>(<span class="dt">data=</span>ttc)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data=</span>tt,<span class="dt">fill=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Value,<span class="dt">size=</span>Value))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-123-1.png" width="1152" /></p>
+<p><em>Attention: les centroids ne sont pas forcément là où on le pense:
+par exemple, le centroid de la France est décalé en Espagne puisqu’il prend en compte les DOM.</em></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="les-reprojections.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="creer-des-cartes-avec-tmap.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

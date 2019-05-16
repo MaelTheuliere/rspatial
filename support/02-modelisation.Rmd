@@ -1,0 +1,52 @@
+# (PART) Introduction aux données spatiales {-}
+
+# La modélisation des données spatiales
+
+Dans ce chapitre,nous allons développer une brève introduction à la modélisation des données géographiques.
+
+## Les données vecteurs
+
+Les données vecteurs sont une modélisation du monde utilisant des points, des lignes et des polygones.
+Les données "vecteurs" sont en générale plus utilisées en science sociale, les territoires créés par l'homme ayant la plupart du temps des frontières discrètes.
+
+Derrière les données vecteurs, se trouvent des points. Les points peuvent représenter des caractéristiques autonomes (comme l'emplacement de l'établissement d'une entreprise) ou peuvent être reliés entre eux pour former des géométries plus complexes telles que des lignes (commes des cours d'eau) et des polygones (les frontières d'un pays). 
+
+Ces points sont localisés à travers un système de référence de coordonnées (CRS). La plupart des géométries ponctuelles ne contiennent que deux dimensions (les CRS à trois dimensions contiennent une valeur supplémentaire z pour la hauteur du point en référence au niveau de la mer).
+
+
+## Les données raster
+
+Les données raster modélisent la surface du globe à l'aide de celulles de taille identique.
+Les données "raster" sont en générale plus utilisées dans les science environnementales, du fait de la fiabilité des données de télédétections disponibles.
+
+## La structuration des données géographiques avec R
+
+### sf pour les données vecteurs
+
+Le packages `sf` permet de gérer les données vecteurs.
+
+Avant `sf` existait le package `sp` que vous pourrez rencontrer suivant les packages plus spécifiques que vous utiliserez ou en cherchant de l'aide.
+
+Les avantages de `sf` sont multiples : 
+
+- **Standardisation** : sf utilise le modèle de données simple feature^[https://en.wikipedia.org/wiki/Simple_Features] qui est un standard largement utilisé dans le domaine de la géomatique.
+
+- **Simplification** du modèle de données. Les données spatiales sont un *dataframe* avec une variable spécifique renseignant la géométrie en créant un type ad hoc à coté des types standard (numériques, entiers, booléens, caractères, facteur...). Ce dataframe aura une classe spécifique qui lui sera associé (classe `sf`).
+
+- La syntaxe des fonctions est **unifiées** et **simplifiées** selon le manifeste du tidyverse^[https://tidyverse.tidyverse.org/articles/manifesto.html]. 
+
+- **Intégration**. Les verbes du tidyverse sont compatibles avec les données spatiales de class `sf` et vont parfois agir avec des propriétés spécifiques sur les données géométriques. On peut également utiliser le *pipe* dans le processus de travail.
+
+- **Perfomance** : meilleure performance dans la lecture et l'écrite des données. Voir un benchmark sur la [page du package sf](https://r-spatial.github.io/sf/articles/sf1.html#benchmarks)
+
+### raster et stars pour les données raster
+
+Les packages `raster` et `stars` permettent de gérer les données raster. 
+
+`raster` est aussi un package historique amené à être supplanté par `stars`.
+
+`stars` est d'une part plus vaste que `raster`, car il vise à gérer les données spatio-temporelle plus largement.
+
+`stars` est intégré à `sf` et au `tidyverse`
+
+On se limitera pour la suite du cours aux données vecteurs et donc à `sf`.

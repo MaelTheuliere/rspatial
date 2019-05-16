@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapitre 8 Les reprojections | Les données spatiales avec R</title>
+  <meta name="description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapitre 8 Les reprojections | Les données spatiales avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 8 Les reprojections | Les données spatiales avec R" />
+  
+  <meta name="twitter:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+<meta name="author" content="Maël THEULIERE">
+
+
+<meta name="date" content="2019-05-16">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="les-operations-geometriques.html">
+<link rel="next" href="creer-des-cartes-avec-ggplot2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Les données spatiales avec R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>A propos</a></li>
+<li class="chapter" data-level="1" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>1</b> Bien commencer</a><ul>
+<li class="chapter" data-level="1.1" data-path="bien-commencer.html"><a href="bien-commencer.html#creer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux."><i class="fa fa-check"></i><b>1.1</b> Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.</a></li>
+<li class="chapter" data-level="1.2" data-path="bien-commencer.html"><a href="bien-commencer.html#integrer-vos-donnees"><i class="fa fa-check"></i><b>1.2</b> Intégrer vos données</a></li>
+<li class="chapter" data-level="1.3" data-path="bien-commencer.html"><a href="bien-commencer.html#creer-votre-arborescence-de-projet"><i class="fa fa-check"></i><b>1.3</b> Créer votre arborescence de projet</a></li>
+<li class="chapter" data-level="1.4" data-path="bien-commencer.html"><a href="bien-commencer.html#activer-les-packages-necessaires"><i class="fa fa-check"></i><b>1.4</b> Activer les packages nécessaires</a></li>
+<li class="chapter" data-level="1.5" data-path="bien-commencer.html"><a href="bien-commencer.html#bien-structurer-ses-projets-data"><i class="fa fa-check"></i><b>1.5</b> Bien structurer ses projets data</a></li>
+</ul></li>
+<li class="part"><span><b>I Introduction aux données spatiales</b></span></li>
+<li class="chapter" data-level="2" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html"><i class="fa fa-check"></i><b>2</b> La modélisation des données spatiales</a><ul>
+<li class="chapter" data-level="2.1" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#les-donnees-vecteurs"><i class="fa fa-check"></i><b>2.1</b> Les données vecteurs</a></li>
+<li class="chapter" data-level="2.2" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#les-donnees-raster"><i class="fa fa-check"></i><b>2.2</b> Les données raster</a></li>
+<li class="chapter" data-level="2.3" data-path="la-modelisation-des-donnees-spatiales.html"><a href="la-modelisation-des-donnees-spatiales.html#la-structuration-des-donnees-geographiques-avec-r"><i class="fa fa-check"></i><b>2.3</b> La structuration des données géographiques avec R</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html"><i class="fa fa-check"></i><b>3</b> Les Systèmes de Coordonnées de Référence</a><ul>
+<li class="chapter" data-level="3.1" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#le-systeme-geodesique-ou-datum"><i class="fa fa-check"></i><b>3.1</b> Le système géodésique ou datum</a></li>
+<li class="chapter" data-level="3.2" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#les-coordonnees"><i class="fa fa-check"></i><b>3.2</b> Les coordonnées</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#coordonnees-geographiques"><i class="fa fa-check"></i><b>3.2.1</b> coordonnées géographiques</a></li>
+<li class="chapter" data-level="3.2.2" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#coordonnees-en-projection"><i class="fa fa-check"></i><b>3.2.2</b> coordonnées en projection</a></li>
+<li class="chapter" data-level="3.2.3" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#exemple-de-projections"><i class="fa fa-check"></i><b>3.2.3</b> Exemple de projections</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="les-systemes-de-coordonnees-de-reference.html"><a href="les-systemes-de-coordonnees-de-reference.html#code-epsg"><i class="fa fa-check"></i><b>3.3</b> Code EPSG</a></li>
+</ul></li>
+<li class="part"><span><b>II Lire et écrire des données spatiales</b></span></li>
+<li class="chapter" data-level="4" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><i class="fa fa-check"></i><b>4</b> Lire et écrire des données spatiales avec R</a><ul>
+<li class="chapter" data-level="4.1" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html#lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.1</b> Lire des fichiers plats</a></li>
+<li class="chapter" data-level="4.2" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html#ecrire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.2</b> Ecrire des fichiers plats</a></li>
+<li class="chapter" data-level="4.3" data-path="lire-et-ecrire-des-donnees-spatiales-avec-r.html"><a href="lire-et-ecrire-des-donnees-spatiales-avec-r.html#lireecrire-des-donnees-spatiales-sur-postgis"><i class="fa fa-check"></i><b>4.3</b> Lire/ecrire des données spatiales sur PostGIS</a></li>
+</ul></li>
+<li class="part"><span><b>III Manipuler des données spatiales</b></span></li>
+<li class="chapter" data-level="5" data-path="les-operations-sur-donnees-attributaires.html"><a href="les-operations-sur-donnees-attributaires.html"><i class="fa fa-check"></i><b>5</b> Les opérations sur données attributaires</a></li>
+<li class="chapter" data-level="6" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html"><i class="fa fa-check"></i><b>6</b> Les opérations spatiales sur les données</a><ul>
+<li class="chapter" data-level="6.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#filtrer"><i class="fa fa-check"></i><b>6.1</b> filtrer</a></li>
+<li class="chapter" data-level="6.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#predicats-spatiaux"><i class="fa fa-check"></i><b>6.2</b> Prédicats spatiaux</a></li>
+<li class="chapter" data-level="6.3" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#les-jointures-spatiales"><i class="fa fa-check"></i><b>6.3</b> Les jointures spatiales</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#jointure-de-points-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.1</b> jointure de points avec des polygones</a></li>
+<li class="chapter" data-level="6.3.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#jointure-de-polygones-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.2</b> jointure de polygones avec des polygones</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#les-calculs-de-distance"><i class="fa fa-check"></i><b>6.4</b> Les calculs de distance</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#matrice-de-distances"><i class="fa fa-check"></i><b>6.4.1</b> matrice de distances</a></li>
+<li class="chapter" data-level="6.4.2" data-path="les-operations-spatiales-sur-les-donnees.html"><a href="les-operations-spatiales-sur-les-donnees.html#identification-du-plus-proche-voisin"><i class="fa fa-check"></i><b>6.4.2</b> identification du plus proche voisin</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html"><i class="fa fa-check"></i><b>7</b> Les opérations géométriques</a><ul>
+<li class="chapter" data-level="7.1" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#operations-unaires"><i class="fa fa-check"></i><b>7.1</b> Opérations unaires</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#simplification"><i class="fa fa-check"></i><b>7.1.1</b> Simplification</a></li>
+<li class="chapter" data-level="7.1.2" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#centroide"><i class="fa fa-check"></i><b>7.1.2</b> Centroïde</a></li>
+<li class="chapter" data-level="7.1.3" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#buffer"><i class="fa fa-check"></i><b>7.1.3</b> Buffer</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#operation-binaires"><i class="fa fa-check"></i><b>7.2</b> Opération binaires</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#transformation-affine"><i class="fa fa-check"></i><b>7.2.1</b> Transformation affine</a></li>
+<li class="chapter" data-level="7.2.2" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#decoupage"><i class="fa fa-check"></i><b>7.2.2</b> Découpage</a></li>
+<li class="chapter" data-level="7.2.3" data-path="les-operations-geometriques.html"><a href="les-operations-geometriques.html#union"><i class="fa fa-check"></i><b>7.2.3</b> Union</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="les-reprojections.html"><a href="les-reprojections.html"><i class="fa fa-check"></i><b>8</b> Les reprojections</a><ul>
+<li class="chapter" data-level="8.1" data-path="les-reprojections.html"><a href="les-reprojections.html#un-premier-exemple-de-reprojection"><i class="fa fa-check"></i><b>8.1</b> Un premier exemple de reprojection</a></li>
+<li class="chapter" data-level="8.2" data-path="les-reprojections.html"><a href="les-reprojections.html#quand-reprojeter"><i class="fa fa-check"></i><b>8.2</b> Quand reprojeter ?</a></li>
+<li class="chapter" data-level="8.3" data-path="les-reprojections.html"><a href="les-reprojections.html#quel-crs-utiliser"><i class="fa fa-check"></i><b>8.3</b> Quel CRS utiliser ?</a></li>
+<li class="chapter" data-level="8.4" data-path="les-reprojections.html"><a href="les-reprojections.html#comment-projeter"><i class="fa fa-check"></i><b>8.4</b> Comment projeter ?</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="les-reprojections.html"><a href="les-reprojections.html#projeter-des-vecteurs"><i class="fa fa-check"></i><b>8.4.1</b> projeter des vecteurs</a></li>
+<li class="chapter" data-level="8.4.2" data-path="les-reprojections.html"><a href="les-reprojections.html#modifier-la-projection-dune-carte."><i class="fa fa-check"></i><b>8.4.2</b> modifier la projection d’une carte.</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Créer des cartes sous R</b></span></li>
+<li class="chapter" data-level="9" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html"><i class="fa fa-check"></i><b>9</b> Créer des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#presentation-du-package-ggplot2"><i class="fa fa-check"></i><b>9.1</b> Présentation du package ggplot2</a></li>
+<li class="chapter" data-level="9.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-tidyverse"><i class="fa fa-check"></i><b>9.2</b> Le Tidyverse</a></li>
+<li class="chapter" data-level="9.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#ggplot-2-les-concepts-clefs"><i class="fa fa-check"></i><b>9.3</b> ggplot 2 : les concepts clefs</a></li>
+<li class="chapter" data-level="9.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#le-mapping"><i class="fa fa-check"></i><b>9.4</b> Le mapping</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-parametres-du-mapping"><i class="fa fa-check"></i><b>9.4.1</b> Les paramètres du mapping</a></li>
+<li class="chapter" data-level="9.4.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-autres-parametres"><i class="fa fa-check"></i><b>9.4.2</b> Les “autres” paramètres</a></li>
+<li class="chapter" data-level="9.4.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-1"><i class="fa fa-check"></i><b>9.4.3</b> Exercice 1</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#lhabillage-simple"><i class="fa fa-check"></i><b>9.5</b> L’habillage simple</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#titre-et-libelle-des-axes"><i class="fa fa-check"></i><b>9.5.1</b> Titre et libellé des axes</a></li>
+<li class="chapter" data-level="9.5.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#legende"><i class="fa fa-check"></i><b>9.5.2</b> Légende</a></li>
+<li class="chapter" data-level="9.5.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#annotation"><i class="fa fa-check"></i><b>9.5.3</b> Annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-themes"><i class="fa fa-check"></i><b>9.6</b> Les thèmes</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-fonctions-element"><i class="fa fa-check"></i><b>9.6.1</b> Les fonctions “élément”</a></li>
+<li class="chapter" data-level="9.6.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-composantes"><i class="fa fa-check"></i><b>9.6.2</b> Les composantes</a></li>
+<li class="chapter" data-level="9.6.3" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#quelques-exemples"><i class="fa fa-check"></i><b>9.6.3</b> Quelques exemples</a></li>
+<li class="chapter" data-level="9.6.4" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#modifier-le-theme-par-defaut."><i class="fa fa-check"></i><b>9.6.4</b> Modifier le thème par défaut.</a></li>
+<li class="chapter" data-level="9.6.5" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#creer-son-propre-theme"><i class="fa fa-check"></i><b>9.6.5</b> Créer son propre thème</a></li>
+<li class="chapter" data-level="9.6.6" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-2"><i class="fa fa-check"></i><b>9.6.6</b> Exercice 2</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-scales"><i class="fa fa-check"></i><b>9.7</b> Les scales</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#formatage-specifique"><i class="fa fa-check"></i><b>9.7.1</b> Formatage spécifique</a></li>
+<li class="chapter" data-level="9.7.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-3"><i class="fa fa-check"></i><b>9.7.2</b> Exercice 3</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#la-mise-en-page-de-plusieurs-graphiques"><i class="fa fa-check"></i><b>9.8</b> La mise en page de plusieurs graphiques</a></li>
+<li class="chapter" data-level="9.9" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-facettes"><i class="fa fa-check"></i><b>9.9</b> Les facettes</a><ul>
+<li class="chapter" data-level="9.9.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exercice-4"><i class="fa fa-check"></i><b>9.9.1</b> Exercice 4</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#exporter-un-graphique"><i class="fa fa-check"></i><b>9.10</b> Exporter un graphique</a></li>
+<li class="chapter" data-level="9.11" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#faire-des-cartes-avec-ggplot2"><i class="fa fa-check"></i><b>9.11</b> Faire des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-choroplethe"><i class="fa fa-check"></i><b>9.11.1</b> Les cartes choroplèthe</a></li>
+<li class="chapter" data-level="9.11.2" data-path="creer-des-cartes-avec-ggplot2.html"><a href="creer-des-cartes-avec-ggplot2.html#les-cartes-a-ronds-proportionnels"><i class="fa fa-check"></i><b>9.11.2</b> Les cartes à ronds proportionnels</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html"><i class="fa fa-check"></i><b>10</b> Créer des cartes avec Tmap</a><ul>
+<li class="chapter" data-level="10.1" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-choroplethe"><i class="fa fa-check"></i><b>10.1</b> Exemple de carte choroplèthe</a></li>
+<li class="chapter" data-level="10.2" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-a-ronds-proportionnels"><i class="fa fa-check"></i><b>10.2</b> Exemple de carte à ronds proportionnels</a></li>
+<li class="chapter" data-level="10.3" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>10.3</b> Exemples de cartes avec facet</a></li>
+<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>10.4</b> gestion des palettes</a></li>
+<li class="chapter" data-level="10.5" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>10.5</b> La mise en page</a></li>
+<li class="chapter" data-level="10.6" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>10.6</b> Export d’une carte</a></li>
+<li class="chapter" data-level="10.7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exercice-5"><i class="fa fa-check"></i><b>10.7</b> Exercice 5</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html"><i class="fa fa-check"></i><b>11</b> Créer des cartes pour le web</a><ul>
+<li class="chapter" data-level="11.1" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#les-cartes-leaflet"><i class="fa fa-check"></i><b>11.1</b> Les cartes Leaflet</a></li>
+<li class="chapter" data-level="11.2" data-path="creer-des-cartes-pour-le-web.html"><a href="creer-des-cartes-pour-le-web.html#exporter-une-sortie-html"><i class="fa fa-check"></i><b>11.2</b> Exporter une sortie html</a></li>
+</ul></li>
+<li class="part"><span><b>V A propos</b></span></li>
+<li class="chapter" data-level="12" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>12</b> Session info</a></li>
+<li class="divider"></li>
+<center><a href="https://github.com/maeltheuliere">Maël THEULIERE</a></center>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Les données spatiales avec R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="les-reprojections" class="section level1">
+<h1><span class="header-section-number">Chapitre 8</span> Les reprojections</h1>
+<p>Pour rappel, il existe deux types de CRS, les CRS géographiques (longitude/lattitude avec pour unité de compté des degrés) et les CRS projeté (avec un datum et une unité en mètre par exemple).</p>
+<p>La plupart des fonctions de <code>sf</code> présuppose s’appliquer sur un CRS projeté, car les fonctions de GEOS sur lesquelles elles se basent le font aussi.</p>
+<div id="un-premier-exemple-de-reprojection" class="section level2">
+<h2><span class="header-section-number">8.1</span> Un premier exemple de reprojection</h2>
+<p>Prenons les coordonnées de Nantes en WGS 84:</p>
+<pre class="sourceCode r"><code class="sourceCode r">nantes&lt;-<span class="kw">data.frame</span>(<span class="dt">lon=</span><span class="op">-</span><span class="fl">1.553621</span>,<span class="dt">lat=</span><span class="fl">47.218371</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">st_as_sf</span>(<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">st_set_crs</span>(<span class="dv">4326</span>)</code></pre>
+<p>On peut visualiser nos données</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mapview</span>(nantes)</code></pre>
+<div id="htmlwidget-3cd076a64ceb4bab7471" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3cd076a64ceb4bab7471">{"x":{"options":{"minZoom":1,"maxZoom":100,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",1,"CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter",2,"CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenStreetMap",3,"OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",4,"Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenTopoMap",5,"OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[47.218371,-1.553621,6,null,"nantes",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":2,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},null,null,"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>1&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-1.553621,47.218371,-1.553621,47.218371,"Zoom to nantes","<strong> nantes <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"nantes",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["nantes"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"nantes","extra":null,"layerId":null,"className":"info legend","group":"nantes"}]}],"limits":{"lat":[47.218371,47.218371],"lng":[-1.553621,-1.553621]}},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      //map.on('click', function (e) {\n      //  var txt = document.querySelector('.lnlt').textContent;\n      //  console.log(txt);\n      //  //txt.innerText.focus();\n      //  //txt.select();\n      //  setClipboardText(txt);\n      //});\n\n      function setClipboardText(text){\n      var id = 'mycustom-clipboard-textarea-hidden-id';\n      var existsTextarea = document.getElementById(id);\n\n      if(!existsTextarea){\n      console.log('Creating textarea');\n      var textarea = document.createElement('textarea');\n      textarea.id = id;\n      // Place in top-left corner of screen regardless of scroll position.\n      textarea.style.position = 'fixed';\n      textarea.style.top = 0;\n      textarea.style.left = 0;\n\n      // Ensure it has a small width and height. Setting to 1px / 1em\n      // doesn't work as this gives a negative w/h on some browsers.\n      textarea.style.width = '1px';\n      textarea.style.height = '1px';\n\n      // We don't need padding, reducing the size if it does flash render.\n      textarea.style.padding = 0;\n\n      // Clean up any borders.\n      textarea.style.border = 'none';\n      textarea.style.outline = 'none';\n      textarea.style.boxShadow = 'none';\n\n      // Avoid flash of white box if rendered for any reason.\n      textarea.style.background = 'transparent';\n      document.querySelector('body').appendChild(textarea);\n      console.log('The textarea now exists :)');\n      existsTextarea = document.getElementById(id);\n      }else{\n      console.log('The textarea already exists :3')\n      }\n\n      existsTextarea.value = text;\n      existsTextarea.select();\n\n      try {\n      var status = document.execCommand('copy');\n      if(!status){\n      console.error('Cannot copy text');\n      }else{\n      console.log('The text is now on the clipboard');\n      }\n      } catch (err) {\n      console.log('Unable to copy.');\n      }\n      }\n\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+<p><code>st_is_longlat()</code> est fonction de <code>sf</code> permet de faire un test sur la famille de CRS à laquelle on a à faire.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_is_longlat</span>(nantes)</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<p>Essayons de créer un buffer de 1km autour de nantes</p>
+<pre class="sourceCode r"><code class="sourceCode r">nantes_buffer=<span class="st"> </span><span class="kw">st_buffer</span>(nantes, <span class="dt">dist =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>Warning in st_buffer.sfc(st_geometry(x), dist, nQuadSegs, endCapStyle =
+endCapStyle, : st_buffer does not correctly buffer longitude/latitude data</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mapview</span>(<span class="kw">list</span>(nantes,nantes_buffer))</code></pre>
+<div id="htmlwidget-a2d1fb83e44d94c41b95" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a2d1fb83e44d94c41b95">{"x":{"options":{"minZoom":1,"maxZoom":100,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",1,"CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter",2,"CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenStreetMap",3,"OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",4,"Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenTopoMap",5,"OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[47.218371,-1.553621,6,null,"nantes",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":2,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},null,null,"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>1&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-1.553621,47.218371,-1.553621,47.218371,"Zoom to nantes","<strong> nantes <\/strong>","bottomright"]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["nantes"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"nantes","extra":null,"layerId":null,"className":"info legend","group":"nantes"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[-0.553621,-0.554991465245426,-0.559099104631727,-0.565932659404862,-0.575473399266194,-0.587695173710932,-0.602564483704846,-0.620040573502798,-0.640075542357399,-0.662614475811632,-0.687595596215561,-0.714950432054576,-0.744604005625052,-0.776475038543029,-0.810476174522605,-0.846514218813452,-0.884490393641141,-0.924300608950162,-0.965835747707526,-1.00898196498497,-1.053621,-1.09963050026045,-1.1468843569242,-1.1952530504547,-1.24460400562505,-1.29480195489748,-1.34570930918224,-1.39718653495977,-1.44909253673234,-1.50128504375705,-1.553621,-1.60595695624294,-1.65814946326765,-1.71005546504023,-1.76153269081776,-1.81244004510252,-1.86263799437494,-1.9119889495453,-1.9603576430758,-2.00761149973954,-2.053621,-2.09826003501502,-2.14140625229247,-2.18294139104983,-2.22275160635885,-2.26072778118654,-2.29676582547739,-2.33076696145697,-2.36263799437494,-2.39229156794542,-2.41964640378444,-2.44462752418837,-2.4671664576426,-2.4872014264972,-2.50467751629515,-2.51954682628907,-2.5317686007338,-2.54130934059514,-2.54814289536827,-2.55225053475457,-2.553621,-2.55225053475457,-2.54814289536827,-2.54130934059514,-2.53176860073381,-2.51954682628907,-2.50467751629516,-2.4872014264972,-2.4671664576426,-2.44462752418837,-2.41964640378444,-2.39229156794543,-2.36263799437495,-2.33076696145698,-2.2967658254774,-2.26072778118655,-2.22275160635887,-2.18294139104984,-2.14140625229248,-2.09826003501503,-2.05362100000001,-2.00761149973955,-1.96035764307581,-1.91198894954531,-1.86263799437495,-1.81244004510253,-1.76153269081777,-1.71005546504024,-1.65814946326766,-1.60595695624295,-1.55362100000001,-1.50128504375706,-1.44909253673235,-1.39718653495977,-1.34570930918224,-1.29480195489748,-1.24460400562506,-1.1952530504547,-1.1468843569242,-1.09963050026046,-1.053621,-1.00898196498497,-0.965835747707528,-0.924300608950164,-0.884490393641143,-0.846514218813453,-0.810476174522606,-0.776475038543029,-0.744604005625053,-0.714950432054576,-0.687595596215561,-0.662614475811632,-0.640075542357399,-0.620040573502798,-0.602564483704846,-0.587695173710931,-0.575473399266194,-0.565932659404862,-0.559099104631726,-0.554991465245426,-0.553621],"lat":[47.218371,47.1660350437571,47.1138425367323,47.0619365349598,47.0104593091822,46.9595519548975,46.909354005625,46.8600030504547,46.8116343569242,46.7643805002605,46.718371,46.673731964985,46.6305857477075,46.5890506089502,46.5492403936411,46.5112642188135,46.4752261745226,46.441225038543,46.409354005625,46.3797004320546,46.3523455962156,46.3273644758116,46.3048255423574,46.2847905735028,46.2673144837048,46.2524451737109,46.2402233992662,46.2306826594049,46.2238491046317,46.2197414652454,46.218371,46.2197414652454,46.2238491046317,46.2306826594049,46.2402233992662,46.2524451737109,46.2673144837048,46.2847905735028,46.3048255423574,46.3273644758116,46.3523455962156,46.3797004320546,46.409354005625,46.441225038543,46.4752261745226,46.5112642188134,46.5492403936411,46.5890506089502,46.6305857477075,46.673731964985,46.718371,46.7643805002604,46.8116343569242,46.8600030504547,46.909354005625,46.9595519548975,47.0104593091822,47.0619365349598,47.1138425367323,47.166035043757,47.218371,47.2707069562429,47.3228994632676,47.3748054650402,47.4262826908178,47.4771900451025,47.5273879943749,47.5767389495453,47.6251076430758,47.6723614997395,47.718371,47.763010035015,47.8061562522925,47.8476913910498,47.8875016063588,47.9254777811865,47.9615158254774,47.995516961457,48.0273879943749,48.0570415679454,48.0843964037844,48.1093775241884,48.1319164576426,48.1519514264972,48.1694275162952,48.1842968262891,48.1965186007338,48.2060593405951,48.2128928953683,48.2170005347546,48.218371,48.2170005347546,48.2128928953683,48.2060593405951,48.1965186007338,48.1842968262891,48.1694275162952,48.1519514264972,48.1319164576426,48.1093775241884,48.0843964037844,48.0570415679454,48.0273879943749,47.995516961457,47.9615158254774,47.9254777811865,47.8875016063589,47.8476913910498,47.8061562522925,47.763010035015,47.718371,47.6723614997395,47.6251076430758,47.5767389495453,47.5273879943749,47.4771900451025,47.4262826908178,47.3748054650402,47.3228994632676,47.2707069562429,47.218371]}]]],null,"nantes_buffer",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>1&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POLYGON&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":2,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addHomeButton","args":[-2.553621,46.218371,-0.553621,48.218371,"Zoom to nantes_buffer","<strong> nantes_buffer <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],["nantes","nantes_buffer"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["nantes_buffer"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"nantes_buffer","extra":null,"layerId":null,"className":"info legend","group":"nantes_buffer"}]},{"method":"addHomeButton","args":[-2.553621,46.218371,-0.553621,48.218371,"Zoom to full extent","<strong>Zoom full<\/strong>","bottomleft"]},{"method":"hideGroup","args":[null]}],"limits":{"lat":[47.218371,47.218371],"lng":[-1.553621,-1.553621]},"fitBounds":[46.218371,-2.553621,48.218371,-0.553621,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      //map.on('click', function (e) {\n      //  var txt = document.querySelector('.lnlt').textContent;\n      //  console.log(txt);\n      //  //txt.innerText.focus();\n      //  //txt.select();\n      //  setClipboardText(txt);\n      //});\n\n      function setClipboardText(text){\n      var id = 'mycustom-clipboard-textarea-hidden-id';\n      var existsTextarea = document.getElementById(id);\n\n      if(!existsTextarea){\n      console.log('Creating textarea');\n      var textarea = document.createElement('textarea');\n      textarea.id = id;\n      // Place in top-left corner of screen regardless of scroll position.\n      textarea.style.position = 'fixed';\n      textarea.style.top = 0;\n      textarea.style.left = 0;\n\n      // Ensure it has a small width and height. Setting to 1px / 1em\n      // doesn't work as this gives a negative w/h on some browsers.\n      textarea.style.width = '1px';\n      textarea.style.height = '1px';\n\n      // We don't need padding, reducing the size if it does flash render.\n      textarea.style.padding = 0;\n\n      // Clean up any borders.\n      textarea.style.border = 'none';\n      textarea.style.outline = 'none';\n      textarea.style.boxShadow = 'none';\n\n      // Avoid flash of white box if rendered for any reason.\n      textarea.style.background = 'transparent';\n      document.querySelector('body').appendChild(textarea);\n      console.log('The textarea now exists :)');\n      existsTextarea = document.getElementById(id);\n      }else{\n      console.log('The textarea already exists :3')\n      }\n\n      existsTextarea.value = text;\n      existsTextarea.select();\n\n      try {\n      var status = document.execCommand('copy');\n      if(!status){\n      console.error('Cannot copy text');\n      }else{\n      console.log('The text is now on the clipboard');\n      }\n      } catch (err) {\n      console.log('Unable to copy.');\n      }\n      }\n\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+<p>Le message est clair et indique qu’un buffer ne marchera pas correctement sur des données en projection longitude / lattitude.</p>
+<p>Tentons une reprojection. La fonction permettant une reprojection est <code>st_transform()</code>.
+On va ici passer en lambert 93 nos données.</p>
+<pre class="sourceCode r"><code class="sourceCode r">nantes_proj&lt;-<span class="kw">st_transform</span>(nantes, <span class="dv">2154</span>)</code></pre>
+<p>Le CRS lambert 93 n’est bien pas une projection en longitude lattitude :</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_is_longlat</span>(nantes_proj)</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">nantes_proj_buffer=<span class="st"> </span><span class="kw">st_buffer</span>(nantes_proj, <span class="dt">dist =</span> <span class="dv">1</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mapview</span>(<span class="kw">list</span>(nantes_proj,nantes_proj_buffer))</code></pre>
+<div id="htmlwidget-1586df010987d8b7ee65" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1586df010987d8b7ee65">{"x":{"options":{"minZoom":1,"maxZoom":100,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",1,"CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter",2,"CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenStreetMap",3,"OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",4,"Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenTopoMap",5,"OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[47.2183709999823,-1.553621,6,null,"nantes_proj",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":2,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},null,null,"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>1&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-1.553621,47.2183709999823,-1.553621,47.2183709999823,"Zoom to nantes_proj","<strong> nantes_proj <\/strong>","bottomright"]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["nantes_proj"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"nantes_proj","extra":null,"layerId":null,"className":"info legend","group":"nantes_proj"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[-1.55360780831647,-1.55360778653707,-1.55360780097485,-1.55360785159024,-1.5536079382445,-1.55360806070013,-1.55360821862147,-1.55360841157569,-1.55360863903389,-1.55360890037263,-1.55360919487561,-1.5536095217356,-1.55360988005671,-1.5536102688568,-1.5536106870702,-1.55361113355062,-1.55361160707428,-1.55361210634329,-1.55361262998918,-1.55361317657668,-1.55361374460764,-1.55361433252511,-1.55361493871766,-1.55361556152375,-1.55361619923632,-1.55361685010745,-1.55361751235314,-1.55361818415822,-1.55361886368132,-1.55361954905992,-1.55362023841545,-1.55362092985843,-1.55362162149365,-1.55362231142541,-1.55362299776265,-1.55362367862415,-1.55362435214374,-1.55362501647534,-1.55362566979807,-1.55362631032121,-1.55362693628914,-1.55362754598611,-1.55362813774101,-1.55362870993185,-1.55362926099032,-1.553629789406,-1.55363029373054,-1.55363077258161,-1.55363122464673,-1.55363164868681,-1.55363204353959,-1.5536324081228,-1.55363274143715,-1.55363304256905,-1.5536333106931,-1.55363354507441,-1.55363374507055,-1.55363391013334,-1.55363403981035,-1.55363413374615,-1.55363419168327,-1.55363421346291,-1.55363419902536,-1.5536341484102,-1.55363406175616,-1.55363393930075,-1.55363378137961,-1.55363358842559,-1.55363336096757,-1.553633099629,-1.55363280512617,-1.5536324782663,-1.5536321199453,-1.55363173114529,-1.55363131293195,-1.55363086645157,-1.55363039292793,-1.55362989365891,-1.55362937001299,-1.55362882342542,-1.55362825539439,-1.55362766747682,-1.55362706128414,-1.55362643847791,-1.55362580076517,-1.55362514989387,-1.55362448764799,-1.5536238158427,-1.55362313631938,-1.55362245094056,-1.5536217615848,-1.55362107014159,-1.55362037850614,-1.55361968857415,-1.55361900223669,-1.55361832137497,-1.55361764785517,-1.55361698352337,-1.55361633020047,-1.55361568967716,-1.55361506370909,-1.55361445401198,-1.55361386225698,-1.55361329006605,-1.55361273900752,-1.5536122105918,-1.55361170626725,-1.55361122741618,-1.5536107753511,-1.55361035131108,-1.55360995645838,-1.55360959187527,-1.55360925856104,-1.55360895742929,-1.5536086893054,-1.55360845492427,-1.55360825492833,-1.55360808986574,-1.55360796018894,-1.55360786625336,-1.55360780831647],"lat":[47.2183715188626,47.2183710477702,47.2183705765468,47.218370106484,47.2183696388702,47.2183691749872,47.2183687161063,47.2183682634854,47.218367818365,47.2183673819652,47.2183669554821,47.2183665400848,47.2183661369117,47.2183657470679,47.2183653716221,47.2183650116031,47.2183646679979,47.2183643417482,47.2183640337483,47.2183637448424,47.2183634758222,47.2183632274253,47.2183630003324,47.218362795166,47.2183626124884,47.2183624528004,47.2183623165395,47.2183622040794,47.2183621157283,47.2183620517282,47.2183620122547,47.218361997416,47.2183620072526,47.2183620417377,47.2183621007767,47.2183621842078,47.2183622918023,47.2183624232653,47.2183625782365,47.2183627562912,47.2183629569412,47.2183631796366,47.2183634237671,47.2183636886634,47.2183639735995,47.2183642777945,47.2183646004145,47.2183649405753,47.2183652973445,47.2183656697442,47.2183660567537,47.2183664573123,47.218366870322,47.2183672946509,47.2183677291358,47.2183681725858,47.2183686237856,47.2183690814984,47.2183695444695,47.2183700114302,47.2183704811004,47.2183709521928,47.2183714234162,47.218371893479,47.2183723610928,47.2183728249759,47.2183732838568,47.2183737364778,47.2183741815982,47.2183746179981,47.2183750444812,47.2183754598786,47.2183758630518,47.2183762528956,47.2183766283415,47.2183769883605,47.2183773319658,47.2183776582156,47.2183779662156,47.2183782551216,47.2183785241418,47.2183787725388,47.2183789996318,47.2183792047982,47.2183793874759,47.218379547164,47.2183796834248,47.218379795885,47.2183798842362,47.2183799482363,47.2183799877098,47.2183800025485,47.2183799927119,47.2183799582268,47.2183798991878,47.2183798157567,47.2183797081621,47.218379576699,47.2183794217278,47.2183792436731,47.218379043023,47.2183788203275,47.218378576197,47.2183783113006,47.2183780263644,47.2183777221694,47.2183773995493,47.2183770593884,47.2183767026191,47.2183763302193,47.2183759432097,47.2183755426511,47.2183751296413,47.2183747053124,47.2183742708274,47.2183738273773,47.2183733761775,47.2183729184647,47.2183724554935,47.2183719885328,47.2183715188626]}]]],null,"nantes_proj_buffer",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>1&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POLYGON&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":2,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addHomeButton","args":[-1.55363421346291,47.218361997416,-1.55360778653707,47.2183800025485,"Zoom to nantes_proj_buffer","<strong> nantes_proj_buffer <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],["nantes_proj","nantes_proj_buffer"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["nantes_proj_buffer"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"nantes_proj_buffer","extra":null,"layerId":null,"className":"info legend","group":"nantes_proj_buffer"}]},{"method":"addHomeButton","args":[-1.55363421346291,47.218361997416,-1.55360778653707,47.2183800025485,"Zoom to full extent","<strong>Zoom full<\/strong>","bottomleft"]},{"method":"hideGroup","args":[null]}],"limits":{"lat":[47.2183709999823,47.2183709999823],"lng":[-1.553621,-1.553621]},"fitBounds":[47.218361997416,-1.55363421346291,47.2183800025485,-1.55360778653707,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      //map.on('click', function (e) {\n      //  var txt = document.querySelector('.lnlt').textContent;\n      //  console.log(txt);\n      //  //txt.innerText.focus();\n      //  //txt.select();\n      //  setClipboardText(txt);\n      //});\n\n      function setClipboardText(text){\n      var id = 'mycustom-clipboard-textarea-hidden-id';\n      var existsTextarea = document.getElementById(id);\n\n      if(!existsTextarea){\n      console.log('Creating textarea');\n      var textarea = document.createElement('textarea');\n      textarea.id = id;\n      // Place in top-left corner of screen regardless of scroll position.\n      textarea.style.position = 'fixed';\n      textarea.style.top = 0;\n      textarea.style.left = 0;\n\n      // Ensure it has a small width and height. Setting to 1px / 1em\n      // doesn't work as this gives a negative w/h on some browsers.\n      textarea.style.width = '1px';\n      textarea.style.height = '1px';\n\n      // We don't need padding, reducing the size if it does flash render.\n      textarea.style.padding = 0;\n\n      // Clean up any borders.\n      textarea.style.border = 'none';\n      textarea.style.outline = 'none';\n      textarea.style.boxShadow = 'none';\n\n      // Avoid flash of white box if rendered for any reason.\n      textarea.style.background = 'transparent';\n      document.querySelector('body').appendChild(textarea);\n      console.log('The textarea now exists :)');\n      existsTextarea = document.getElementById(id);\n      }else{\n      console.log('The textarea already exists :3')\n      }\n\n      existsTextarea.value = text;\n      existsTextarea.select();\n\n      try {\n      var status = document.execCommand('copy');\n      if(!status){\n      console.error('Cannot copy text');\n      }else{\n      console.log('The text is now on the clipboard');\n      }\n      } catch (err) {\n      console.log('Unable to copy.');\n      }\n      }\n\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+<div id="quand-reprojeter" class="section level2">
+<h2><span class="header-section-number">8.2</span> Quand reprojeter ?</h2>
+<p>Quelques cas usuel qui peuvent vous amener à reprojeter vos données :</p>
+<ul>
+<li><p>la manipulation de données fournies dans des CRS différents?</p></li>
+<li><p>l’usage du package leaflet impose des données spécifiées en WGS 84</p></li>
+<li><p>le besoin de visualiser vos données suivant la conversion de certaines propriétés des objets à la surface de la terre.</p></li>
+<li><p>l’usage de fonctions demandant à utiliser des CRS projetés (comme <code>st_buffer()</code> ci-dessus)</p></li>
+</ul>
+<p>Un exemple d’usage : la distance de Rennes à Nantes</p>
+<p>Prenons les coordonnées WGS 84 de Rennes</p>
+<pre class="sourceCode r"><code class="sourceCode r">rennes&lt;-<span class="kw">data.frame</span>(<span class="dt">lon=</span><span class="op">-</span><span class="fl">1.6777926</span>,<span class="dt">lat=</span><span class="fl">48.117266</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">st_as_sf</span>(<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">st_set_crs</span>(<span class="dv">4326</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mapview</span>(rennes)</code></pre>
+<div id="htmlwidget-87bf179e1ccc125c255d" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-87bf179e1ccc125c255d">{"x":{"options":{"minZoom":1,"maxZoom":100,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",1,"CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter",2,"CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenStreetMap",3,"OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",4,"Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenTopoMap",5,"OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[48.117266,-1.6777926,6,null,"rennes",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":2,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},null,null,"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>1&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-1.6777926,48.117266,-1.6777926,48.117266,"Zoom to rennes","<strong> rennes <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"rennes",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["rennes"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"rennes","extra":null,"layerId":null,"className":"info legend","group":"rennes"}]}],"limits":{"lat":[48.117266,48.117266],"lng":[-1.6777926,-1.6777926]}},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      //map.on('click', function (e) {\n      //  var txt = document.querySelector('.lnlt').textContent;\n      //  console.log(txt);\n      //  //txt.innerText.focus();\n      //  //txt.select();\n      //  setClipboardText(txt);\n      //});\n\n      function setClipboardText(text){\n      var id = 'mycustom-clipboard-textarea-hidden-id';\n      var existsTextarea = document.getElementById(id);\n\n      if(!existsTextarea){\n      console.log('Creating textarea');\n      var textarea = document.createElement('textarea');\n      textarea.id = id;\n      // Place in top-left corner of screen regardless of scroll position.\n      textarea.style.position = 'fixed';\n      textarea.style.top = 0;\n      textarea.style.left = 0;\n\n      // Ensure it has a small width and height. Setting to 1px / 1em\n      // doesn't work as this gives a negative w/h on some browsers.\n      textarea.style.width = '1px';\n      textarea.style.height = '1px';\n\n      // We don't need padding, reducing the size if it does flash render.\n      textarea.style.padding = 0;\n\n      // Clean up any borders.\n      textarea.style.border = 'none';\n      textarea.style.outline = 'none';\n      textarea.style.boxShadow = 'none';\n\n      // Avoid flash of white box if rendered for any reason.\n      textarea.style.background = 'transparent';\n      document.querySelector('body').appendChild(textarea);\n      console.log('The textarea now exists :)');\n      existsTextarea = document.getElementById(id);\n      }else{\n      console.log('The textarea already exists :3')\n      }\n\n      existsTextarea.value = text;\n      existsTextarea.select();\n\n      try {\n      var status = document.execCommand('copy');\n      if(!status){\n      console.error('Cannot copy text');\n      }else{\n      console.log('The text is now on the clipboard');\n      }\n      } catch (err) {\n      console.log('Unable to copy.');\n      }\n      }\n\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+<p>Tentons de calculer la distance de Rennes à Nantes.
+Avec la données en Lambert 93, la fonction <code>st_distance()</code> renvoie un message d’erreur.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_distance</span>(rennes,nantes_proj)</code></pre>
+<pre><code>Error in st_distance(rennes, nantes_proj): st_crs(x) == st_crs(y) is not TRUE</code></pre>
+<p>Avec la données en WGS 84, la fonction <code>st_distance()</code> renvoie un bien le résultat.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_distance</span>(rennes,nantes)</code></pre>
+<pre><code>Units: [m]
+         [,1]
+[1,] 100376.7</code></pre>
+</div>
+<div id="quel-crs-utiliser" class="section level2">
+<h2><span class="header-section-number">8.3</span> Quel CRS utiliser ?</h2>
+<p>A cette question, il y a rarement une bonne réponse.</p>
+<p>En ce qui concerne les CRS géométriques, le plus simple est d’utiliser le WGS 84, qui est de loin le plus populaire, avec lequel beaucoup de données sont fournies.</p>
+<p>En ce qui concerne les CRS projetés, utiliser par défaut le lambert 93, le CRS officiel français, pour les données nationales fait sens.</p>
+<p>Ensuite votre choix va dépendre des propriétés que vous souhaitez conserver.</p>
+</div>
+<div id="comment-projeter" class="section level2">
+<h2><span class="header-section-number">8.4</span> Comment projeter ?</h2>
+<div id="projeter-des-vecteurs" class="section level3">
+<h3><span class="header-section-number">8.4.1</span> projeter des vecteurs</h3>
+<p>Reprojeter des données vecteur se fait à l’aide de la fonction <code>st_transform()</code> que nous avons vu en utilisant le code epsg que nous voulons.</p>
+</div>
+<div id="modifier-la-projection-dune-carte." class="section level3">
+<h3><span class="header-section-number">8.4.2</span> modifier la projection d’une carte.</h3>
+<p>Parfois on souhaite pouvoir aller plus loin dans les modification, pour cela on peut utiliser un <code>proj4string</code> ad hoc.
+Par exemple, pour utiliser une projection spécifique, on va modifier l’argument <code>+proj</code> de notre crs.</p>
+<p>Tentons par exemple de convertir notre carte du globe en projection equal earth.</p>
+<pre class="sourceCode r"><code class="sourceCode r">world_eqearth&lt;-lwgeom<span class="op">::</span><span class="kw">st_transform_proj</span>(world,<span class="dt">crs =</span> <span class="st">&quot;+proj=eqearth +datum=WGS84 +no_defs&quot;</span>)</code></pre>
+<p>Qu’est ce qui a changé entre nos deux cartes ?</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_crs</span>(world)</code></pre>
+<pre><code>Coordinate Reference System:
+  EPSG: 4326 
+  proj4string: &quot;+proj=longlat +datum=WGS84 +no_defs&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_crs</span>(world_eqearth)</code></pre>
+<pre><code>Coordinate Reference System:
+  No EPSG code
+  proj4string: &quot;+proj=eqearth +datum=WGS84 +no_defs&quot;</code></pre>
+
+</div>
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="les-operations-geometriques.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="creer-des-cartes-avec-ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

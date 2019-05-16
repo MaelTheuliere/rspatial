@@ -1,0 +1,93 @@
+# (PART) Manipuler des données spatiales {-}
+
+# Les opérations sur données attributaires
+
+Dans ce chapitre, nous allons utiliser les packages suivants : 
+
+```{r}
+library(sf)
+library(tidyverse)
+library(mapview)
+```
+
+Nous utiliserons les contours des territoires de la France métropolitaine issus de Admin Express.
+
+
+```{r}
+load("data/territoires.RData")
+```
+
+Prenons la table des départements, cette table est un `spatial dataframe`.
+
+```{r}
+class(departements_geo)
+```
+
+On peut utiliser `mapview()` pour voir ce jeux de données.
+
+```{r}
+mapview(departements_geo, zcol = "NOM_DEP", legend = F)
+```
+
+Comme évoqué dans la partie 1, on peut tout à fait appliquer sur un `spatial dataframe` les verbes du `tidyverse` comme sur un `dataframe`, notamment utiliser  les verbes de `dplyr`.
+
+Nous pouvons à partir de cette table filtrer les départements d'une certaine région.
+
+```{r}
+departements_geo %>%
+  filter(INSEE_REG == 52)
+```
+
+Nous pouvons ne sélectionner que quelques variables
+
+```{r}
+departements_geo %>%
+  select(INSEE_DEP) %>%
+  glimpse()
+```
+
+A noter que par défaut, un `spatial dataframe` gardera toujours la géométrie.
+
+Nous pouvons aggréger nos données.
+
+```{r}
+regions <- departements_geo %>%
+  group_by(INSEE_REG) %>%
+  summarise(AREA = sum(AREA))
+
+glimpse(regions)
+```
+
+On voit que `summarise` permet non seulement d'aggréger nos données attributaires, mais également les géométries.
+
+Cette opération permet donc de retrouver directement notre carte des régions métropolitaines.
+
+```{r}
+mapview(regions, zcol = "INSEE_REG", legend = F)
+```
+
+On enfin effectuer des jointures attributaines sur nos données en utilisant les verbes à deux dataframe de `dplyr`.
+
+Par exemple on va pouvoir récupérer, dans la table `regions_geo` de notre `RData`, les libellées de nos régions.
+
+```{r}
+regions <- regions %>%
+  left_join(regions_geo %>%
+    st_drop_geometry(),
+  by = c("INSEE_REG")
+  )
+```
+
+Nous pouvons alors utiliser ce nouvelle attibu pour nos cartes.
+
+```{r}
+mapview(regions, zcol = "NOM_REG", legend = F)
+```
+
+```{block, type='rmdnote'}
+Attention, quand vous réalisez une jointure entre deux tables de données :
+
+X %>% ZZ_join(Y) 
+
+La composante spatiale n'est conservée que pour la première table X.
+```
