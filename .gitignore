@@ -5,4 +5,5 @@
 A faire.R
 Ressources/
 *.Rproj
-support/extdata/
+extdata/
+_bookdown_files/
