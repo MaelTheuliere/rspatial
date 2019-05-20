@@ -26,7 +26,7 @@ Le package `sf` contient une fonction `st_simplify` qui implémente l'algorithme
 La fonction utilise le paramètre `dTolerance` pour controler le niveau de simplification.
 
 ```{r}
-load("data/territoires.RData")
+load("data/admin_express.RData")
 
 departement_56 <- departements_geo %>%
   filter(INSEE_DEP == "56")

@@ -11,4 +11,4 @@ departements_geo<-st_read(dsn="extdata/departements/",layer="DEPARTEMENT") %>%
 regions_geo<-st_read(dsn="extdata/regions/",layer="REGION")
 
 
-save(epci_geo,departements_geo,regions_geo,file="support/data/territoires.RData")
+save(epci_geo,departements_geo,regions_geo,file="data/admin_express.RData")

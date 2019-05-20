@@ -14,7 +14,7 @@ Nous utiliserons les contours des territoires de la France métropolitaine issus
 
 
 ```{r}
-load("data/territoires.RData")
+load("data/admin_express.RData")
 ```
 
 Prenons la table des départements, cette table est un `spatial dataframe`.

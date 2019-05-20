@@ -16,7 +16,7 @@ Nous utiliserons les données de la table des régions de la France métropolita
 
 
 ```{r}
-load("data/territoires.RData")
+load("data/admin_express.RData")
 ```
 
 ```{r}
