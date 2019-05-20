@@ -1,5 +1,16 @@
 # Les reprojections
 
+Dans ce chapitre, nous allons utiliser les librairies suivantes.
+
+```{r}
+library(sf)
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+library(lwgeom)
+```
+
+
 Pour rappel, il existe deux types de CRS, les CRS géographiques (longitude/lattitude avec pour unité de compté des degrés) et les CRS projeté (avec un datum et une unité en mètre par exemple).
 
 La plupart des fonctions de `sf` présuppose s'appliquer sur un CRS projeté, car les fonctions de GEOS sur lesquelles elles se basent le font aussi.
@@ -111,25 +122,36 @@ Ensuite votre choix va dépendre des propriétés que vous souhaitez conserver.
 
 ## Comment projeter ?
 
-### projeter des vecteurs
+### Projeter des vecteurs
 
 Reprojeter des données vecteur se fait à l'aide de la fonction `st_transform()` que nous avons vu en utilisant le code epsg que nous voulons.
 
-### modifier la projection d'une carte.
+### Modifier la projection d'une carte.
 
-Parfois on souhaite pouvoir aller plus loin dans les modification, pour cela on peut utiliser un `proj4string` ad hoc.
-Par exemple, pour utiliser une projection spécifique, on va modifier l'argument `+proj` de notre crs.
+Parfois on souhaite pouvoir aller plus loin dans les reprojection, en adaptant le centre de la projection, pour cela on peut utiliser un `proj4string` ad hoc.
 
-Tentons par exemple de convertir notre carte du globe en projection equal earth.
+Pour cela, on va modifier l'argument `+proj` de notre crs avec `st_transform`.
+
+Tentons par exemple de reprojeter notre carte du globe en utilisant la projection azimutale équivalente de Lambert, centrée sur Pékin.
 
 ```{r}
-world_eqearth<-lwgeom::st_transform_proj(world,crs = "+proj=eqearth +datum=WGS84 +no_defs")
+world_pekin<-st_transform(world,crs = "+proj=laea +x_0=0 +y_0=0 +lon_0=116 +lat_0=40")
 ```
+
+Le paramètre `+proj=laea` permet de redéfinir la projection, les paramètre `+lon_0` et `lat_0` permette de définir le centre de la projection. `x_0` et `y_0` définissent le centre du plan pour les coordonnées.
 
 Qu'est ce qui a changé entre nos deux cartes ?
 
 ```{r}
 st_crs(world)
-st_crs(world_eqearth)
+st_crs(world_pekin)
+```
+
+```{r,echo = F}
+p1<-ggplot()+
+  geom_sf(data=world)
+p2<-ggplot()+
+  geom_sf(data=world_pekin)
+p1+p2+plot_layout(nrow=1)
 ```
 

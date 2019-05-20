@@ -1,7 +1,19 @@
 # Les opérations géométriques
 
 Nous allons voir dans ce chapitre comment opérer des opérations géométriques sur nos vecteurs.
-On distingue 2 types d'opérations : les opérations unaires et binaires.
+
+Dans ce chapitre, nous allons utiliser les packages suivants.
+
+```{r}
+library(sf)
+library(tidyverse)
+library(mapview)
+library(ggplot2)
+library(rmapshaper)
+```
+
+On distingue deux types d'opérations : les opérations unaires et binaires.
+
 
 ## Opérations unaires
 
@@ -141,7 +153,7 @@ departement_44_buffer <- departement_44 %>%
 mapview(list(departement_44_buffer, departement_44), layer.name = c("Loire-Atlantique avec un buffer de 5 km", "Loire-Atlantique"), zcol = c("NOM_DEP", "NOM_DEP"), col.regions = list("#440154FF", "#FDE725FF"))
 ```
 
-## Opération binaires
+## Opérations binaires
 
 ### Transformation affine
 
@@ -151,7 +163,7 @@ Les transformations affines intègrent notamment les translations, les rotations
 
 Le package `sf` implémente ces transformations pour les objets de classe `sfg` et `sfc`.
 
-#### translation
+#### Translation
 
 ```{r}
 departement_44_sfc <- st_geometry(departement_44)

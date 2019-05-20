@@ -1,18 +1,18 @@
 # Les Systèmes de Coordonnées de Référence
 
 Les données spatiales vises à modéliser la terre. 
-La terre est un objet particulier, qu'on a pensé plate, puis cylindrique, puis ronde, puis plate, puis ronde, puis ellipsoïde. Maintenant, on sait que la terre, elle a cette forme là : 
+La terre est un objet dont la mesure a une longue histoire, qu'on a pensé plate, cylindrique, ronde,  ellipsoïde. Maintenant, on sait que la terre a cette forme là : 
 
 <iframe src="https://player.vimeo.com/video/213210796" width="640" height="640" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <p><a href="https://vimeo.com/213210796">THE REAL SHAPE OF PLANET EARTH - 3D Animation HD</a> from <a href="https://vimeo.com/elearnpunjab">eLearn.Punjab</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 
-Les systèmes de coordonnées de référence va permettre de se repérer sur la surface de la terre.
+Les systèmes de coordonnées de référence vont permettre de se repérer sur la surface de la terre.
 
 ## Le système géodésique ou datum
 
 Pour modéliser la surface terrestre, on va définir un *géoïde*, qui est la surface théorique de la pesanteur.
 
-ce *géoïde* est proche d'un ellipsoïde, c'est un dire une surface obtenue en faisant tournée une ellipse sur son axe. La terre est en effet compressée :  le rayon à l'équateur est 11,5 km plus long que le rayon polaire (Maling 1992).
+Ce *géoïde* est proche d'un ellipsoïde, c'est un dire une surface obtenue en faisant tournée une ellipse sur son axe. La terre est en effet compressée :  le rayon à l'équateur est 11,5 km plus long que le rayon polaire (Maling 1992).
 
 On va donc pouvoir approximer ce géoïde par un ellipsoïde.
 
@@ -38,7 +38,7 @@ Pour se repérer sur terre, on va utiliser un système géodésique sur lequel o
 
 On distingue deux types de coordonnées :
 
-### coordonnées géographiques
+### Coordonnées géographiques
 
 Les systèmes de coordonnées géographiques identifient tout lieux sur la surface de la terre en utilisant deux paramètres, la longitude et la lattitude : 
 
@@ -52,7 +52,7 @@ Les systèmes de coordonnées géographiques identifient tout lieux sur la surfa
 Dans un systèmes de coordonnées géographique, les lieux sont donc identifiés par des *angles* et non des *mètres*.
 
 
-### coordonnées en projection
+### Coordonnées en projection
 
 Les systèmes de coordonnées projetés se basent sur une modélisation de la terre plane (donc projetée sur un plan) et un système de coordonnés cartésien pour définir un point sur ce plan à partir d'une origine, d'un axe x, d'un axe y et d'une unité de mesure (comme le mètre).
 
@@ -68,11 +68,11 @@ En général un système de coordonnées projeté ne permet de préserver qu'une
 
 On distingue également les projection en fonction de leur mode de projection. Il y a trois principaux groupes de projections : 
 
-- conique : la terre est projetée sur un cone reposant sur une ou deux tangentes. Les distorsions sont faibles sur la ligne de tangente et augmentent ensuite avec la distance à celle-ci. C'est ainsi le type de projection le mieux adapté pour des cartes réalisées sur des latitudes médianes.
+- Conique : la terre est projetée sur un cone reposant sur une ou deux tangentes. Les distorsions sont faibles sur la ligne de tangente et augmentent ensuite avec la distance à celle-ci. C'est ainsi le type de projection le mieux adapté pour des cartes réalisées sur des latitudes médianes.
 
-- cylindrique : ces projections projettent la surface de la terre sur un cylindre. Souvent utilisées pour cartographier la terre entière.
+- Cylindrique : ces projections projettent la surface de la terre sur un cylindre. Souvent utilisées pour cartographier la terre entière.
 
-- plane : projection du globe sur une surface plane tangeante en un point ou sur une ligne. Souvent utilisée pour les régions polaires.
+- Plane : projection du globe sur une surface plane tangeante en un point ou sur une ligne. Souvent utilisée pour les régions polaires.
 
 ### Exemple de projections
 

@@ -1,6 +1,16 @@
 # Les opérations spatiales sur les données
 
-Les opérations spatiales utilisent des fonctions de géométrie pour prendre des données en entrée, les analyser, puis générer des données qui découlent de l'analyse effectuée sur les données en entrée.
+
+Les opérations spatiales sont des opérations prenant nos données en entrée pour en sortir un résultat dépendant de leur composante spatiale (forme, localisation).
+
+Dans ce chapitre, nous allons utiliser les packages suivants.
+
+```{r}
+library(sf)
+library(tidyverse)
+library(mapview)
+library(ggplot2)
+```
 
 Nous utiliserons les données de la table des régions de la France métropolitaine et des établissements publics de coopération intercommunale (EPCI)^[https://fr.wikipedia.org/wiki/%C3%89tablissement_public_de_coop%C3%A9ration_intercommunale] de la France Métropolitaine
 
@@ -21,7 +31,7 @@ glimpse(departements_geo)
 glimpse(regions_geo)
 ```
 
-## filtrer
+## Filtrer
 
 Nous souhaitons par exemple filtrer nos epci sur les epci du département de Loire-Atlantique.
 
@@ -43,9 +53,9 @@ Qu'est ce qu'un buffer ? C'est un tampon qui va nous permettre d'appliquer une t
 A partir d'une couche de départ de type ponctuel, linéaire ou polygonal, le buffer va créer une nouvelle couche vectorielle. La géométrie de cette couche représente des objets surfaciques dont les frontières sont positionnées à une distance euclidienne, définie par l'utilisateur, des limites des objets vectoriels de la couche de départ.
 ```
 
-La fonction qui permet de faire cela avec `sf` s'appelle `st_buffer`.
+La fonction qui permet de faire cela avec `sf` s'appelle `st_buffer()`.
 
-`st_buffer` prend en paramètre un objet de classe *sf* et une distance dont l'unité est définie par celle de l'objet `sf` que l'on peut obtenir comme ceci `st_crs(x)$units`.
+`st_buffer()` prend en paramètre un objet de classe *sf* et une distance dont l'unité est définie par celle de l'objet `sf` que l'on peut obtenir comme ceci `st_crs(x)$units`.
 
 ```{r}
 departement_44_buffer <- departement_44 %>%
@@ -98,11 +108,11 @@ ggplot() + geom_sf(data = a, color = "red") + geom_sf(data = p) + geom_sf(data =
 
 A partir de ces objets, on peut se poser les questions suivantes :
 
-- quels sont les points de `p` contenus dans le triangle `a` ?
+- Quels sont les points de `p` contenus dans le triangle `a` ?
 
-- quels sont les points de `p` qui ne sont pas contenus dans le triangle `a` ?
+- Quels sont les points de `p` qui ne sont pas contenus dans le triangle `a` ?
 
-- quels sont les points de `p` qui touchent dans le triangle `a` ?
+- Quels sont les points de `p` qui touchent dans le triangle `a` ?
 
 - Quelles sont les lignes de `l` contenue dans `a` ?
 
@@ -129,11 +139,6 @@ Pour cela on peut utiliser l'option `sparse=F`.
 
 ```{r}
 st_intersects(p, a, sparse = F)
-```
-
-```{block2}
-Exercice : 
-  Créer un objet des points p qui intersecte avec le polygone a
 ```
 
 `st_within()` est une variante de `st_intersect()` qui ne renvoit `TRUE` que pour les points *à l'intérieur* du polygone.
@@ -184,13 +189,18 @@ Il existent encore d'autres prédicats qu'on ne détaillera pas ici :
 
 - `st_overlaps()`
 
+### Exercices
+
+- Créer un objet des points p qui intersecte avec le polygone a
+
+
 ## Les jointures spatiales
 
 Les jointures *attributaires*  se basent sur un appariement sur une liste des variables présentes dans les deux tables.
 
 Les jointures spatiales se basent sur un appariement sur un espace geographique commun.
 
-### jointure de points avec des polygones
+### Jointure de points avec des polygones
 
 Ce cas est relativement simple, une jointure spatiale entre une liste de point et une liste de polygone va attribuer pour chaque point le polygone auquel il appartient.
 
@@ -220,7 +230,7 @@ mapview(list(departement_44, epci_d44, sirene44_sel_avec_code_epci), zcol = c("N
 Une jointure entre deux couches de données géographique demande à ce que celles ci partagent la même projection.
 ```
 
-### jointure de polygones avec des polygones
+### Jointure de polygones avec des polygones
 
 A la différence des appariements entre point et polygone, la jointure spatiales entre deux couches de polygones nécessite quelques critères complémentaires : souhaite t on joindre deux polygones dès qu'ils s'intersectent ? Souhaite t on joindre à un polygone de la première couche à celui de la deuxième avec lequel il partage le plus de surface en commun ?
 
@@ -249,9 +259,24 @@ epci_d44_avec_departement <- epci_d44 %>%
 mapview(list(departement_44, epci_d44, sirene44_sel_avec_code_epci), zcol = c("NOM_DEP", "NOM_EPCI", "NOM_EPCI"), legend = F)
 ```
 
+### Exercice
+
+Le but de cet exercice va être d'exploiter les données *DVF* sur les transactions immobilières dans l'ancien et la carte des quartiers de Nantes pour obtenir un prix moyen des transactions par quartier.
+On va utiliser pour DVF l'API mise en place par Christian Quest.
+
+- Données DVF : http://api.cquest.org/dvf 
+
+- Contour des quartiers de Nantes : https://data.nantesmetropole.fr/explore/dataset/244400404_quartiers-nantes/information/?disjunctive.nom
+
+On veut produire les infos suivantes par quartier et annee :
+
+- Volume de ventes
+- Pourcentage de maison dans les ventes
+- Prix moyen au m2 par type de bien
+
 ## Les calculs de distance
 
-### matrice de distances
+### Matrice de distances
 
 Contrairement aux opérations précédentes qui sont binaires, les opérations de distance sont continues.
 
@@ -274,7 +299,7 @@ Trois choses à noter sur le résultat :
 
 Ici on calcule notre matrice sur un seul objet.Vous pouvez calculer des distances entre deux objets `x` et `y` de classe `sf`. Dans ce cas il fera le calcul des distances pour toutes les combinaisons possibles d'objet de `x` et de `y`. Une option de `st_distance()` vous permet de limiter le résultat aux calculs 2 à 2 : `by_element = T`. Dans ce cas le résultat est un vecteur.
 
-### identification du plus proche voisin
+### Identification du plus proche voisin
 
 Un besoin fréquent en traitement géomatique est d'identifier l'objet le plus proche d'un autre.
 La fonction qui permet cela est `st_nearest_feature()`.

@@ -120,4 +120,13 @@ st_write(ma_table,
          )
 ```
 
+## Convertir un dataframe
 
+Une autre façon d'obtenir un dataframe spatial est de convertir un objet existant en objet sf. Par exemple, partir d'un dataframe sur lequel on va définir à la fois la ou les colonnes contenant la dimension géographique et le crs de référence. Ou encore convertir un objet de type `sp` en objet de type `sf`.
+
+Pour cela, la fonction `st_as_sf()` permet de convertir un objet en objet `sf` en définissant la composante spatiale.
+
+La fonction `st_set_crs()` permet de définir le crs de notre objet.
+
+Exemple, nous allons lire les données 
+ 

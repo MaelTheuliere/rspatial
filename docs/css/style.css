@@ -174,7 +174,7 @@ body {
 }
 
 .book .book-body .page-wrapper .page-inner section.normal .rmdimportant {
-  background: url('../pic/emblem-important.png') #fef4f4 no-repeat 5px 10px;
+  background: url('pic/emblem-important.png') #fef4f4 no-repeat 5px 10px;
 }
 
 .book .book-body .page-wrapper .page-inner section.normal .rmdnote {

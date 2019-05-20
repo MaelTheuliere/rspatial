@@ -3,11 +3,12 @@
 
 library(sf)
 
-epci_geo<-st_read(dsn="support/extdata/adminexpress/",layer="EPCI")
+epci_geo<-st_read(dsn="extdata/epci/",layer="EPCI")
 
-departements_geo<-st_read(dsn="support/extdata/adminexpress/",layer="DEPARTEMENT") %>% 
+departements_geo<-st_read(dsn="extdata/departements/",layer="DEPARTEMENT") %>% 
   mutate(AREA=st_area(geometry))
 
-regions_geo<-st_read(dsn="support/extdata/adminexpress/",layer="REGION")
+regions_geo<-st_read(dsn="extdata/regions/",layer="REGION")
+
 
 save(epci_geo,departements_geo,regions_geo,file="support/data/territoires.RData")
