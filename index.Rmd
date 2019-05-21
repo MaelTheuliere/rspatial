@@ -10,7 +10,7 @@ link-citations: yes
 description: "Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique"
 ---
 
-# A propos {-}
+# Introduction {-}
 
 Ce support est le support du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique.
 
