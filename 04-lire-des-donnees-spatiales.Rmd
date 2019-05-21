@@ -78,7 +78,7 @@ st_write(
 st_write(
   obj = NY_leukemia,
   dsn = "extdata/NY_leukemia.gpkg",
-  layer_options = "OVERWRITE=YES"
+  delete_layer = T
 )
 ```
 
@@ -95,7 +95,7 @@ Rstudio possède même depuis la version 1.1 d'un onglet de connexion vous perme
 Pour se connecter à une base, on va définir un driver (à quelle type de base on veut se connecter) et un connecteur (les informations de connexion).
 
 ```{r,eval = F}
-drv <- dbDriver("PostgreSQL")
+drv <- dbDriver("Postgres")
 con <- dbConnect(drv,
   dbname = "nom_de_ma_db",
   host = "adresse_ip_du_serveur",

@@ -46,12 +46,10 @@ Pour cela, aller dans *Tools->Global Options...* et ensuite conformez vous à ce
 
 ## Intégrer vos données
 
-Une bonne pratique est de créer un sous répertoire `/data` pour stocker les données sur lesquelles vous aurez à travailler. 
+Une bonne pratique est de créer un sous répertoire `/extdata` pour stocker les données sur lesquelles vous aurez à travailler et un dossier `/data` pour stocker les données après préparation. 
 
 Vous pouvez le faire de l'explorateur de fichier de votre système d'exploitation ou directement à partir de l'explorateur de fichier de RStudio.
 ![](pic/creerprojet3.png){#id .class width=500}
-
-Cela marche bien quand on a un seul type de données, mais en général on va avoir à travailler sur des données brutes que l'on va retravailler. Dans ce cas, vous pouvez utiliser un répertoire différent pour vos données brutes et vos données après préparation. 
 
 Si par la suite vous souhaitez avoir des exemples de bonnes pratiques sur comment structurer vos données, vous pouvez vous référer au [chapitre data](http://r-pkgs.had.co.nz/data.html) du livre d'Hadley Wickham sur la construction de package R (tout package R étant aussi un projet !)
 
