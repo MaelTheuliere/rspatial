@@ -44,7 +44,13 @@ epci_d44 <- epci_geo[departement_44, , op = st_within]
 mapview(list(departement_44, epci_d44), zcol = c("NOM_DEP", "NOM_EPCI"), legend = F)
 ```
 
-On voit ici que le résultat n'est pas très concluant, il manque 3 epci du département, ceux qui sortent des frontières de celui ci.
+L'opération de filtre sur les données spatiales fonctionne en prenant la table en entrée (`epci_geo`), la table avec laquelle on souhaite définir les lignes à garder (`departement_44`),et l'opérateur qui va définir le test entre les deux géométries. Ici cet opérateur est `st_within(x,y)`, qui renvoie `TRUE` si la géométrie de `x` est contenue à l'intérieur de celle de `y`.
+
+On peut spécifier différents prédicats spatiaux pour réaliser ce filre.
+
+En deuxième argument (`, ,`), on peut rajouter,comme dans une opération `[` classique de R les colonnes que l'on souhaite garder.
+
+On voit ici que le résultat n'est pas très concluant :  il manque 3 epci du département, ceux qui sortent des frontières de celui-ci.
 Prenons un buffer autour du département.
 
 ```{block2, type='rmdnote'}
