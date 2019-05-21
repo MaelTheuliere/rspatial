@@ -64,18 +64,22 @@ Pour pouvoir écraser ce fichier, vous avez deux options :
 - Utiliser le paramètre `layer_option` qui vous permet d'inclure des options propres au driver utilisé.
 
 ```{r,eval=F}
-st_write(obj = NY_leukemia, 
-         dsn = "extdata/NY_leukemia.gpkg", 
-         layer_options = "OVERWRITE=YES")
+st_write(
+  obj = NY_leukemia,
+  dsn = "extdata/NY_leukemia.gpkg",
+  layer_options = "OVERWRITE=YES"
+)
 ```
 
 
 - Utiliser le paramètre `delete_layer = T` de `st_write()` qui vous permet d'écraser les layer avant sauvegarde (paramètre qui ne dépend pas du driver utilisé).
 
 ```{r,eval=F}
-st_write(obj = NY_leukemia, 
-         dsn = "extdata/NY_leukemia.gpkg", 
-         layer_options = "OVERWRITE=YES")
+st_write(
+  obj = NY_leukemia,
+  dsn = "extdata/NY_leukemia.gpkg",
+  layer_options = "OVERWRITE=YES"
+)
 ```
 
 ## Lire/ecrire des données spatiales sur PostGIS
@@ -92,19 +96,20 @@ Pour se connecter à une base, on va définir un driver (à quelle type de base 
 
 ```{r,eval = F}
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, 
-                 dbname="nom_de_ma_db",
-                 host="adresse_ip_du_serveur",
-                 port=numero_du_port,
-                 user="nom_utilisateur",
-                 password="mot_de_passe_super_secret")
+con <- dbConnect(drv,
+  dbname = "nom_de_ma_db",
+  host = "adresse_ip_du_serveur",
+  port = numero_du_port,
+  user = "nom_utilisateur",
+  password = "mot_de_passe_super_secret"
+)
 ```
 
 
 Pour lire des données sur le serveur, on va utiliser encore la fonction `st_read()` en lui définissant 2 paramètres : le connecteur et la requête que l'on veut réaliser.
 
 ```{r,eval = F}
-ma_table = st_read(con,query="SELECT * FROM le_schema.ma_table")
+ma_table <- st_read(con, query = "SELECT * FROM le_schema.ma_table")
 ```
 
 L'avantage ici est que vous pouvez faire travailler le serveur directement sans avoir à faire travailler votre poste de travail.
@@ -115,18 +120,25 @@ Vous pouvez écrire vos données ensuite de la même façon avec `st_write()`
 
 ```{r,eval = F}
 st_write(ma_table,
-         dsn=con,
-         layer=ID(schema="schema",table="ma_table")
-         )
+  dsn = con,
+  layer = ID(schema = "schema", table = "ma_table")
+)
 ```
 
 ## Convertir un dataframe
 
-Une autre façon d'obtenir un dataframe spatial est de convertir un objet existant en objet sf. Par exemple, partir d'un dataframe sur lequel on va définir à la fois la ou les colonnes contenant la dimension géographique et le crs de référence. Ou encore convertir un objet de type `sp` en objet de type `sf`.
+Une autre façon d'obtenir un *spatial dataframe* est de convertir un objet existant en objet sf. Par exemple, partir d'un dataframe sur lequel on va définir à la fois la ou les colonnes contenant la dimension géographique et le crs de référence. Ou encore convertir un objet de type `sp` en objet de type `sf`.
 
 Pour cela, la fonction `st_as_sf()` permet de convertir un objet en objet `sf` en définissant la composante spatiale.
 
 La fonction `st_set_crs()` permet de définir le crs de notre objet.
 
-Exemple, nous allons lire les données 
+Exemple, nous allons lire les coordonnées géographiques des préfectures de région.
+
+```{r,message = F}
+prefectures <- read_csv2("extdata/prefecture.csv")
+prefectures_geo <- st_as_sf(prefectures, coords = c("x", "y")) %>%
+  st_set_crs(2154)
+```
+
  
