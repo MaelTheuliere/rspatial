@@ -25,7 +25,7 @@
 <meta name="author" content="Maël THEULIERE">
 
 
-<meta name="date" content="2019-05-21">
+<meta name="date" content="2019-07-02">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -48,27 +48,6 @@
 
 
 
-<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.5/datatables.js"></script>
-<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
-<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-1.3.1/leaflet.js"></script>
-<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
-<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
-<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
-<script src="libs/HomeButton-0.0.1/home-button.js"></script>
-<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
-<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -341,33 +320,39 @@ Chaque fonction s’enchaine avec des <strong>+</strong> comme les pipe.</p>
 D’autres types de représentations géographiques sont présentés dans la partie suivante.</p>
 <p>L’aesthetic sert à identifier les variables que l’on souhaite représenter.
 Par exemple, si l’on souhaite représenter le taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) :</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Gross_Domestic_Product_GDP, <span class="dt">y =</span> Maternal_mortality_ratio))</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>De plus, la fonction <strong>aes</strong> admet d’autres arguments qui permettent de modifier l’apparence du graphique selon une 3ème variable du jeu de données.
 <strong>colour</strong> : la couleur,
 <strong>shape</strong> : la forme,
 <strong>size</strong> : la taille,
 <strong>alpha</strong> : la transparence,
 <strong>fill</strong> : le remplissage ;</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio,<span class="dt">colour=</span>Continent))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Gross_Domestic_Product_GDP, <span class="dt">y =</span> Maternal_mortality_ratio, <span class="dt">colour =</span> Continent))</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="les-autres-parametres" class="section level3">
 <h3><span class="header-section-number">9.4.2</span> Les “autres” paramètres</h3>
 <p>Il est possible de spécifier des paramètres qui seront valables pour l’ensemble du graphique.
 On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais il faut alors les passer <strong>en dehors de l’aesthetic</strong>.</p>
 <p>Par exemple si l’on souhaite modifier la transparance et la taille de l’ensemble des points du graphique précédent:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio,<span class="dt">colour=</span>Continent),
-             <span class="dt">alpha=</span><span class="fl">0.5</span>,<span class="dt">size=</span><span class="fl">1.9</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Gross_Domestic_Product_GDP, <span class="dt">y =</span> Maternal_mortality_ratio, <span class="dt">colour =</span> Continent),
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="fl">1.9</span>
+  )</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>De même si l’on souhaite modifier la couleur générale:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,<span class="dt">y=</span>Maternal_mortality_ratio),
-             <span class="dt">color=</span><span class="st">&quot;red&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Gross_Domestic_Product_GDP, <span class="dt">y =</span> Maternal_mortality_ratio),
+    <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>
+  )</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Pour choisir et modifier facilement les couleurs d’un graphe, il existe un addin développé par Dean Attali: <strong>Colour Picker</strong>
 Il est installable comme n’importe quel package.
 Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" class="uri">https://github.com/daattali/colourpicker</a></p>
@@ -384,7 +369,7 @@ Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" c
 </ul>
 </blockquote>
 <p>Le résultat attendu :</p>
-<p><img src="support_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 </div>
 <div id="lhabillage-simple" class="section level2">
@@ -393,15 +378,20 @@ Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" c
 <h3><span class="header-section-number">9.5.1</span> Titre et libellé des axes</h3>
 <p>Chaque nouvel élément graphique est à rajouter sous forme de layer, ici nous utilisons la fonction <strong>labs</strong> qui permet de labelliser tout les éléments possibles de l’aesthétic, ainsi que le titre (<em>title</em>), le sous titre (<em>subtitle</em>) et le bas de page (<em>caption</em>)</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-103-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  )</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
 <p>A noter qu’il existe plusieurs autres façons de spécifier ces élèments par des couches spécifiques: ggtitle, xlab, ylab,…</p>
 </div>
 <div id="legende" class="section level3">
@@ -409,50 +399,67 @@ Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" c
 <p>Les fonctions <code>guide()</code> et <code>guides</code> permettent de modifier finement la légende.
 Les guides peuvent être spécifiées dans chaque scale_* ou dans une instruction <code>guides</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="kw">guide_legend</span>(<span class="dt">direction=</span><span class="st">&quot;horizontal&quot;</span>,
-                           <span class="dt">order=</span><span class="dv">1</span>,
-                           <span class="dt">title.position=</span><span class="st">&quot;top&quot;</span>,
-                           <span class="dt">title.hjust=</span><span class="fl">0.5</span>,
-                           <span class="dt">nrow=</span><span class="dv">1</span>,
-                           <span class="dt">label.position=</span><span class="st">&quot;bottom&quot;</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(
+    <span class="dt">direction =</span> <span class="st">&quot;horizontal&quot;</span>,
+    <span class="dt">order =</span> <span class="dv">1</span>,
+    <span class="dt">title.position =</span> <span class="st">&quot;top&quot;</span>,
+    <span class="dt">title.hjust =</span> <span class="fl">0.5</span>,
+    <span class="dt">nrow =</span> <span class="dv">1</span>,
+    <span class="dt">label.position =</span> <span class="st">&quot;bottom&quot;</span>
+  )) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-104-1.png" width="960" /></p>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-9-1.png" width="960" /></p>
 </div>
 <div id="annotation" class="section level3">
 <h3><span class="header-section-number">9.5.3</span> Annotation</h3>
 <p>Il est aussi possible de rajouter des annotations de type texte, par exemple, “à la volée”.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">6</span>, <span class="dt">y =</span> <span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;je rajoute mon texte&quot;</span>,<span class="dt">color=</span><span class="st">&quot;blue&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-105-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">6</span>, <span class="dt">y =</span> <span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;je rajoute mon texte&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
 <p>La fonction <strong>annotate</strong> permet aussi d’ajouter d’autre type d’annotation comme par exemple des rectangles:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
-<span class="st">   </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="dv">10</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="ot">Inf</span>,<span class="dt">fill=</span><span class="st">&quot;red&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.2</span>)<span class="op">+</span>
-<span class="st">   </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="dv">2</span>,<span class="dt">fill=</span><span class="st">&quot;green&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.2</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-106-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="dv">10</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="ot">Inf</span>, <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="dv">2</span>, <span class="dt">fill =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>)</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-11-1.png" width="960" /></p>
 </div>
 </div>
 <div id="les-themes" class="section level2">
@@ -603,58 +610,80 @@ panel.background, panel.border, panel.grid.major, panel.grid.minor,…</p>
 <li>Changer le fond du graphique <strong><em>panel_background</em></strong></li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;Lavender&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;black&quot;</span>))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-107-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;Lavender&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>))</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-12-1.png" width="960" /></p>
 <ul>
 <li>Changer l’apparence du quadrillage <strong><em>panel_background</em></strong></li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">colour=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">size=</span><span class="fl">0.5</span>,<span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-108-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="st">&quot;gray&quot;</span>, <span class="dt">size =</span> <span class="fl">0.5</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>))</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-13-1.png" width="960" /></p>
 <ul>
 <li>Changer l’apparence des étiquettes des axes <strong><em>axis_xxx()</em></strong></li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">angle =</span> <span class="dv">45</span>),
-        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;orange&quot;</span>))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-109-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(
+    <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">angle =</span> <span class="dv">45</span>),
+    <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;orange&quot;</span>)
+  )</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-14-1.png" width="960" /></p>
 <p>Certains changements de paramètres ne nécessitent pas l’utilisation de fonction <strong><em>element_()</em></strong> .
 Par exemple, pour changer la position de la légende <strong><em>legend.xxx()</em></strong></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;left&quot;</span>,<span class="dt">legend.title=</span><span class="kw">element_blank</span>())</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-110-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;left&quot;</span>, <span class="dt">legend.title =</span> <span class="kw">element_blank</span>())</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-15-1.png" width="960" /></p>
 </div>
 <div id="modifier-le-theme-par-defaut." class="section level3">
 <h3><span class="header-section-number">9.6.4</span> Modifier le thème par défaut.</h3>
@@ -662,44 +691,55 @@ Par exemple, pour changer la position de la légende <strong><em>legend.xxx()</e
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">theme_set</span>(<span class="kw">theme_dark</span>())
 
 <span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-111-1.png" width="960" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  )</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-16-1.png" width="960" /></p>
 </div>
 <div id="creer-son-propre-theme" class="section level3">
 <h3><span class="header-section-number">9.6.5</span> Créer son propre thème</h3>
 <p>Un thème est une fonction R qui va prendre ne paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.
 Créons ici un thème avec un fond vert pour le ministère de la transition écologique et solidaire. On rajoute un paramètre pour la taille de la police du titre du graphique.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(hrbrthemes)
-theme_mtes&lt;-<span class="cf">function</span>(<span class="dt">taille_police=</span><span class="dv">14</span>){
-  <span class="kw">theme_bw</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>,<span class="dt">size=</span>taille_police,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
-        <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>),
-        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>),
-        <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;lightgreen&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;lightgreen&quot;</span>),
-        <span class="dt">plot.background=</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;#006400&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;lightgreen&quot;</span>),
-        <span class="dt">legend.background =</span>  <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;lightgreen&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;lightgreen&quot;</span>),
-        <span class="dt">legend.key =</span> <span class="kw">element_blank</span>())
-
+theme_mtes &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">taille_police =</span> <span class="dv">14</span>) {
+  <span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(
+      <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> taille_police, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),
+      <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>),
+      <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>),
+      <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;lightgreen&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;lightgreen&quot;</span>),
+      <span class="dt">plot.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;#006400&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;lightgreen&quot;</span>),
+      <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;lightgreen&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;lightgreen&quot;</span>),
+      <span class="dt">legend.key =</span> <span class="kw">element_blank</span>()
+    )
 }
 
 <span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_mtes</span>()</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 <div id="exercice-2" class="section level3">
 <h3><span class="header-section-number">9.6.6</span> Exercice 2</h3>
@@ -715,7 +755,7 @@ theme_mtes&lt;-<span class="cf">function</span>(<span class="dt">taille_police=<
 </ul>
 </blockquote>
 <p>Le résultat attendu</p>
-<p><img src="support_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 </div>
 <div id="les-scales" class="section level2">
@@ -830,34 +870,40 @@ theme_mtes&lt;-<span class="cf">function</span>(<span class="dt">taille_police=<
 </tbody>
 </table>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP),
-                 <span class="dt">y=</span><span class="kw">log</span>(Maternal_mortality_ratio),
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type=</span><span class="st">&quot;qual&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP),
+    <span class="dt">y =</span> <span class="kw">log</span>(Maternal_mortality_ratio),
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type =</span> <span class="st">&quot;qual&quot;</span>)</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>Par exemple on peut exploiter une fonction scale pour définir une échelle logarithimique sur un axe.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,
-                 <span class="dt">y=</span>Maternal_mortality_ratio,
-                 <span class="dt">color=</span>Continent))<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type=</span><span class="st">&quot;qual&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_log10</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> Gross_Domestic_Product_GDP,
+    <span class="dt">y =</span> Maternal_mortality_ratio,
+    <span class="dt">color =</span> Continent
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type =</span> <span class="st">&quot;qual&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <div id="formatage-specifique" class="section level3">
 <h3><span class="header-section-number">9.7.1</span> Formatage spécifique</h3>
 <ul>
 <li>Transformation en pourcentage;</li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span>scales<span class="op">::</span>percent)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)</code></pre>
 <ul>
 <li>Ajout du séparateurs des milliers;</li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span><span class="cf">function</span>(x) <span class="kw">format</span>(x,<span class="dt">big.mark=</span><span class="st">&quot; &quot;</span>,<span class="dt">scientific =</span> <span class="ot">FALSE</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> <span class="cf">function</span>(x) <span class="kw">format</span>(x, <span class="dt">big.mark =</span> <span class="st">&quot; &quot;</span>, <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</code></pre>
 <ul>
 <li>Ajout du symbole €;</li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels=</span><span class="cf">function</span>(x) <span class="kw">paste</span>(x,<span class="st">&quot; €&quot;</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="st">&quot; €&quot;</span>))</code></pre>
 </div>
 <div id="exercice-3" class="section level3">
 <h3><span class="header-section-number">9.7.2</span> Exercice 3</h3>
@@ -870,7 +916,7 @@ theme_mtes&lt;-<span class="cf">function</span>(<span class="dt">taille_police=<
 </ul>
 </blockquote>
 <p>Le résultat attendu</p>
-<p><img src="support_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 </div>
 </div>
 <div id="la-mise-en-page-de-plusieurs-graphiques" class="section level2">
@@ -879,107 +925,126 @@ theme_mtes&lt;-<span class="cf">function</span>(<span class="dt">taille_police=<
 <ul>
 <li>le fonction <strong>plot_grid</strong> qui permet de disposer <strong><em>n</em></strong> graphes sur <strong><em>i</em></strong> colonnes et <strong><em>j</em></strong> lignes</li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r">gg1&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,
-                 <span class="dt">y=</span>Maternal_mortality_ratio))<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_log10</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_log10</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>))
+<pre class="sourceCode r"><code class="sourceCode r">gg1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> Gross_Domestic_Product_GDP,
+    <span class="dt">y =</span> Maternal_mortality_ratio
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">9</span>))
 
-gg2&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP))
-  )
+gg2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP)))
 
-<span class="kw">plot_grid</span>(gg1,gg2, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
+<span class="kw">plot_grid</span>(gg1, gg2, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <ul>
 <li>le fonction <strong>draw_plot</strong> associée à <strong>ggdraw</strong> qui permet de disposer les graphiques à des places spécifiques</li>
 </ul>
 <p>ggdraw initialise le graphique</p>
-<pre class="sourceCode r"><code class="sourceCode r">gg1&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Gross_Domestic_Product_GDP,
-                 <span class="dt">y=</span>Maternal_mortality_ratio))<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_log10</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_log10</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;PIB&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">caption=</span><span class="st">&quot;Source : ODD / ONU&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>))
+<pre class="sourceCode r"><code class="sourceCode r">gg1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(
+    <span class="dt">x =</span> Gross_Domestic_Product_GDP,
+    <span class="dt">y =</span> Maternal_mortality_ratio
+  )) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_log10</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;PIB&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">9</span>))
 
-gg2&lt;-<span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">log</span>(Gross_Domestic_Product_GDP)) )<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Log(PIB)&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Densité&quot;</span>)
+gg2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(Gross_Domestic_Product_GDP))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">x =</span> <span class="st">&quot;Log(PIB)&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Densité&quot;</span>
+  )
 
-gg3&lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Continent,<span class="dt">fill=</span>Continent))<span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(),
-        <span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>())
+gg3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Continent, <span class="dt">fill =</span> Continent)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(
+    <span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(),
+    <span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>()
+  )
 
 <span class="kw">ggdraw</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">draw_plot</span>(gg1, <span class="dt">x=</span><span class="dv">0</span>, <span class="dt">y=</span>.<span class="dv">5</span>, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">height=</span>.<span class="dv">5</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">draw_plot</span>(gg2, <span class="dt">x=</span><span class="dv">0</span>, <span class="dt">y=</span><span class="dv">0</span>, <span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">height=</span>.<span class="dv">5</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">draw_plot</span>(gg3, <span class="dt">x=</span><span class="fl">0.3</span>, <span class="dt">y=</span><span class="dv">0</span>, <span class="dt">width=</span><span class="fl">0.7</span>, <span class="dt">height=</span>.<span class="dv">5</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
+<span class="st">  </span><span class="kw">draw_plot</span>(gg1, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">.5</span>, <span class="dt">width =</span> <span class="dv">1</span>, <span class="dt">height =</span> <span class="fl">.5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">draw_plot</span>(gg2, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">width =</span> <span class="fl">.3</span>, <span class="dt">height =</span> <span class="fl">.5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">draw_plot</span>(gg3, <span class="dt">x =</span> <span class="fl">0.3</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">width =</span> <span class="fl">0.7</span>, <span class="dt">height =</span> <span class="fl">.5</span>)</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
 <div id="les-facettes" class="section level2">
 <h2><span class="header-section-number">9.9</span> Les facettes</h2>
 <p>Lorsque l’on veut pouvoir réaliser un graphique pour plusieurs sous ensemble, les facettes sont alors très utiles. On va ici l’illustrer avec la réalisation du même graphique ci dessus mais pour plusieurs années différentes.</p>
 <pre class="sourceCode r"><code class="sourceCode r">indicateur311 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
-         Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
-         Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
-         Location<span class="op">==</span><span class="st">&quot;Total (national level)&quot;</span>,
-         <span class="kw">is.na</span>(Value_type)
-         ) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>,<span class="dv">2005</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Country_or_Area_Name,<span class="dt">weight=</span>Value,<span class="dt">fill=</span>Country_or_Area_Name))<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_ipsum</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;Zone&quot;</span>,
-       <span class="dt">fill=</span><span class="st">&quot;Zone&quot;</span>
-  )<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">filter</span>(
+    Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
+    Age_group <span class="op">==</span><span class="st"> &quot;All age ranges or no breakdown by age&quot;</span>,
+    Sex <span class="op">==</span><span class="st"> &quot;Both sexes or no breakdown by sex&quot;</span>,
+    Location <span class="op">==</span><span class="st"> &quot;Total (national level)&quot;</span>,
+    <span class="kw">is.na</span>(Value_type)
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Country_or_Area_Name, <span class="dt">weight =</span> Value, <span class="dt">fill =</span> Country_or_Area_Name)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_ipsum</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;Zone&quot;</span>,
+    <span class="dt">fill =</span> <span class="st">&quot;Zone&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-122-1.png" width="768" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-27-1.png" width="768" /></p>
 <p>L’exemple pris ici “scinde” notre table en fonction d’une seule variable, mais on peut le faire sur plusieurs variables également.</p>
 <p>On peut choisir avec facet_wrap :
 - le nombre de colonnes ou de ligne sur lesquel on veut voir s’afficher le graphique
 - si on veut fixer l’échelle de l’un ou l’autre des axes ou les deux</p>
 <pre class="sourceCode r"><code class="sourceCode r">indicateur311 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
-         Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
-         Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
-         Location<span class="op">==</span><span class="st">&quot;Total (national level)&quot;</span>,
-         <span class="kw">is.na</span>(Value_type)
-         ) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>,<span class="dv">2005</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Country_or_Area_Name,<span class="dt">weight=</span>Value,<span class="dt">fill=</span>Country_or_Area_Name))<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_ipsum</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;Zone&quot;</span>,
-       <span class="dt">fill=</span><span class="st">&quot;Zone&quot;</span>
-  )<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year,<span class="dt">ncol=</span><span class="dv">4</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-123-1.png" width="1152" /></p>
+<span class="st">  </span><span class="kw">filter</span>(
+    Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
+    Age_group <span class="op">==</span><span class="st"> &quot;All age ranges or no breakdown by age&quot;</span>,
+    Sex <span class="op">==</span><span class="st"> &quot;Both sexes or no breakdown by sex&quot;</span>,
+    Location <span class="op">==</span><span class="st"> &quot;Total (national level)&quot;</span>,
+    <span class="kw">is.na</span>(Value_type)
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Country_or_Area_Name, <span class="dt">weight =</span> Value, <span class="dt">fill =</span> Country_or_Area_Name)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_ipsum</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;Zone&quot;</span>,
+    <span class="dt">fill =</span> <span class="st">&quot;Zone&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year, <span class="dt">ncol =</span> <span class="dv">4</span>)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-28-1.png" width="1152" /></p>
 <div id="exercice-4" class="section level3">
 <h3><span class="header-section-number">9.9.1</span> Exercice 4</h3>
 <blockquote>
@@ -1006,34 +1071,36 @@ gg3&lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(rpls_aggrege<span class="op">$</span>Indicateur)</code></pre>
 <p>Résultat attendu</p>
-<p><img src="support_files/figure-html/unnamed-chunk-126-1.png" width="1152" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-31-1.png" width="1152" /></p>
 </div>
 </div>
 <div id="exporter-un-graphique" class="section level2">
 <h2><span class="header-section-number">9.10</span> Exporter un graphique</h2>
 <p>ggplot contient une fonction <strong><em>ggsave()</em></strong> permet d’exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf</p>
-<pre class="sourceCode r"><code class="sourceCode r">p&lt;-indicateur311 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
-         Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
-         Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
-         Location<span class="op">==</span><span class="st">&quot;Total (national level)&quot;</span>,
-         <span class="kw">is.na</span>(Value_type)
-         ) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>,<span class="dv">2005</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Country_or_Area_Name,<span class="dt">weight=</span>Value,<span class="dt">fill=</span>Country_or_Area_Name))<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_ipsum</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
-       <span class="dt">subtitle=</span><span class="st">&quot;En 2015&quot;</span>,
-       <span class="dt">y=</span><span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
-       <span class="dt">x=</span><span class="st">&quot;Zone&quot;</span>,
-       <span class="dt">fill=</span><span class="st">&quot;Zone&quot;</span>
-  )<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year,<span class="dt">ncol=</span><span class="dv">4</span>)
-<span class="kw">ggsave</span>(<span class="st">&quot;figures/Mortalité maternelle sur quelques zones du globe.svg&quot;</span>,p,<span class="dt">width=</span><span class="dv">12</span>,<span class="dt">height =</span> <span class="dv">5</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>indicateur311 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(
+    Type_Zone <span class="op">!=</span><span class="st"> &quot;Pays&quot;</span>,
+    Age_group <span class="op">==</span><span class="st"> &quot;All age ranges or no breakdown by age&quot;</span>,
+    Sex <span class="op">==</span><span class="st"> &quot;Both sexes or no breakdown by sex&quot;</span>,
+    Location <span class="op">==</span><span class="st"> &quot;Total (national level)&quot;</span>,
+    <span class="kw">is.na</span>(Value_type)
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Country_or_Area_Name, <span class="dt">weight =</span> Value, <span class="dt">fill =</span> Country_or_Area_Name)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_ipsum</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle sur quelques zones du globe&quot;</span>,
+    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;Zone&quot;</span>,
+    <span class="dt">fill =</span> <span class="st">&quot;Zone&quot;</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year, <span class="dt">ncol =</span> <span class="dv">4</span>)
+<span class="kw">ggsave</span>(<span class="st">&quot;figures/Mortalité maternelle sur quelques zones du globe.svg&quot;</span>, p, <span class="dt">width =</span> <span class="dv">12</span>, <span class="dt">height =</span> <span class="dv">5</span>)</code></pre>
 </div>
 <div id="faire-des-cartes-avec-ggplot2" class="section level2">
 <h2><span class="header-section-number">9.11</span> Faire des cartes avec ggplot2</h2>
@@ -1043,85 +1110,100 @@ gg3&lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> graphique1
 <p>Le premier exemple que nous allons pouvoir voir, c’est une carte choroplèthe</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)
 
-tt&lt;-World <span class="op">%&gt;%</span>
-<span class="kw">rename</span>(<span class="dt">Country_or_Area_Code=</span>iso_a3) <span class="op">%&gt;%</span>
+tt &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Country_or_Area_Code =</span> iso_a3) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">inner_join</span>(indicateur311 <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">filter</span>(Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
-                     Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
-                     Type_Zone<span class="op">==</span><span class="st">&quot;Pays&quot;</span>,
-                   <span class="kw">is.na</span>(Value_type)) <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">filter</span>(Year<span class="op">==</span><span class="kw">max</span>(Year)))
-
-<span class="kw">ggplot</span>(<span class="dt">data=</span>tt)<span class="op">+</span>
-<span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Value))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-128-1.png" width="1152" /></p>
+<span class="st">    </span><span class="kw">filter</span>(
+      Age_group <span class="op">==</span><span class="st"> &quot;All age ranges or no breakdown by age&quot;</span>,
+      Sex <span class="op">==</span><span class="st"> &quot;Both sexes or no breakdown by sex&quot;</span>,
+      Type_Zone <span class="op">==</span><span class="st"> &quot;Pays&quot;</span>,
+      <span class="kw">is.na</span>(Value_type)
+    ) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(Year <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(Year)))</code></pre>
+<pre><code>## Joining, by = &quot;Country_or_Area_Code&quot;</code></pre>
+<pre><code>## Warning: Column `Country_or_Area_Code` joining factor and character vector,
+## coercing into character vector</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> tt) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> Value))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-33-1.png" width="1152" /></p>
 <p>On peut exploiter de la même façon les différents fonctions vue précédement. Par exemple avec un peu de thème et de facet.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)
-World&lt;-<span class="kw">st_as_sf</span>(World)
+World &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(World)
 
-tt&lt;-World <span class="op">%&gt;%</span>
-<span class="kw">rename</span>(<span class="dt">Country_or_Area_Code=</span>iso_a3) <span class="op">%&gt;%</span>
-<span class="kw">inner_join</span>(indicateur311 <span class="op">%&gt;%</span>
-<span class="st">            </span><span class="kw">filter</span>(Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
-                   Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
-                   Type_Zone<span class="op">==</span><span class="st">&quot;Pays&quot;</span>,
-                   <span class="kw">is.na</span>(Value_type)) <span class="op">%&gt;%</span>
-<span class="st">            </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
-<span class="st">            </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">            </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1990</span>,<span class="dv">2000</span>,<span class="dv">2010</span>,<span class="dv">2015</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">            </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">complete</span>(Year)
-          )
-
-<span class="kw">ggplot</span>(<span class="dt">data=</span>tt)<span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">log</span>(Value)))<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_ipsum</span>()<span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_viridis</span>(<span class="dt">option =</span> <span class="st">&quot;magma&quot;</span>,
-                   <span class="dt">direction=</span><span class="dv">1</span>,
-                   <span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>))<span class="op">+</span>
-<span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour=</span>F,
-         <span class="dt">order=</span><span class="dv">0</span>,
-         <span class="dt">fill=</span><span class="kw">guide_legend</span>(<span class="dt">direction=</span><span class="st">&quot;horizontal&quot;</span>,
-                           <span class="dt">keyheight=</span><span class="kw">unit</span>(<span class="dv">2</span>,<span class="dt">units=</span><span class="st">&quot;mm&quot;</span>),
-                           <span class="dt">keywidth=</span><span class="kw">unit</span>(<span class="dv">20</span>,<span class="dt">units=</span><span class="st">&quot;mm&quot;</span>),
-                           <span class="dt">order=</span><span class="dv">1</span>,
-                           <span class="dt">title.position=</span><span class="st">&quot;top&quot;</span>,
-                           <span class="dt">title.hjust=</span><span class="fl">0.5</span>,
-                           <span class="dt">nrow=</span><span class="dv">1</span>,
-                           <span class="dt">label.position=</span><span class="st">&quot;bottom&quot;</span>,
-                           <span class="dt">label.hjust=</span><span class="dv">1</span>))<span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Log du taux de mortalité infantile&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year,<span class="dt">drop=</span>T)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-129-1.png" width="1152" /></p>
+tt &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Country_or_Area_Code =</span> iso_a3) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">inner_join</span>(indicateur311 <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(
+      Age_group <span class="op">==</span><span class="st"> &quot;All age ranges or no breakdown by age&quot;</span>,
+      Sex <span class="op">==</span><span class="st"> &quot;Both sexes or no breakdown by sex&quot;</span>,
+      Type_Zone <span class="op">==</span><span class="st"> &quot;Pays&quot;</span>,
+      <span class="kw">is.na</span>(Value_type)
+    ) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(Year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1990</span>, <span class="dv">2000</span>, <span class="dv">2010</span>, <span class="dv">2015</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">complete</span>(Year))</code></pre>
+<pre><code>## Joining, by = &quot;Country_or_Area_Code&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> tt) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> <span class="kw">log</span>(Value))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_ipsum</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>(
+    <span class="dt">option =</span> <span class="st">&quot;magma&quot;</span>,
+    <span class="dt">direction =</span> <span class="dv">1</span>,
+    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>)
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(
+    <span class="dt">colour =</span> F,
+    <span class="dt">order =</span> <span class="dv">0</span>,
+    <span class="dt">fill =</span> <span class="kw">guide_legend</span>(
+      <span class="dt">direction =</span> <span class="st">&quot;horizontal&quot;</span>,
+      <span class="dt">keyheight =</span> <span class="kw">unit</span>(<span class="dv">2</span>, <span class="dt">units =</span> <span class="st">&quot;mm&quot;</span>),
+      <span class="dt">keywidth =</span> <span class="kw">unit</span>(<span class="dv">20</span>, <span class="dt">units =</span> <span class="st">&quot;mm&quot;</span>),
+      <span class="dt">order =</span> <span class="dv">1</span>,
+      <span class="dt">title.position =</span> <span class="st">&quot;top&quot;</span>,
+      <span class="dt">title.hjust =</span> <span class="fl">0.5</span>,
+      <span class="dt">nrow =</span> <span class="dv">1</span>,
+      <span class="dt">label.position =</span> <span class="st">&quot;bottom&quot;</span>,
+      <span class="dt">label.hjust =</span> <span class="dv">1</span>
+    )
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;Log du taux de mortalité infantile&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year, <span class="dt">drop =</span> T)</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-34-1.png" width="1152" /></p>
 </div>
 <div id="les-cartes-a-ronds-proportionnels" class="section level3">
 <h3><span class="header-section-number">9.11.2</span> Les cartes à ronds proportionnels</h3>
 <p>ggplot ne peut attribuer par défaut un rond proportionnel à un polygone.
 pour travailler sur des ronds proportionnels,il faut d’abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec geom_sf.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)
-World&lt;-<span class="kw">st_as_sf</span>(World)
+World &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(World)
 
-tt&lt;-World <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Country_or_Area_Code=</span>iso_a3) <span class="op">%&gt;%</span>
+tt &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Country_or_Area_Code =</span> iso_a3) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">inner_join</span>(indicateur311 <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">filter</span>(Age_group<span class="op">==</span><span class="st">&quot;All age ranges or no breakdown by age&quot;</span>,
-                     Sex<span class="op">==</span><span class="st">&quot;Both sexes or no breakdown by sex&quot;</span>,
-                     Type_Zone<span class="op">==</span><span class="st">&quot;Pays&quot;</span>,
-                     <span class="kw">is.na</span>(Value_type)) <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">filter</span>(Year<span class="op">==</span><span class="kw">max</span>(Year)))
-ttc&lt;-<span class="kw">st_centroid</span>(tt)
-
-<span class="kw">ggplot</span>(<span class="dt">data=</span>ttc)<span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data=</span>tt,<span class="dt">fill=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Value,<span class="dt">size=</span>Value))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-130-1.png" width="1152" /></p>
-<p><em>Attention: les centroids ne sont pas forcément là où on le pense:
-par exemple, le centroid de la France est décalé en Espagne puisqu’il prend en compte les DOM.</em></p>
+<span class="st">    </span><span class="kw">filter</span>(
+      Age_group <span class="op">==</span><span class="st"> &quot;All age ranges or no breakdown by age&quot;</span>,
+      Sex <span class="op">==</span><span class="st"> &quot;Both sexes or no breakdown by sex&quot;</span>,
+      Type_Zone <span class="op">==</span><span class="st"> &quot;Pays&quot;</span>,
+      <span class="kw">is.na</span>(Value_type)
+    ) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(Country_or_Area_Code) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Value)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(Year <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(Year)))</code></pre>
+<pre><code>## Joining, by = &quot;Country_or_Area_Code&quot;</code></pre>
+<pre><code>## Warning: Column `Country_or_Area_Code` joining factor and character vector,
+## coercing into character vector</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">ttc &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(tt, <span class="dt">of_largest_polygon =</span> T)</code></pre>
+<pre><code>## Warning in st_centroid.sf(tt, of_largest_polygon = T): st_centroid assumes
+## attributes are constant over geometries of x</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> ttc) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> tt, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">color =</span> Value, <span class="dt">size =</span> Value))</code></pre>
+<p><img src="support_files/figure-html/unnamed-chunk-35-1.png" width="1152" /></p>
 
 </div>
 </div>

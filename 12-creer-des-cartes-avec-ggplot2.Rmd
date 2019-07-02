@@ -54,8 +54,10 @@ L'aesthetic sert à identifier les variables que l'on souhaite représenter.
 Par exemple, si l'on souhaite représenter le taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) :
 
 ```{r, fig.height=3.5}
-ggplot(data = graphique1) + 
-  geom_point(aes(x=Gross_Domestic_Product_GDP,y=Maternal_mortality_ratio))
+
+ggplot(data = graphique1) +
+  geom_point(aes(x = Gross_Domestic_Product_GDP, y = Maternal_mortality_ratio))
+
 ```
 
 De plus, la fonction **aes** admet d'autres arguments qui permettent de modifier l'apparence du graphique selon une 3ème variable du jeu de données.
@@ -66,8 +68,8 @@ De plus, la fonction **aes** admet d'autres arguments qui permettent de modifier
 **fill** : le remplissage ;
 
 ```{r, fig.height=3.5}
-ggplot(data = graphique1) + 
-  geom_point(aes(x=Gross_Domestic_Product_GDP,y=Maternal_mortality_ratio,colour=Continent))
+ggplot(data = graphique1) +
+  geom_point(aes(x = Gross_Domestic_Product_GDP, y = Maternal_mortality_ratio, colour = Continent))
 ```
 
 ### Les "autres" paramètres
@@ -78,17 +80,19 @@ On retrouve entre autre les mêmes paramètres que proposés dans l'aes mais il 
 Par exemple si l'on souhaite modifier la transparance et la taille de l'ensemble des points du graphique précédent:
 
 ```{r, fig.height=3.5}
-ggplot(data = graphique1) + 
-  geom_point(aes(x=Gross_Domestic_Product_GDP,y=Maternal_mortality_ratio,colour=Continent),
-             alpha=0.5,size=1.9)
+ggplot(data = graphique1) +
+  geom_point(aes(x = Gross_Domestic_Product_GDP, y = Maternal_mortality_ratio, colour = Continent),
+    alpha = 0.5, size = 1.9
+  )
 ```
 
 De même si l'on souhaite modifier la couleur générale:
 
 ```{r, fig.height=3.5}
-ggplot(data = graphique1) + 
-  geom_point(aes(x=Gross_Domestic_Product_GDP,y=Maternal_mortality_ratio),
-             color="red")
+ggplot(data = graphique1) +
+  geom_point(aes(x = Gross_Domestic_Product_GDP, y = Maternal_mortality_ratio),
+    color = "red"
+  )
 ```
 
 Pour choisir et modifier facilement les couleurs d'un graphe, il existe un addin développé par Dean Attali: **Colour Picker**
@@ -112,14 +116,16 @@ Pour plus d'informations: https://github.com/daattali/colourpicker
 Le résultat attendu : 
 
 ```{r eval=T,echo=F,warning=F}
-ggplot(data = rpls_aggrege_large  %>% 
-         filter(TypeZone=="Epci")) + 
-  geom_point(aes(x=Parc_de_moins_de_5_ans_pourcent,
-                 y=DPE_GES_classe_ABC_pourcent,
-                 color=epci_2017_52),
-             alpha=.5,
-             size=.5
-             )
+ggplot(data = rpls_aggrege_large %>%
+  filter(TypeZone == "Epci")) +
+  geom_point(aes(
+    x = Parc_de_moins_de_5_ans_pourcent,
+    y = DPE_GES_classe_ABC_pourcent,
+    color = epci_2017_52
+  ),
+  alpha = .5,
+  size = .5
+  )
 ```
 
 ## L'habillage simple
@@ -130,14 +136,18 @@ Chaque nouvel élément graphique est à rajouter sous forme de layer, ici nous 
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU")
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  )
 ```
 
 A noter qu'il existe plusieurs autres façons de spécifier ces élèments par des couches spécifiques: ggtitle, xlab, ylab,...
@@ -149,20 +159,26 @@ Les guides peuvent être spécifiées dans chaque scale_* ou dans une instructio
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU")+
-  guides(color=guide_legend(direction="horizontal",
-                           order=1,
-                           title.position="top",
-                           title.hjust=0.5,
-                           nrow=1,
-                           label.position="bottom"))+
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  guides(color = guide_legend(
+    direction = "horizontal",
+    order = 1,
+    title.position = "top",
+    title.hjust = 0.5,
+    nrow = 1,
+    label.position = "bottom"
+  )) +
   theme(legend.position = "bottom")
 ```
 
@@ -172,32 +188,40 @@ Il est aussi possible de rajouter des annotations de type texte, par exemple, "�
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU")+
-  annotate("text", x = 6, y = 2, label = "je rajoute mon texte",color="blue")
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  annotate("text", x = 6, y = 2, label = "je rajoute mon texte", color = "blue")
+
 ```
 
 La fonction **annotate** permet aussi d'ajouter d'autre type d'annotation comme par exemple des rectangles:
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU")+
-   annotate("rect", xmin = 10, xmax = Inf, ymin = -Inf, ymax = Inf,fill="red",alpha=0.2)+
-   annotate("rect", xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = 2,fill="green",alpha=0.2)
-
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  annotate("rect", xmin = 10, xmax = Inf, ymin = -Inf, ymax = Inf, fill = "red", alpha = 0.2) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = 2, fill = "green", alpha = 0.2)
 ```
 
 ## Les thèmes
@@ -278,46 +302,60 @@ panel.background, panel.border, panel.grid.major, panel.grid.minor,...
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU") +
-  theme(panel.background = element_rect(fill="Lavender",colour="black"))
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  theme(panel.background = element_rect(fill = "Lavender", colour = "black"))
 ```
 
 - Changer l'apparence du quadrillage ***panel_background***
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU") +
-  theme(panel.grid.major = element_line(colour="gray",size=0.5,linetype="dashed"))
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  theme(panel.grid.major = element_line(colour = "gray", size = 0.5, linetype = "dashed"))
 ```
 
 - Changer l'apparence des étiquettes des axes ***axis_xxx()***
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU") +
-  theme(axis.text.x = element_text(colour = "blue", angle = 45),
-        axis.title = element_text(face = "bold", colour = "orange"))
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  theme(
+    axis.text.x = element_text(colour = "blue", angle = 45),
+    axis.title = element_text(face = "bold", colour = "orange")
+  )
 ```
 
 Certains changements de paramètres ne nécessitent pas l'utilisation de fonction ***element_()*** .
@@ -325,15 +363,19 @@ Par exemple, pour changer la position de la légende ***legend.xxx()***
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU") +
-  theme(legend.position="left",legend.title=element_blank())
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  theme(legend.position = "left", legend.title = element_blank())
 ```
 
 ### Modifier le thème par défaut.
@@ -344,14 +386,18 @@ La fonction theme_set() vous permet de définir un thème par défaut pour l'ens
 theme_set(theme_dark())
 
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU")
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  )
 ```
 
 
@@ -362,27 +408,32 @@ Créons ici un thème avec un fond vert pour le ministère de la transition éco
 
 ```{r}
 library(hrbrthemes)
-theme_mtes<-function(taille_police=14){
-  theme_bw()+
-  theme(plot.title = element_text(color = "white",size=taille_police,face="bold"),
-        text = element_text(color="white"),
-        axis.text = element_text(color="white"),
-        panel.background = element_rect(fill="lightgreen",colour="lightgreen"),
-        plot.background= element_rect(fill="#006400",colour="lightgreen"),
-        legend.background =  element_rect(fill="lightgreen",colour="lightgreen"),
-        legend.key = element_blank())
-
+theme_mtes <- function(taille_police = 14) {
+  theme_bw() +
+    theme(
+      plot.title = element_text(color = "white", size = taille_police, face = "bold"),
+      text = element_text(color = "white"),
+      axis.text = element_text(color = "white"),
+      panel.background = element_rect(fill = "lightgreen", colour = "lightgreen"),
+      plot.background = element_rect(fill = "#006400", colour = "lightgreen"),
+      legend.background = element_rect(fill = "lightgreen", colour = "lightgreen"),
+      legend.key = element_blank()
+    )
 }
 
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU")+
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
   theme_mtes()
 ```
 
@@ -402,21 +453,27 @@ Le résultat attendu
 
 ```{r eval=T,echo=F,message=F,warning=F}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+ 
-  labs(title="Croisement du PIB avec le taux de mortalité maternelle", y="Taux de mortalité maternelle", x="Produit Intérieur Brut", caption="Source: ODD")+
-  theme(legend.position="bottom",
-        plot.title=element_text(size=15, 
-                                face="bold", 
-                                color="blue",
-                                hjust=0.5), 
-        plot.caption=element_text(size=15),
-        axis.title.x=element_text(size=15),  
-        axis.title.y=element_text(size=15),
-        panel.background = element_rect(fill = "lightblue",colour = "lightblue",size = 0.5),
-        panel.grid.major = element_line( size=0.5,linetype = "dotted"),
-        panel.grid.minor = element_line( size=0.5,linetype = "dotted"))
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  labs(title = "Croisement du PIB avec le taux de mortalité maternelle", y = "Taux de mortalité maternelle", x = "Produit Intérieur Brut", caption = "Source: ODD") +
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(
+      size = 15,
+      face = "bold",
+      color = "blue",
+      hjust = 0.5
+    ),
+    plot.caption = element_text(size = 15),
+    axis.title.x = element_text(size = 15),
+    axis.title.y = element_text(size = 15),
+    panel.background = element_rect(fill = "lightblue", colour = "lightblue", size = 0.5),
+    panel.grid.major = element_line(size = 0.5, linetype = "dotted"),
+    panel.grid.minor = element_line(size = 0.5, linetype = "dotted")
+  )
 ```
 
 ## Les scales
@@ -465,21 +522,25 @@ gradient2|utiliser un gradient divergent de 3 couleurs
 
 ```{r, echo=T,eval=T,fig.height=3.5}
 ggplot(graphique1) +
-  geom_point(aes(x=log(Gross_Domestic_Product_GDP),
-                 y=log(Maternal_mortality_ratio),
-                 color=Continent))+
-  scale_color_brewer(type="qual")
+  geom_point(aes(
+    x = log(Gross_Domestic_Product_GDP),
+    y = log(Maternal_mortality_ratio),
+    color = Continent
+  )) +
+  scale_color_brewer(type = "qual")
 ```
 
 Par exemple on peut exploiter une fonction scale pour définir une échelle logarithimique sur un axe.
 
 ```{r, echo=T,eval=T,fig.height=3.5}
 ggplot(graphique1) +
-  geom_point(aes(x=Gross_Domestic_Product_GDP,
-                 y=Maternal_mortality_ratio,
-                 color=Continent))+
-  scale_color_brewer(type="qual")+
-  scale_x_log10()+
+  geom_point(aes(
+    x = Gross_Domestic_Product_GDP,
+    y = Maternal_mortality_ratio,
+    color = Continent
+  )) +
+  scale_color_brewer(type = "qual") +
+  scale_x_log10() +
   scale_y_log10()
 ```
 
@@ -487,16 +548,16 @@ ggplot(graphique1) +
 
 - Transformation en pourcentage;
 ```{r, echo=T,eval=F}
-  scale_y_continuous(labels=scales::percent)
+  scale_y_continuous(labels = scales::percent)
 ```
 - Ajout du séparateurs des milliers;
 ```{r, echo=T,eval=F}
-  scale_y_continuous(labels=function(x) format(x,big.mark=" ",scientific = FALSE))
+scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE))
 ```
 - Ajout du symbole €;
 
 ```{r, echo=T,eval=F}
-  scale_y_continuous(labels=function(x) paste(x," €"))
+scale_y_continuous(labels = function(x) paste(x, " €"))
 ```
 
 
@@ -513,22 +574,28 @@ ggplot(graphique1) +
 Le résultat attendu
 
 ```{r eval=T,message=F,echo=F,warning=F}
-ggplot(data = rpls_aggrege_large  %>% 
-         filter(TypeZone=="Epci")) + 
-  geom_point(aes(x=Parc_de_moins_de_5_ans_pourcent,
-                 y=DPE_GES_classe_ABC_pourcent,
-                 color=epci_2017_52),
-             size=.7
-  )+
-  scale_color_brewer(type=qual,palette="Paired",
-                     labels=c("Autres Epci","Epci de la région Pays de la Loire"))+
-  scale_x_continuous(limits = c(0,40))+
-  scale_y_continuous(limits = c(0,80))+
-  theme(legend.position = "bottom")+
-  labs(title="Répartition des Epci en fonction \nde la part des logements ayant une étiquette A,B,C et de la part du parc récent",
-       x="Part du parc de moins de 5 ans",
-       y="Part des logements ayant une étiquette A,B,C",
-       color="")
+ggplot(data = rpls_aggrege_large %>%
+  filter(TypeZone == "Epci")) +
+  geom_point(aes(
+    x = Parc_de_moins_de_5_ans_pourcent,
+    y = DPE_GES_classe_ABC_pourcent,
+    color = epci_2017_52
+  ),
+  size = .7
+  ) +
+  scale_color_brewer(
+    type = qual, palette = "Paired",
+    labels = c("Autres Epci", "Epci de la région Pays de la Loire")
+  ) +
+  scale_x_continuous(limits = c(0, 40)) +
+  scale_y_continuous(limits = c(0, 80)) +
+  theme(legend.position = "bottom") +
+  labs(
+    title = "Répartition des Epci en fonction \nde la part des logements ayant une étiquette A,B,C et de la part du parc récent",
+    x = "Part du parc de moins de 5 ans",
+    y = "Part des logements ayant une étiquette A,B,C",
+    color = ""
+  )
 ```
 
 ## La mise en page de plusieurs graphiques
@@ -539,23 +606,26 @@ Le package cowplot permet la combinaison de plusieurs graphiques. Il est compos�
 
 
 ```{r, echo=T,eval=T,fig.height=3.5}
-gg1<-ggplot(graphique1) +
-  geom_point(aes(x=Gross_Domestic_Product_GDP,
-                 y=Maternal_mortality_ratio))+
-  scale_x_log10()+
-  scale_y_log10()+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU") +
-  theme(axis.title= element_text(size=9))
+gg1 <- ggplot(graphique1) +
+  geom_point(aes(
+    x = Gross_Domestic_Product_GDP,
+    y = Maternal_mortality_ratio
+  )) +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  theme(axis.title = element_text(size = 9))
 
-gg2<-ggplot(graphique1) +
-  geom_density(aes(x=log(Gross_Domestic_Product_GDP))
-  )
+gg2 <- ggplot(graphique1) +
+  geom_density(aes(x = log(Gross_Domestic_Product_GDP)))
 
-plot_grid(gg1,gg2, ncol = 1, nrow = 2)
+plot_grid(gg1, gg2, ncol = 1, nrow = 2)
 ```
 
 - le fonction **draw_plot** associée à **ggdraw** qui permet de disposer les graphiques à des places spécifiques
@@ -564,32 +634,40 @@ ggdraw initialise le graphique
 
 ```{r, echo=T,eval=T,fig.height=3.5}
 
-gg1<-ggplot(graphique1) +
-  geom_point(aes(x=Gross_Domestic_Product_GDP,
-                 y=Maternal_mortality_ratio))+
-  scale_x_log10()+
-  scale_y_log10()+
-  labs(title="Mortalité maternelle en fonction du PIB par habitant",
-       subtitle="En 2015",
-       x="PIB",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       caption="Source : ODD / ONU") +
-  theme(axis.title= element_text(size=9))
+gg1 <- ggplot(graphique1) +
+  geom_point(aes(
+    x = Gross_Domestic_Product_GDP,
+    y = Maternal_mortality_ratio
+  )) +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(
+    title = "Mortalité maternelle en fonction du PIB par habitant",
+    subtitle = "En 2015",
+    x = "PIB",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    caption = "Source : ODD / ONU"
+  ) +
+  theme(axis.title = element_text(size = 9))
 
-gg2<-ggplot(graphique1) +
-  geom_density(aes(x=log(Gross_Domestic_Product_GDP)) )+
-  labs(x="Log(PIB)",
-       y="Densité")
+gg2 <- ggplot(graphique1) +
+  geom_density(aes(x = log(Gross_Domestic_Product_GDP))) +
+  labs(
+    x = "Log(PIB)",
+    y = "Densité"
+  )
 
-gg3<-ggplot(data = graphique1) + 
-  geom_bar(aes(x=Continent,fill=Continent))+ 
-  theme(axis.title.x = element_blank(),
-        axis.text.x = element_blank())
+gg3 <- ggplot(data = graphique1) +
+  geom_bar(aes(x = Continent, fill = Continent)) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank()
+  )
 
 ggdraw() +
-  draw_plot(gg1, x=0, y=.5, width=1, height=.5) +
-  draw_plot(gg2, x=0, y=0, width=.3, height=.5) +
-  draw_plot(gg3, x=0.3, y=0, width=0.7, height=.5)
+  draw_plot(gg1, x = 0, y = .5, width = 1, height = .5) +
+  draw_plot(gg2, x = 0, y = 0, width = .3, height = .5) +
+  draw_plot(gg3, x = 0.3, y = 0, width = 0.7, height = .5)
 ```
 
 ## Les facettes
@@ -598,25 +676,27 @@ Lorsque l'on veut pouvoir réaliser un graphique pour plusieurs sous ensemble, l
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=8}
 indicateur311 %>%
-  filter(Type_Zone != "Pays",
-         Age_group=="All age ranges or no breakdown by age",
-         Sex=="Both sexes or no breakdown by sex",
-         Location=="Total (national level)",
-         is.na(Value_type)
-         ) %>%
-  filter(Year %in% c(2000,2005,2010,2015)) %>%
-  ggplot()+
-  geom_bar(aes(x=Country_or_Area_Name,weight=Value,fill=Country_or_Area_Name))+
-  theme_ipsum()+
-  scale_fill_ipsum()+
-  coord_flip()+
-  labs(title="Mortalité maternelle sur quelques zones du globe",
-       subtitle="En 2015",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       x="Zone",
-       fill="Zone"
-  )+
-  theme(legend.position = "none")+
+  filter(
+    Type_Zone != "Pays",
+    Age_group == "All age ranges or no breakdown by age",
+    Sex == "Both sexes or no breakdown by sex",
+    Location == "Total (national level)",
+    is.na(Value_type)
+  ) %>%
+  filter(Year %in% c(2000, 2005, 2010, 2015)) %>%
+  ggplot() +
+  geom_bar(aes(x = Country_or_Area_Name, weight = Value, fill = Country_or_Area_Name)) +
+  theme_ipsum() +
+  scale_fill_ipsum() +
+  coord_flip() +
+  labs(
+    title = "Mortalité maternelle sur quelques zones du globe",
+    subtitle = "En 2015",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    x = "Zone",
+    fill = "Zone"
+  ) +
+  theme(legend.position = "none") +
   facet_wrap(~Year)
 ```
 
@@ -628,26 +708,28 @@ On peut choisir avec facet_wrap :
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=12}
 indicateur311 %>%
-  filter(Type_Zone != "Pays",
-         Age_group=="All age ranges or no breakdown by age",
-         Sex=="Both sexes or no breakdown by sex",
-         Location=="Total (national level)",
-         is.na(Value_type)
-         ) %>%
-  filter(Year %in% c(2000,2005,2010,2015)) %>%
-  ggplot()+
-  geom_bar(aes(x=Country_or_Area_Name,weight=Value,fill=Country_or_Area_Name))+
-  theme_ipsum()+
-  scale_fill_ipsum()+
-  coord_flip()+
-  labs(title="Mortalité maternelle sur quelques zones du globe",
-       subtitle="En 2015",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       x="Zone",
-       fill="Zone"
-  )+
-  theme(legend.position = "none")+
-  facet_wrap(~Year,ncol=4)
+  filter(
+    Type_Zone != "Pays",
+    Age_group == "All age ranges or no breakdown by age",
+    Sex == "Both sexes or no breakdown by sex",
+    Location == "Total (national level)",
+    is.na(Value_type)
+  ) %>%
+  filter(Year %in% c(2000, 2005, 2010, 2015)) %>%
+  ggplot() +
+  geom_bar(aes(x = Country_or_Area_Name, weight = Value, fill = Country_or_Area_Name)) +
+  theme_ipsum() +
+  scale_fill_ipsum() +
+  coord_flip() +
+  labs(
+    title = "Mortalité maternelle sur quelques zones du globe",
+    subtitle = "En 2015",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    x = "Zone",
+    fill = "Zone"
+  ) +
+  theme(legend.position = "none") +
+  facet_wrap(~Year, ncol = 4)
 ```
 
 ### Exercice 4
@@ -680,29 +762,36 @@ Résultat attendu
 
 
 ```{r eval=T,fig.height=8,fig.width=12,message=F,warning=F,echo=FALSE}
-rpls_aggrege  %>% 
-  filter(TypeZone=="Régions",
-         Indicateur %in% c("3 et 4 pièces_pourcent",
-                           "DPE GES classe ABC_pourcent",
-                           "DPE énergie classe ABC_pourcent",
-                           "Parc de moins de 5 ans_pourcent")) %>% 
-  mutate(Indicateur=fct_recode(Indicateur,
-                             `Logements sociaux de 3 et 4 pièces`="3 et 4 pièces_pourcent",
-                             `Logements sociaux avec DPE énergie de classe A,B,C`="DPE énergie classe ABC_pourcent",
-                             `Logements sociaux avec DPE GES de classe A,B,C`="DPE GES classe ABC_pourcent",
-                             `Logements sociaux de moins de 5 ans`="Parc de moins de 5 ans_pourcent"),
-         r52=ifelse(Reg_2017=="52",1,0)) %>% 
-  ggplot()+
-  #On utilise l'indicatrice de la région Pays de la Loire pour mapper la transparence
-  geom_bar(aes(x=nReg_2017,weight=Valeur,fill=Indicateur,alpha=r52))+
-  coord_flip()+
-  theme_ipsum()+
-  scale_fill_ipsum()+
-  #On défini les valeurs maximum et minimum de transparence que l'on veut voir
-  scale_alpha_continuous(range=c(.65,1))+
-  facet_wrap(~Indicateur)+
-  theme(legend.position="none")+
-  labs(title="mon premier facet",y="En % du parc social",x="")
+rpls_aggrege %>%
+  filter(
+    TypeZone == "Régions",
+    Indicateur %in% c(
+      "3 et 4 pièces_pourcent",
+      "DPE GES classe ABC_pourcent",
+      "DPE énergie classe ABC_pourcent",
+      "Parc de moins de 5 ans_pourcent"
+    )
+  ) %>%
+  mutate(
+    Indicateur = fct_recode(Indicateur,
+      `Logements sociaux de 3 et 4 pièces` = "3 et 4 pièces_pourcent",
+      `Logements sociaux avec DPE énergie de classe A,B,C` = "DPE énergie classe ABC_pourcent",
+      `Logements sociaux avec DPE GES de classe A,B,C` = "DPE GES classe ABC_pourcent",
+      `Logements sociaux de moins de 5 ans` = "Parc de moins de 5 ans_pourcent"
+    ),
+    r52 = ifelse(Reg_2017 == "52", 1, 0)
+  ) %>%
+  ggplot() +
+  # On utilise l'indicatrice de la région Pays de la Loire pour mapper la transparence
+  geom_bar(aes(x = nReg_2017, weight = Valeur, fill = Indicateur, alpha = r52)) +
+  coord_flip() +
+  theme_ipsum() +
+  scale_fill_ipsum() +
+  # On défini les valeurs maximum et minimum de transparence que l'on veut voir
+  scale_alpha_continuous(range = c(.65, 1)) +
+  facet_wrap(~Indicateur) +
+  theme(legend.position = "none") +
+  labs(title = "mon premier facet", y = "En % du parc social", x = "")
 ```
 
 ## Exporter un graphique
@@ -710,28 +799,30 @@ rpls_aggrege  %>%
 ggplot contient une fonction ***ggsave()*** permet d'exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf 
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=12}
-p<-indicateur311 %>%
-  filter(Type_Zone != "Pays",
-         Age_group=="All age ranges or no breakdown by age",
-         Sex=="Both sexes or no breakdown by sex",
-         Location=="Total (national level)",
-         is.na(Value_type)
-         ) %>%
-  filter(Year %in% c(2000,2005,2010,2015)) %>%
-  ggplot()+
-  geom_bar(aes(x=Country_or_Area_Name,weight=Value,fill=Country_or_Area_Name))+
-  theme_ipsum()+
-  scale_fill_ipsum()+
-  coord_flip()+
-  labs(title="Mortalité maternelle sur quelques zones du globe",
-       subtitle="En 2015",
-       y="Taux de mortalité de la mère \n(pour 100 000 naissances)",
-       x="Zone",
-       fill="Zone"
-  )+
-  theme(legend.position = "none")+
-  facet_wrap(~Year,ncol=4)
-ggsave("figures/Mortalité maternelle sur quelques zones du globe.svg",p,width=12,height = 5)
+p <- indicateur311 %>%
+  filter(
+    Type_Zone != "Pays",
+    Age_group == "All age ranges or no breakdown by age",
+    Sex == "Both sexes or no breakdown by sex",
+    Location == "Total (national level)",
+    is.na(Value_type)
+  ) %>%
+  filter(Year %in% c(2000, 2005, 2010, 2015)) %>%
+  ggplot() +
+  geom_bar(aes(x = Country_or_Area_Name, weight = Value, fill = Country_or_Area_Name)) +
+  theme_ipsum() +
+  scale_fill_ipsum() +
+  coord_flip() +
+  labs(
+    title = "Mortalité maternelle sur quelques zones du globe",
+    subtitle = "En 2015",
+    y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
+    x = "Zone",
+    fill = "Zone"
+  ) +
+  theme(legend.position = "none") +
+  facet_wrap(~Year, ncol = 4)
+ggsave("figures/Mortalité maternelle sur quelques zones du globe.svg", p, width = 12, height = 5)
 ```
 
 
@@ -749,61 +840,71 @@ Le premier exemple que nous allons pouvoir voir, c'est une carte choroplèthe
 ```{r, echo=T,eval=T,fig.height=5,fig.width=12}
 data("World")
 
-tt<-World %>%
-rename(Country_or_Area_Code=iso_a3) %>%
+tt <- World %>%
+  rename(Country_or_Area_Code = iso_a3) %>%
   inner_join(indicateur311 %>%
-              filter(Age_group=="All age ranges or no breakdown by age",
-                     Sex=="Both sexes or no breakdown by sex",
-                     Type_Zone=="Pays",
-                   is.na(Value_type)) %>%
-              group_by(Country_or_Area_Code) %>%
-              filter(!is.na(Value)) %>%
-              filter(Year==max(Year)))
+    filter(
+      Age_group == "All age ranges or no breakdown by age",
+      Sex == "Both sexes or no breakdown by sex",
+      Type_Zone == "Pays",
+      is.na(Value_type)
+    ) %>%
+    group_by(Country_or_Area_Code) %>%
+    filter(!is.na(Value)) %>%
+    filter(Year == max(Year)))
 
-ggplot(data=tt)+
-geom_sf(aes(fill=Value))
+ggplot(data = tt) +
+  geom_sf(aes(fill = Value))
+
 ```
 
 On peut exploiter de la même façon les différents fonctions vue précédement. Par exemple avec un peu de thème et de facet.
 
 ```{r, echo=T,eval=T,fig.height=12,fig.width=12,warning=F}
 data("World")
-World<-st_as_sf(World)
+World <- st_as_sf(World)
 
-tt<-World %>%
-rename(Country_or_Area_Code=iso_a3) %>%
-inner_join(indicateur311 %>%
-            filter(Age_group=="All age ranges or no breakdown by age",
-                   Sex=="Both sexes or no breakdown by sex",
-                   Type_Zone=="Pays",
-                   is.na(Value_type)) %>%
-            group_by(Country_or_Area_Code) %>%
-            filter(!is.na(Value)) %>% 
-            filter(Year %in% c(1990,2000,2010,2015)) %>% 
-            ungroup() %>% 
-  complete(Year)
-          )
+tt <- World %>%
+  rename(Country_or_Area_Code = iso_a3) %>%
+  inner_join(indicateur311 %>%
+    filter(
+      Age_group == "All age ranges or no breakdown by age",
+      Sex == "Both sexes or no breakdown by sex",
+      Type_Zone == "Pays",
+      is.na(Value_type)
+    ) %>%
+    group_by(Country_or_Area_Code) %>%
+    filter(!is.na(Value)) %>%
+    filter(Year %in% c(1990, 2000, 2010, 2015)) %>%
+    ungroup() %>%
+    complete(Year))
 
-ggplot(data=tt)+
-  geom_sf(aes(fill=log(Value)))+
-  theme_ipsum()+
-  scale_fill_viridis(option = "magma",
-                   direction=1,
-                   breaks=c(0,1,2,3,4,5,6,7))+
-  guides(colour=F,
-         order=0,
-         fill=guide_legend(direction="horizontal",
-                           keyheight=unit(2,units="mm"),
-                           keywidth=unit(20,units="mm"),
-                           order=1,
-                           title.position="top",
-                           title.hjust=0.5,
-                           nrow=1,
-                           label.position="bottom",
-                           label.hjust=1))+
-  theme(legend.position = "bottom")+
-  labs(fill="Log du taux de mortalité infantile")+
-  facet_wrap(~Year,drop=T)
+ggplot(data = tt) +
+  geom_sf(aes(fill = log(Value))) +
+  theme_ipsum() +
+  scale_fill_viridis(
+    option = "magma",
+    direction = 1,
+    breaks = c(0, 1, 2, 3, 4, 5, 6, 7)
+  ) +
+  guides(
+    colour = F,
+    order = 0,
+    fill = guide_legend(
+      direction = "horizontal",
+      keyheight = unit(2, units = "mm"),
+      keywidth = unit(20, units = "mm"),
+      order = 1,
+      title.position = "top",
+      title.hjust = 0.5,
+      nrow = 1,
+      label.position = "bottom",
+      label.hjust = 1
+    )
+  ) +
+  theme(legend.position = "bottom") +
+  labs(fill = "Log du taux de mortalité infantile") +
+  facet_wrap(~Year, drop = T)
 ```
 
 ### Les cartes à ronds proportionnels
@@ -813,24 +914,24 @@ pour travailler sur des ronds proportionnels,il faut d'abord créer le centroid 
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=12}
 data("World")
-World<-st_as_sf(World)
+World <- st_as_sf(World)
 
-tt<-World %>%
-  rename(Country_or_Area_Code=iso_a3) %>%
+tt <- World %>%
+  rename(Country_or_Area_Code = iso_a3) %>%
   inner_join(indicateur311 %>%
-              filter(Age_group=="All age ranges or no breakdown by age",
-                     Sex=="Both sexes or no breakdown by sex",
-                     Type_Zone=="Pays",
-                     is.na(Value_type)) %>%
-              group_by(Country_or_Area_Code) %>%
-              filter(!is.na(Value)) %>%
-              filter(Year==max(Year)))
-ttc<-st_centroid(tt)
+    filter(
+      Age_group == "All age ranges or no breakdown by age",
+      Sex == "Both sexes or no breakdown by sex",
+      Type_Zone == "Pays",
+      is.na(Value_type)
+    ) %>%
+    group_by(Country_or_Area_Code) %>%
+    filter(!is.na(Value)) %>%
+    filter(Year == max(Year)))
+ttc <- st_centroid(tt, of_largest_polygon = T)
 
-ggplot(data=ttc)+
-  geom_sf(data=tt,fill="white")+
-  geom_sf(aes(color=Value,size=Value))
+ggplot(data = ttc) +
+  geom_sf(data = tt, fill = "white") +
+  geom_sf(aes(color = Value, size = Value))
 ```
 
-*Attention: les centroids ne sont pas forcément là où on le pense:
-par exemple, le centroid de la France est décalé en Espagne puisqu'il prend en compte les DOM.*
