@@ -44,7 +44,7 @@ ggplot(data = <DATA>) +
 ```
 
 On va ensuite pouvoir à partir de cette base pour enrichir avec des fonctions supplémentaires.
-Chaque fonction s'enchaine avec des **+** comme les pipe.
+Chaque fonction s'enchaine avec des `+` comme les pipe.
 
 ```{r, echo=T,eval=F}
 ggplot(data = <DATA>) + 
@@ -57,7 +57,7 @@ ggplot(data = <DATA>) +
 
 ### Les paramètres du mapping
 
-Dans l'exemple qui suit, la représentation géographique utilisée est le nuage de point **geom_point**.
+Dans l'exemple qui suit, la représentation géographique utilisée est le nuage de point `geom_point()`.
 D'autres types de représentations géographiques sont présentés dans la partie suivante.
 
 L'aesthetic sert à identifier les variables que l'on souhaite représenter.
@@ -71,12 +71,13 @@ sdg_indicators %>%
 
 ```
 
-De plus, la fonction **aes** admet d'autres arguments qui permettent de modifier l'apparence du graphique selon une 3ème variable du jeu de données.
-**colour** : la couleur,
-**shape** : la forme,
-**size** : la taille,
-**alpha** : la transparence,
-**fill** : le remplissage ;
+De plus, la fonction `aes()` admet d'autres arguments qui permettent de modifier l'apparence du graphique selon une 3ème variable du jeu de données.
+
+- `colour` : la couleur,
+- `shape` : la forme,
+- `size` : la taille,
+- `alpha` : la transparence,
+- `fill` : le remplissage ;
 
 ```{r, fig.height=3.5,warning = F}
 sdg_indicators %>% 
@@ -120,8 +121,10 @@ sdg_indicators %>%
   )
 ```
 
-Pour choisir et modifier facilement les couleurs d'un graphe, il existe un addin développé par Dean Attali: **Colour Picker**
+Pour choisir et modifier facilement les couleurs d'un graphe, il existe un addin développé par Dean Attali: `Colour Picker`.
+
 Il est installable comme n'importe quel package.
+
 Pour plus d'informations: https://github.com/daattali/colourpicker
 
 
@@ -157,7 +160,7 @@ ggplot(data = rpls_aggrege_large %>%
 
 ### Titre et libellé des axes
 
-Chaque nouvel élément graphique est à rajouter sous forme de layer, ici nous utilisons la fonction **labs** qui permet de labelliser tout les éléments possibles de l'aesthétic, ainsi que le titre (*title*), le sous titre (*subtitle*) et le bas de page (*caption*)
+Chaque nouvel élément graphique est à rajouter sous forme de layer, ici nous utilisons la fonction `labs()` qui permet de labelliser tout les éléments possibles de l'aesthétic, ainsi que le titre (`title`), le sous titre (`subtitle`) et le bas de page (`caption`)
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10,warning=F}
 sdg_indicators %>% 
@@ -183,7 +186,7 @@ A noter qu'il existe plusieurs autres façons de spécifier ces élèments par d
 ### Légende
 
 Les fonctions `guide()` et `guides` permettent de modifier finement la légende.
-Les guides peuvent être spécifiées dans chaque scale_* ou dans une instruction `guides`.
+Les guides peuvent être spécifiées dans chaque `scale_` ou dans une instruction `guides`.
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10,warning=F}
 sdg_indicators %>% 
@@ -238,7 +241,7 @@ sdg_indicators %>%
 
 ```
 
-La fonction **annotate** permet aussi d'ajouter d'autre type d'annotation comme par exemple des rectangles:
+La fonction `annotate()` permet aussi d'ajouter d'autre type d'annotation comme par exemple des rectangles:
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10,warning=F}
 sdg_indicators %>% 
@@ -263,8 +266,9 @@ sdg_indicators %>%
 
 ## Les thèmes
 
-Pour modifier simplement la position de la légende,c'est la fonction [theme()](http://ggplot2.tidyverse.org/reference/theme.html) qu'il faut utiliser.
-***theme*** permet de créer des templates, c'est à dire de définir tout ce qui n'est pas lié directement aux données sur un graphique, notamment: 
+Pour modifier simplement la position de la légende,c'est la fonction [`theme()`](http://ggplot2.tidyverse.org/reference/theme.html) qu'il faut utiliser.
+
+`theme()` permet de créer des templates, c'est à dire de définir tout ce qui n'est pas lié directement aux données sur un graphique, notamment: 
 
 - la position, taille,couleur,police des éléments textuel
 
@@ -272,9 +276,9 @@ Pour modifier simplement la position de la légende,c'est la fonction [theme()](
 
 
 Il existe des [thèmes prédéfinis](http://ggplot2.tidyverse.org/reference/index.html#section-themes) dans ggplot que l'on peut déjà utiliser.
-Par exemple: theme_classic(), theme_bw(), theme_dark(), ...
+Par exemple: `theme_classic()`, `theme_bw()`, `theme_dark()`, ...
 
-Des packages externe permettent d'enrichir cette collection de thèmes, par exemple ggthemes ou hrbethemes.
+Des packages externe permettent d'enrichir cette collection de thèmes, par exemple `ggthemes` ou `hrbrthemes`.
 
 Lorsque l'on souhaite garder une cohérence entre plusieurs graphiques, le mieux est d'en définir un à part pour l'appeler ensuite.
 
@@ -283,7 +287,7 @@ Lorsque l'on souhaite garder une cohérence entre plusieurs graphiques, le mieux
 
 Elle utilise 4 types de fonctions:
 
-- ***element_text()*** : pour toutes les étiquettes
+- `element_text()` : pour toutes les étiquettes
 
 PARAMÈTRE | VALEUR
 ----------| --------
@@ -296,7 +300,7 @@ vjust | justification verticale, dans [0, 1]
 angle | angle, dans [0, 360]
 lineheight | hauteur de ligne (pour l’espacement entre les lignes)
 
-- ***element_rect()*** : pour les fonds et les cadres,
+- `element_rect()` : pour les fonds et les cadres,
 
 PARAMÈTRE | VALEUR
 ----------| ---------------------------------------------------------------
@@ -305,7 +309,7 @@ colour | la couleur de la bordure
 size | la taille de la bordure
 linetype | le type de ligne ("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash)
 
-- ***element_line()*** : pour toutes les lignes tracées,
+- `element_line()` : pour toutes les lignes tracées,
 
 PARAMÈTRE | VALEUR
 ----------| ---------------------------------------------------------------
@@ -315,7 +319,7 @@ linetype | le type de ligne ("blank", "solid", "dashed", "dotted", "dotdash","lo
 lineend | le type de fin de ligne ("round", "butt" ou "square")
 
 
-- ***element_blank()*** : permet de ne rien dessiner.
+- `element_blank()` : permet de ne rien dessiner.
 
 ### Les composantes
 
@@ -335,7 +339,7 @@ panel.background, panel.border, panel.grid.major, panel.grid.minor,...
 
 ### Quelques exemples 
 
-- Changer le fond du graphique ***panel_background***
+- Changer le fond du graphique `panel_background()`
 
 ```{r, echo=T,eval=T,warning=FALSE,fig.height=5,fig.width=10}
 sdg_indicators %>% 
@@ -357,7 +361,7 @@ sdg_indicators %>%
   theme(panel.background = element_rect(fill = "Lavender", colour = "black"))
 ```
 
-- Changer l'apparence du quadrillage ***panel_background***
+- Changer l'apparence du quadrillage : `panel_background()`
 
 ```{r, echo=T,eval=T,warning=FALSE,fig.height=5,fig.width=10}
 sdg_indicators %>% 
@@ -379,7 +383,7 @@ sdg_indicators %>%
   theme(panel.grid.major = element_line(colour = "gray", size = 0.5, linetype = "dashed"))
 ```
 
-- Changer l'apparence des étiquettes des axes ***axis_xxx()***
+- Changer l'apparence des étiquettes des axes  : `axis_xxx()`
 
 ```{r, echo=T,eval=T,warning=FALSE,fig.height=5,fig.width=10}
 sdg_indicators %>% 
@@ -404,8 +408,8 @@ sdg_indicators %>%
   )
 ```
 
-Certains changements de paramètres ne nécessitent pas l'utilisation de fonction ***element_()*** .
-Par exemple, pour changer la position de la légende ***legend.xxx()***
+Certains changements de paramètres ne nécessitent pas l'utilisation de fonctions `element_()`.
+Par exemple, pour changer la position de la légende :  `legend.xxx()`
 
 ```{r, echo=T,eval=T,warning=FALSE,fig.height=5,fig.width=10}
 sdg_indicators %>% 
@@ -429,7 +433,7 @@ sdg_indicators %>%
 
 ### Modifier le thème par défaut.
 
-La fonction theme_set() vous permet de définir un thème par défaut pour l'ensemble de vos graphiques.
+La fonction `theme_set()` vous permet de définir un thème par défaut pour l'ensemble de vos graphiques.
 
 ```{r, echo=T,eval=T,warning=FALSE,fig.height=5,fig.width=10}
 theme_set(theme_dark())
@@ -456,6 +460,7 @@ sdg_indicators %>%
 ### Créer son propre thème
 
 Un thème est une fonction R qui va prendre ne paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.
+
 Créons ici un thème avec un fond vert pour le ministère de la transition écologique et solidaire. On rajoute un paramètre pour la taille de la police du titre du graphique.
 
 ```{r,warning=FALSE}
@@ -532,7 +537,7 @@ ggplot(graphique1) +
 
 ## Les scales
 
-Les fonctions **scales** permettent globalement de paramétrer les éléments rentrés dans l'aesthétic : 
+Les fonctions `scales()` permettent globalement de paramétrer les éléments rentrés dans l'aesthétic : 
 
 - Si je veux un gradient de couleur fonction d'une variable continue : quelle palette de couleur je choisie, comment je cale mon dégradé en fonction de cette variable continue ?
 
@@ -541,7 +546,7 @@ Les fonctions **scales** permettent globalement de paramétrer les éléments re
 
 L'ensemble des scales possibles peuvent se décrire sous forme suivante:
 
-scale_xx_yy
+`scale_xx_yy()`
 
 ou xx peut être un des paramètre de l'aesthétic : 
 
@@ -676,7 +681,7 @@ ggplot(data = rpls_aggrege_large %>%
 
 Le package cowplot permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.
 
-- le fonction **plot_grid** qui permet de disposer ***n*** graphes sur ***i*** colonnes et ***j*** lignes
+- le fonction `plot_grid()` qui permet de disposer ***n*** graphes sur ***i*** colonnes et ***j*** lignes
 
 
 ```{r, echo=T,eval=T,warning=F,fig.height=3.5}
@@ -709,9 +714,9 @@ gg1 <- sdg_indicators %>%
 plot_grid(gg1, gg2, ncol = 1, nrow = 2)
 ```
 
-- le fonction **draw_plot** associée à **ggdraw** qui permet de disposer les graphiques à des places spécifiques
+- le fonction `draw_plot()` associée à `ggdraw()` qui permet de disposer les graphiques à des places spécifiques.
 
-ggdraw initialise le graphique
+`ggdraw()` initialise le graphique
 
 ```{r, echo=T,eval=T,warning=F,fig.height=3.5}
 
@@ -848,7 +853,7 @@ rpls_aggrege %>%
 
 ## Exporter un graphique
 
-ggplot contient une fonction ***ggsave()*** permet d'exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf 
+ggplot contient une fonction `ggsave()` permet d'exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf 
 
 ```{r, echo=T,eval=T,eval=F,fig.height=5,fig.width=12}
 p <- sdg_indicators %>% 
