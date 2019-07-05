@@ -10,6 +10,7 @@ library(ggplot2)
 library(patchwork)
 library(lwgeom)
 library(variousdata)
+library(ggspatial)
 ```
 
 ## Présentation du package ggplot2
@@ -498,7 +499,7 @@ sdg_indicators %>%
 
 ### Exercice 2
 
-> A partir des données de la table graphique 1, reprendre le nuage de point obtenu à partir des données ODD : taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) (Chapitre 4.1)
+> A partir des données de la table `sdg_indicators`, reprendre le nuage de point obtenu à partir des données ODD : taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) (Chapitre 4.1)
 > 
 > En modifier le thème:
 > 
@@ -511,12 +512,15 @@ sdg_indicators %>%
 Le résultat attendu
 
 ```{r eval=T,echo=F,message=F,warning=F}
-ggplot(graphique1) +
-  geom_point(aes(
-    x = log(Gross_Domestic_Product_GDP),
-    y = log(Maternal_mortality_ratio),
-    color = Continent
-  )) +
+sdg_indicators %>% 
+  filter(timeperiod ==2015) %>% 
+  ggplot() +
+  geom_point(aes(x = gdp_per_cap, 
+                 y = sh_sta_mmr,
+                 color = continent),
+    alpha = 0.5, 
+    size = 1.9
+  ) +
   labs(title = "Croisement du PIB avec le taux de mortalité maternelle", y = "Taux de mortalité maternelle", x = "Produit Intérieur Brut", caption = "Source: ODD") +
   theme(
     legend.position = "bottom",
@@ -955,7 +959,7 @@ Pour travailler sur des ronds proportionnels,il faut d'abord créer le centroid 
 ```{r, echo=T,eval=T,warning= F, fig.height=5,fig.width=12}
 World_centroid <- st_centroid(World, of_largest_polygon = T)
 sdg_indicators_sf_centroid <- World_centroid %>%
-  inner_join(sdg_indicators)
+  left_join(sdg_indicators)
 
 sdg_indicators_sf_centroid %>% 
   filter(timeperiod == "2015",!is.na(sh_sta_mmr)) %>% 
@@ -965,5 +969,27 @@ sdg_indicators_sf_centroid %>%
   theme_minimal()+
   theme(panel.background = element_rect(fill = "light blue"))
 
+```
+
+### Ajouter une barre d'échelle et la flèche du nord
+
+Le package `ggspatial()` permet d'enrichir simplement nos cartes `ggplot2` avec une barre d'échelle et la flèche du nord.
+
+Les deux fonctions qui permettent cela sont `annotation_scale` et `annotation_north_arrow`.
+
+L'utilisation de ces fonctions ne peut se faire que sur une carte en longitude / latitude.
+
+```{r}
+sdg_indicators_sf %>%
+  filter(timeperiod == "2015") %>%
+  st_transform(crs = 4326) %>%
+  ggplot() +
+  geom_sf(aes(fill = log(sh_sta_mmr)), color = "white", size = .2) +
+  coord_sf(crs = 4326) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  theme(panel.background = element_rect(fill = "light blue")) +
+  annotation_scale(location = "br", line_width = .5) +
+  annotation_north_arrow(location = "bl", height = unit(0.7, "cm"), width = unit(0.7, "cm"))
 ```
 
