@@ -906,18 +906,19 @@ sdg_indicators_sf <- World %>%
 ```
 
 ```{r, echo=T,eval=T,warning = F, fig.height=5,fig.width=12}
-sdg_indicators_sf %>% 
+map_sdg_indicators <- sdg_indicators_sf %>% 
   filter(timeperiod == "2015") %>% 
   ggplot() +
   geom_sf(aes(fill = log(sh_sta_mmr)),color="white",size=.2)+
   scale_fill_viridis_c()+
   theme_minimal()+
   theme(panel.background = element_rect(fill = "light blue"))
+map_sdg_indicators
 ```
 
 On peut exploiter de la même façon les différents fonctions vue précédement. Par exemple avec un peu de thème et de facet.
 
-```{r,warning= F}
+```{r,warning= F,, fig.height=12,fig.width=14}
 sdg_indicators_sf %>% 
   filter(timeperiod %in% c("2000","2005","2010","2015")) %>% 
            ggplot() +
@@ -961,7 +962,7 @@ World_centroid <- st_centroid(World, of_largest_polygon = T)
 sdg_indicators_sf_centroid <- World_centroid %>%
   left_join(sdg_indicators)
 
-sdg_indicators_sf_centroid %>% 
+map_sdg_indicators_centroid <- sdg_indicators_sf_centroid %>% 
   filter(timeperiod == "2015",!is.na(sh_sta_mmr)) %>% 
   ggplot() +
   geom_sf(data = World, fill = "white") +
@@ -969,6 +970,7 @@ sdg_indicators_sf_centroid %>%
   theme_minimal()+
   theme(panel.background = element_rect(fill = "light blue"))
 
+map_sdg_indicators_centroid
 ```
 
 ### Ajouter une barre d'échelle et la flèche du nord
@@ -979,7 +981,7 @@ Les deux fonctions qui permettent cela sont `annotation_scale` et `annotation_no
 
 L'utilisation de ces fonctions ne peut se faire que sur une carte en longitude / latitude.
 
-```{r}
+```{r,message =F,warning=F, fig.height=5,fig.width=12}
 sdg_indicators_sf %>%
   filter(timeperiod == "2015") %>%
   st_transform(crs = 4326) %>%
@@ -991,5 +993,46 @@ sdg_indicators_sf %>%
   theme(panel.background = element_rect(fill = "light blue")) +
   annotation_scale(location = "br", line_width = .5) +
   annotation_north_arrow(location = "bl", height = unit(0.7, "cm"), width = unit(0.7, "cm"))
+```
+
+### Mettre plusieurs cartes cote à cote
+
+On peut a partir d'une même carte vouloir réaliser un zoom sur une sous partie de celle-ci.
+`coord_sf()` va nous permettre de *zoomer* sur une carte, et `cow_plot()` va nous permettre d'afficher nos deux cartes cote à cote.
+
+Pour zoomer sur une carte,`coord_sf()` va avoir besoin des coordonnées x et y du cadre sur lequel on veut zoomer.
+Le plus simple pour cela est de filtrer préalablement 
+notre carte et de récupérer la bbox de celle ci.
+
+Filtrons par exemple sur le continent africain.
+
+```{r}
+bbox_africa <- World %>% 
+  filter(continent=="Africa") %>% 
+  st_bbox()
+```
+
+On peut ensuite réaliser une carte zoomée sur l'Afrique.
+
+```{r, fig.height=5,fig.width=12}
+map_sdg_indicators_africa <- sdg_indicators_sf %>%
+  filter(timeperiod == "2015") %>%
+  ggplot() +
+  geom_sf(aes(fill = log(sh_sta_mmr)), color = "white", size = .2) +
+  coord_sf(xlim = c(bbox_africa[1],bbox_africa[3]),
+           ylim = c(bbox_africa[2],bbox_africa[4])
+           ) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  theme(legend.position = "right", panel.background = element_rect(fill = "light blue"))
+```
+
+On peut utiliser ensuite `plot_grid()` pour afficher nos cartes cote à cote. Il faut jouer sur les largeurs relatives pour que les deux cartes s'agencent bien.
+
+```{r, fig.height=6,fig.width=12}
+map_sdg_indicators_compo <- map_sdg_indicators +
+  theme_void()+
+  theme(panel.background = element_rect(fill = "light blue"),legend.position = "none")
+plot_grid(map_sdg_indicators_compo,map_sdg_indicators_africa,rel_widths = c(1.7, 1))
 ```
 
