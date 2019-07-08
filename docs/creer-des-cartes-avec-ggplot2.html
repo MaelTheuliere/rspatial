@@ -48,6 +48,27 @@
 
 
 
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -341,7 +362,7 @@ Par exemple, si l’on souhaite représenter le taux de mortalité maternelle (M
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, <span class="dt">y =</span> sh_sta_mmr))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
 <p>De plus, la fonction <code>aes()</code> admet d’autres arguments qui permettent de modifier l’apparence du graphique selon une 3ème variable du jeu de données.</p>
 <ul>
 <li><code>colour</code> : la couleur,</li>
@@ -356,7 +377,7 @@ Par exemple, si l’on souhaite représenter le taux de mortalité maternelle (M
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, 
                  <span class="dt">y =</span> sh_sta_mmr,
                  <span class="dt">color =</span> continent))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
 </div>
 <div id="les-autres-parametres" class="section level3">
 <h3><span class="header-section-number">9.4.2</span> Les “autres” paramètres</h3>
@@ -372,7 +393,7 @@ On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais i
     <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
     <span class="dt">size =</span> <span class="fl">1.9</span>
   )</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
 <p>De même si l’on souhaite modifier la couleur générale:</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -383,7 +404,7 @@ On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais i
     <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
     <span class="dt">size =</span> <span class="fl">1.9</span>
   )</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
 <p>Pour choisir et modifier facilement les couleurs d’un graphe, il existe un addin développé par Dean Attali: <code>Colour Picker</code>.</p>
 <p>Il est installable comme n’importe quel package.</p>
 <p>Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" class="uri">https://github.com/daattali/colourpicker</a></p>
@@ -410,7 +431,7 @@ On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais i
     <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   )</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-9-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-104-1.png" width="960" /></p>
 <p>A noter qu’il existe plusieurs autres façons de spécifier ces élèments par des couches spécifiques: ggtitle, xlab, ylab,…</p>
 </div>
 <div id="legende" class="section level3">
@@ -442,7 +463,7 @@ Les guides peuvent être spécifiées dans chaque <code>scale_</code> ou dans un
     <span class="dt">label.position =</span> <span class="st">&quot;bottom&quot;</span>
   )) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-105-1.png" width="960" /></p>
 </div>
 <div id="annotation" class="section level3">
 <h3><span class="header-section-number">9.5.3</span> Annotation</h3>
@@ -464,7 +485,7 @@ Les guides peuvent être spécifiées dans chaque <code>scale_</code> ou dans un
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">16</span>, <span class="dt">y =</span> <span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;je rajoute mon texte&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-11-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-106-1.png" width="960" /></p>
 <p>La fonction <code>annotate()</code> permet aussi d’ajouter d’autre type d’annotation comme par exemple des rectangles:</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -484,7 +505,7 @@ Les guides peuvent être spécifiées dans chaque <code>scale_</code> ou dans un
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="dv">10</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="ot">Inf</span>, <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="dv">2</span>, <span class="dt">fill =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-12-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-107-1.png" width="960" /></p>
 </div>
 </div>
 <div id="les-themes" class="section level2">
@@ -651,7 +672,7 @@ panel.background, panel.border, panel.grid.major, panel.grid.minor,…</p>
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;Lavender&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-13-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-108-1.png" width="960" /></p>
 <ul>
 <li>Changer l’apparence du quadrillage : <code>panel_background()</code></li>
 </ul>
@@ -672,7 +693,7 @@ panel.background, panel.border, panel.grid.major, panel.grid.minor,…</p>
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="st">&quot;gray&quot;</span>, <span class="dt">size =</span> <span class="fl">0.5</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-14-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-109-1.png" width="960" /></p>
 <ul>
 <li>Changer l’apparence des étiquettes des axes : <code>axis_xxx()</code></li>
 </ul>
@@ -696,7 +717,7 @@ panel.background, panel.border, panel.grid.major, panel.grid.minor,…</p>
     <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">angle =</span> <span class="dv">45</span>),
     <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;orange&quot;</span>)
   )</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-15-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-110-1.png" width="960" /></p>
 <p>Certains changements de paramètres ne nécessitent pas l’utilisation de fonctions <code>element_()</code>.
 Par exemple, pour changer la position de la légende : <code>legend.xxx()</code></p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
@@ -716,7 +737,7 @@ Par exemple, pour changer la position de la légende : <code>legend.xxx()</code>
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;left&quot;</span>, <span class="dt">legend.title =</span> <span class="kw">element_blank</span>())</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-16-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-111-1.png" width="960" /></p>
 </div>
 <div id="modifier-le-theme-par-defaut." class="section level3">
 <h3><span class="header-section-number">9.6.4</span> Modifier le thème par défaut.</h3>
@@ -739,7 +760,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
     <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   )</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-17-1.png" width="960" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-112-1.png" width="960" /></p>
 </div>
 <div id="creer-son-propre-theme" class="section level3">
 <h3><span class="header-section-number">9.6.5</span> Créer son propre thème</h3>
@@ -775,7 +796,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_mtes</span>()</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
 </div>
 </div>
 <div id="les-scales" class="section level2">
@@ -906,8 +927,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type =</span> <span class="st">&quot;qual&quot;</span>)</code></pre>
-<pre><code>## Warning: Removed 54 rows containing missing values (geom_point).</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
 <p>Par exemple on peut exploiter une fonction scale pour définir une échelle logarithimique sur un axe.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -928,8 +948,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type =</span> <span class="st">&quot;qual&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_y_log10</span>()</code></pre>
-<pre><code>## Warning: Removed 54 rows containing missing values (geom_point).</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
 <div id="formatage-specifique" class="section level3">
 <h3><span class="header-section-number">9.7.1</span> Formatage spécifique</h3>
 <ul>
@@ -979,7 +998,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">scale_x_log10</span>()
 
 <span class="kw">plot_grid</span>(gg1, gg2, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
 <ul>
 <li>le fonction <code>draw_plot()</code> associée à <code>ggdraw()</code> qui permet de disposer les graphiques à des places spécifiques.</li>
 </ul>
@@ -996,7 +1015,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">draw_plot</span>(gg1, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">.5</span>, <span class="dt">width =</span> <span class="dv">1</span>, <span class="dt">height =</span> <span class="fl">.5</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">draw_plot</span>(gg2, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">width =</span> <span class="fl">.3</span>, <span class="dt">height =</span> <span class="fl">.5</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">draw_plot</span>(gg3, <span class="dt">x =</span> <span class="fl">0.3</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">width =</span> <span class="fl">0.7</span>, <span class="dt">height =</span> <span class="fl">.5</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
 </div>
 <div id="les-facettes" class="section level2">
 <h2><span class="header-section-number">9.9</span> Les facettes</h2>
@@ -1019,7 +1038,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-26-1.png" width="768" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-121-1.png" width="768" /></p>
 <p>L’exemple pris ici “scinde” notre table en fonction d’une seule variable, mais on peut le faire sur plusieurs variables également.</p>
 <p>On peut choisir avec facet_wrap :</p>
 <ul>
@@ -1044,7 +1063,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod, <span class="dt">ncol =</span> <span class="dv">4</span>)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-27-1.png" width="1152" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-122-1.png" width="1152" /></p>
 </div>
 <div id="exporter-un-graphique" class="section level2">
 <h2><span class="header-section-number">9.10</span> Exporter un graphique</h2>
@@ -1082,7 +1101,6 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 
 sdg_indicators_sf &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">left_join</span>(sdg_indicators)</code></pre>
-<pre><code>## Joining, by = c(&quot;iso_a3&quot;, &quot;continent&quot;)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">map_sdg_indicators &lt;-<span class="st"> </span>sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
@@ -1091,7 +1109,7 @@ sdg_indicators_sf &lt;-<span class="st"> </span>World <span class="op">%&gt;%</s
 <span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))
 map_sdg_indicators</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-30-1.png" width="1152" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-125-1.png" width="1152" /></p>
 <p>On peut exploiter de la même façon les différentes fonctions vue précédement. Par exemple avec un peu de thème et de facet.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;2000&quot;</span>,<span class="st">&quot;2005&quot;</span>,<span class="st">&quot;2010&quot;</span>,<span class="st">&quot;2015&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -1121,7 +1139,7 @@ map_sdg_indicators</code></pre>
                  <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))<span class="op">+</span>
 <span class="st">           </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;Taux de mortalité infantile (échelle logarithmique)&quot;</span>) <span class="op">+</span>
 <span class="st">           </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod, <span class="dt">drop =</span> T)</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-31-1.png" width="1344" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-126-1.png" width="1344" /></p>
 </div>
 <div id="les-cartes-a-ronds-proportionnels" class="section level3">
 <h3><span class="header-section-number">9.11.2</span> Les cartes à ronds proportionnels</h3>
@@ -1129,9 +1147,9 @@ map_sdg_indicators</code></pre>
 <p>Pour travailler sur des ronds proportionnels,il faut d’abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec <code>geom_sf</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">World_centroid &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(World, <span class="dt">of_largest_polygon =</span> T)
 sdg_indicators_sf_centroid &lt;-<span class="st"> </span>World_centroid <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">left_join</span>(sdg_indicators)</code></pre>
-<pre><code>## Joining, by = c(&quot;iso_a3&quot;, &quot;continent&quot;)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">map_sdg_indicators_centroid &lt;-<span class="st"> </span>sdg_indicators_sf_centroid <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(sdg_indicators)
+
+map_sdg_indicators_centroid &lt;-<span class="st"> </span>sdg_indicators_sf_centroid <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>,<span class="op">!</span><span class="kw">is.na</span>(sh_sta_mmr)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> World, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span>
@@ -1140,7 +1158,7 @@ sdg_indicators_sf_centroid &lt;-<span class="st"> </span>World_centroid <span cl
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))
 
 map_sdg_indicators_centroid</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-32-1.png" width="1152" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-127-1.png" width="1152" /></p>
 </div>
 <div id="ajouter-une-barre-dechelle-et-la-fleche-du-nord" class="section level3">
 <h3><span class="header-section-number">9.11.3</span> Ajouter une barre d’échelle et la flèche du nord</h3>
@@ -1158,7 +1176,7 @@ map_sdg_indicators_centroid</code></pre>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">annotation_scale</span>(<span class="dt">location =</span> <span class="st">&quot;br&quot;</span>, <span class="dt">line_width =</span> <span class="fl">.5</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">annotation_north_arrow</span>(<span class="dt">location =</span> <span class="st">&quot;bl&quot;</span>, <span class="dt">height =</span> <span class="kw">unit</span>(<span class="fl">0.7</span>, <span class="st">&quot;cm&quot;</span>), <span class="dt">width =</span> <span class="kw">unit</span>(<span class="fl">0.7</span>, <span class="st">&quot;cm&quot;</span>))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-33-1.png" width="1152" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-128-1.png" width="1152" /></p>
 </div>
 <div id="mettre-plusieurs-cartes-cote-a-cote" class="section level3">
 <h3><span class="header-section-number">9.11.4</span> Mettre plusieurs cartes cote à cote</h3>
@@ -1187,7 +1205,7 @@ notre carte et de récupérer la bbox de celle ci.</p>
 <span class="st">  </span><span class="kw">theme_void</span>()<span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>),<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)
 <span class="kw">plot_grid</span>(map_sdg_indicators_compo,map_sdg_indicators_africa,<span class="dt">rel_widths =</span> <span class="kw">c</span>(<span class="fl">1.7</span>, <span class="dv">1</span>))</code></pre>
-<p><img src="support_files/figure-html/unnamed-chunk-36-1.png" width="1152" /></p>
+<p><img src="support_files/figure-html/unnamed-chunk-131-1.png" width="1152" /></p>
 
 </div>
 </div>
