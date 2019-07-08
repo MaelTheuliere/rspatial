@@ -6,6 +6,13 @@ Leaflet est au départ un package de cartographique réalisé en javascript. R p
 
 La limitation de `leaflet` est qu'il ne permet de visualiser que des données en projection WGS84.
 
+Dans ce chapitre, nous utiliserons les packages suivants
+```{r}
+library(leaflet)
+library(sf)
+library(tidyverse)
+```
+
 ### Carte choroplète
 
 Ci-dessous un exemple avancé de carte choroplète avec leaflet.
@@ -32,6 +39,8 @@ bins <-quantile(sdg_indicators_2015_sf$sh_sta_mmr,
 
 - Création d'une palette de couleurs associée
 
+`leaflet` intègre une fonction `colorBin()` qui permet d'associer à un vecteur un vecteur de couleur en fonction d'une palette et d'un vecteur de bornes.
+
 ```{r}
 pal <- colorBin("YlOrRd", domain = 
                   sdg_indicators_2015_sf$sh_sta_mmr,
@@ -51,8 +60,11 @@ labels <- sprintf(
 
 La fonction `addPolygons()` permet de créer la carte choroplète.
 
-```{r}
+La fonction `addProviderTiles()` permet de rajouter un fond cartographique parmis les couches fournies par leaflet.
+
+```{r,fig.width=7,fig.height=4}
 leaflet(sdg_indicators_2015_sf) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>% 
   addPolygons(data=sdg_indicators_2015_sf,
               fillColor=~pal(sh_sta_mmr),
               weight = 2,
@@ -114,8 +126,9 @@ labels <- sprintf(
 
 - Création de la carte
 
-```{r}
+```{r,fig.width=7,fig.height=4}
 carte_rond_proportionnel<-leaflet(sdg_indicators_2015_sf_centroid) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>% 
   addPolygons(data=sdg_indicators_2015_sf,
               fillColor = "#ffffff",
               opacity=.2,

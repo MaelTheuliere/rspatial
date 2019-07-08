@@ -55,7 +55,8 @@ library(rmapshaper)
 library(patchwork)
 load("data/data_exercices_formation.RData")
 load("data/ODD.RData")
-theme_set(theme_grey())
+theme_set(theme_gray())
+tmap_mode("plot")
 ```
 
 ```{r include=FALSE}

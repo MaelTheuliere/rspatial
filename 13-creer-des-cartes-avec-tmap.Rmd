@@ -1,7 +1,13 @@
-# Créer des cartes avec Tmap
+# Créer des cartes avec tmap
 
-Tmap est un package dédié à la réalisation de carte sous R.
+```{r,echo=F,eval=T}
+tmap_mode("plot")
+```
+
+tmap est un package dédié à la réalisation de carte sous R.
+
 La syntaxe est très proche de ggplot,avec l'opérateur "+" pour enchainer les options. 
+
 L'équivalent des `geom_xx()` dans tmap sont les fonctions suivantes : 
 
 - `tm_lines()` : afficher des lignes
@@ -10,8 +16,6 @@ L'équivalent des `geom_xx()` dans tmap sont les fonctions suivantes :
 - `tm_bubbles()` : afficher des ronds proportionnels
 - `tm_markers()` : afficher des marqueurs
 - `tm_text()` : afficher du texte
-
-Pour charger une donnée géométrique, il faut utiliser la fonction `tm_shape()`
 
 
 Les différences avec `ggplot2` :
@@ -22,6 +26,33 @@ Les différences avec `ggplot2` :
 
 La mise en page se définit avec la fonction `tm_layout()`, la légende avec `tm_legend()`
 
+Dans ce chapitre nous allons utiliser les packages suivants
+
+```{r}
+library(tmap)
+library(sf)
+library(tidyverse)
+```
+
+## tm_shape
+
+Pour charger une donnée géométrique, il faut utiliser la fonction `tm_shape()`. `tm_shape()` permet de fixer plusieurs options de base de notre carte : la projection, la bbox, un facteur de simplification...
+
+```{r,eval=T,echo=T}
+wgs_84 <- tm_shape(World, projection = "longlat") + 
+    tm_polygons() + 
+tm_layout("Le monde en projection WGS84", inner.margins=c(0,0,.1,0), title.size=.8)
+
+robin <- tm_shape(World, projection = "robin") + 
+    tm_polygons() +
+tm_layout(
+"Le monde en project Winkel-Tripel",
+    inner.margins=c(0,0,.1,0), title.size=.8)
+```
+
+```{r,echo = F,eval=T}
+tmap_arrange(wgs_84,robin)
+```
 
 ## Exemple de carte choroplèthe
 
@@ -31,18 +62,10 @@ La fonction `tm_polygons()` permet de faire des cartes choroplèthe.
 sdg_indicators_sf %>% 
   filter(timeperiod == "2015") %>% 
   tm_shape()+
-  tm_polygons("sh_sta_mmr")+
+  tm_polygons("sh_sta_mmr",textNA="Valeur manquante")+
   tm_borders("white", lwd = .5)
 ```
 
-L'option `n=` permet de sélectionner le nombre de classes souhaitées lorsque l'on réalise une carte sur une variable continue
-
-```{r, echo=T,eval=T,fig.height=5,fig.width=12}
-sdg_indicators_sf %>% 
-  filter(timeperiod == "2015") %>% 
-  tm_shape()+
-  tm_polygons("sh_sta_mmr",n=3)
-```
 
 ## Exemple de carte à ronds proportionnels
 
@@ -53,28 +76,48 @@ sdg_indicators_sf %>%
   filter(timeperiod == "2015") %>% 
   tm_shape()+
   tm_polygons()+
-  tm_bubbles(size="sh_sta_mmr",col="sh_sta_mmr")
+  tm_bubbles(size="sh_sta_mmr",col="sh_sta_mmr",textNA = "Valeur manquante")
+```
+
+## discretisation
+
+Pour définir comment notre variable continue va être discrétisée, deux méthodes : 
+
+- discrétiser à la main et indiquer les valeurs limites dans l'option `breaks` de notre `tm_xx`
+
+- utiliser l'option `style` des `tm_xx` qui permettent de choisir un algorithme de discrétisation.
+
+La méthode de jenks par exemple permet de maximiser la variance interclasse.
+
+```{r}
+sdg_indicators_sf %>% 
+  filter(timeperiod == "2015") %>% 
+  tm_shape()+
+  tm_polygons("sh_sta_mmr", textNA="Valeur manquante", style="jenks")
+```
+
+L'option `n=` permet d'imposer un nombre de classes à la méthode utilisée.
+
+```{r, echo=T,eval=T,fig.height=5,fig.width=12}
+sdg_indicators_sf %>% 
+  filter(timeperiod == "2015") %>% 
+  tm_shape()+
+  tm_polygons("sh_sta_mmr", textNA = "Valeur manquante", style = "jenks",n = 3)
 ```
 
 ## Exemples de cartes avec facet
 
 `tm_facets()` permet de réaliser des cartes à facette avec la même logique que celle de `ggplot2`.
 
-```{r, echo=T,eval=T,fig.height=5,fig.width=8}
-sdg_indicators_sf %>% 
-  filter(timeperiod %in% c("2000","2005","2010","2015")) %>% 
-  tm_shape()+
-  tm_polygons("sh_sta_mmr")+
+```{r, echo=T,eval=T,fig.height=6,fig.width=12}
+sdg_indicators_sf %>%
+  filter(timeperiod %in% c("2000", "2005", "2010", "2015")) %>%
+  tm_shape() +
+  tm_polygons("sh_sta_mmr", textNA = "Valeur manquante", style = "jenks") +
   tm_facets("timeperiod")
 ```
 
-```{r, echo=T,eval=T,fig.height=5,fig.width=8}
-sdg_indicators_sf %>% 
-  filter(timeperiod == "2015") %>% 
-  tm_shape()+
-  tm_polygons("sh_sta_mmr")+
-  tm_facets("continent")
-```
+
 
 ## gestion des palettes
 
@@ -84,7 +127,7 @@ La fonction `tmaptools::palette_explorer()` permet d'accéder à une interface t
 sdg_indicators_sf %>% 
   filter(timeperiod == "2015") %>% 
   tm_shape()+
-  tm_polygons("sh_sta_mmr",palette=get_brewer_pal("OrRd", n = 5, contrast = c(0.2, 1)))
+  tm_polygons("sh_sta_mmr", textNA = "Valeur manquante", style = "jenks",palette = get_brewer_pal("OrRd", n = 5, contrast = c(0.2, 1)), plot = F)
 ```
 
 On peut également utiliser n'importe qu'elle palette, par exemple la pelette viridis, mais sans l'interface proposée par `palette_explorer()` : 
@@ -93,39 +136,46 @@ On peut également utiliser n'importe qu'elle palette, par exemple la pelette vi
 sdg_indicators_sf %>% 
   filter(timeperiod == "2015") %>% 
   tm_shape()+
-  tm_polygons("sh_sta_mmr",palette=viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"))
+  tm_polygons("sh_sta_mmr", textNA = "Valeur manquante", style = "jenks",palette = viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"))
 ```
 
 ## La mise en page
 
 `tm_layout()` permet de controler les polices, la légende, les marges, les couleurs.
 l'option `design.mode=T` permet de voir visuellement les marges,la position de la légende.
-Le titre de la légende ne se défini pas dans `tm_layout()` mais dans `tm_polygons()`. L'option `title` de ces fonctions est l'équivalent d'un libellé de la variable mise dans l'aesthetic.
+Le titre de la légende ne se défini pas dans `tm_layout()` mais dans `tm_polygons()`. 
+
+L'option `title` de ces fonctions est l'équivalent d'un libellé de la variable mise dans l'aesthetic.
+
+On peut rajouter une barre d'échelle et la flèche du nord avec `tm_scale_bar()` et `tm_compass()`.
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=8}
 sdg_indicators_sf %>% 
   filter(timeperiod == "2015") %>% 
   tm_shape()+
-  tm_polygons("sh_sta_mmr",palette=viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"),
-              title="Taux de mortalité de la mère \n(pour 100 000 naissances)")+
-  tm_layout(main.title="Taux de mortalité de la mère \n(pour 100 000 naissances) dans le monde",
-            main.title.size=1.2,
+  tm_polygons("sh_sta_mmr",textNA = "Valeur manquante", style = "jenks",palette = viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"),
+              title = "Taux de mortalité de la mère \n(pour 100 000 naissances)")+
+  tm_layout(main.title = "Taux de mortalité de la mère \n(pour 100 000 naissances) dans le monde",
+            main.title.size = 1.2,
             bg.color = "skyblue",
-            legend.position=c("left","bottom"),
+            legend.position = c("left","bottom"),
             legend.bg.color = "white",
             legend.bg.alpha = .4,
             legend.outside = F,
-            main.title.position = "center")
+            main.title.position = "center",
+            frame = FALSE)+
+  tm_scale_bar(position = c("center","bottom"))+
+  tm_compass(position = c("right","top"))
 ```
 
-Avec les cartes en ronds proportionnels,on peut spécifier un titre pour la couleur et la taille du rond.
+Avec les cartes en ronds proportionnels, on peut spécifier un titre pour la couleur et la taille du rond.
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=8}
 sdg_indicators_sf %>% 
   filter(timeperiod == "2015") %>% 
   tm_shape()+
   tm_polygons()+
-  tm_bubbles(size="sh_sta_mmr",col="sh_sta_mmr",
+  tm_bubbles(size="sh_sta_mmr",col="sh_sta_mmr",style="jenks",
              palette=viridis(5, alpha = 1, begin = 0, end = 1, direction = 1, option = "D"),
               title.col="",
               title.size="Taux de mortalité de la mère \n(pour 100 000 naissances)")+
@@ -135,54 +185,81 @@ sdg_indicators_sf %>%
             legend.position=c("left","bottom"),
             legend.outside = F,
             main.title.position = "center",
-            inner.margins = c(0, 0, 0, 0))
+            inner.margins = c(0, 0, 0, 0),
+            frame = FALSE)+
+    tm_scale_bar(position = c("center","bottom"))+
+    tm_compass(position = c("right","top"))
+```
+
+## Assembler plusieurs cartes
+
+`tmap_arrange()` permet d'assembler plusieurs cartes ensemble. La limite de `tmap_arrange()` :  la fonction en permet pas de fixer un vecteur de largeur différent pour les cartes. A utiliser donc sur des cas qui peuvent convenir à cette contrainte.
+
+```{r}
+tmap_sdg_indicators <- sdg_indicators_sf %>%
+  filter(timeperiod == "2015") %>%
+  tm_shape()+
+  tm_polygons("sh_sta_mmr", style = "jenks",palette = viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"))+
+  tm_layout()
+
+tmap_sdg_indicators_africa <- sdg_indicators_sf %>%
+  filter(timeperiod == "2015") %>%
+  tm_shape(bbox = bbox_africa)+
+  tm_polygons("sh_sta_mmr", style = "jenks",palette = viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"))+
+  tm_layout(legend.show	= F)
+
+tmap_arrange(tmap_sdg_indicators,tmap_sdg_indicators_africa,nrow = 1)
+```
+
+
+## tmap pour le web
+
+tmap permet simplement de convertir une carte tmap en carte interactive. Pour cela il faut changer le mode d'affichage de la carte avec `tmap_mode()`
+
+```{r,warning=F,message=F}
+tmap_mode("view")
+
+sdg_indicators_sf %>% 
+  filter(timeperiod == "2015") %>% 
+  tm_shape()+
+  tm_polygons("sh_sta_mmr")+
+  tm_borders("white", lwd = .5)
 ```
 
 ## Export d'une carte
 
-La fonction `tmap_save()`  permet d'exporter une carte tmap en fichier image.
+La fonction `tmap_save()`  permet d'exporter une carte tmap. Suivant le `tmap_mode()` activé, l'export peut se faire en fichier image ou en fichier html.
 
 ```{r echo=T,eval=F,fig.height=5,fig.width=8}
-sdg_indicators_sf %>% 
-  filter(timeperiod == "2015") %>% 
-  tm_shape()+
-  tm_polygons()+
-  tm_bubbles(size="sh_sta_mmr",col="sh_sta_mmr",
-             palette=viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"),
-              title.col="",
-              title.size="Taux de mortalité de la mère \n(pour 100 000 naissances)")+
-  tm_layout(main.title="Taux de mortalité de la mère \n(pour 100 000 naissances) dans le monde",
-            main.title.size=1.2,
-            outer.margins=c(0,0,0,0),
-            legend.position=c("left","bottom"),
-            legend.outside = F,
-            main.title.position = "center",
-            inner.margins = c(0, 0, 0, 0))
+carte <- sdg_indicators_sf %>%
+  filter(timeperiod == "2015") %>%
+  tm_shape() +
+  tm_polygons() +
+  tm_bubbles(
+    size = "sh_sta_mmr", col = "sh_sta_mmr",
+    palette = viridis(5, alpha = 1, begin = 0.3, end = 1, direction = 1, option = "D"),
+    title.col = "",
+    title.size = "Taux de mortalité de la mère \n(pour 100 000 naissances)"
+  ) +
+  tm_layout(
+    main.title = "Taux de mortalité de la mère \n(pour 100 000 naissances) dans le monde",
+    main.title.size = 1.2,
+    outer.margins = c(0, 0, 0, 0),
+    legend.position = c("left", "bottom"),
+    legend.outside = F,
+    main.title.position = "center",
+    inner.margins = c(0, 0, 0, 0)
+  )
 
-tmap_save(carte,filename="figures/Taux de mortalité de la mère dans le monde.png")
+tmap_mode("plot")
+tmap_save(carte, filename = "Taux de mortalité de la mère dans le monde.png")
+
+tmap_mode("view")
+tmap_save(carte, filename = "Taux de mortalité de la mère dans le monde.html")```
 ```
 
 
-## Exercice 5 
-
-
-> Produire une carte du Loiret  à l'EPCI du taux de logements collectifs dans le parc locatif social.
-
-Résultat attendu
-
-
-```{r eval=T,echo=F,message=F,warning=F}
-tt<-Carte_EPCI_France %>% 
-  filter(CODE_DEPT=="45") %>% 
-  left_join(rpls_aggrege) %>% 
-  filter(Indicateur=="Logements collectifs_pourcent")
-ggplot(data=tt)+
-  geom_sf(aes(fill=Valeur))+
-  labs(title="Taux de logements collectifs par EPCI",subtitle="Département du Loiret")+
-  theme(
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks = element_blank())
+```{r,eval=T,echo=FALSE,message = F}
+tmap_mode("plot")
 ```
-
 
