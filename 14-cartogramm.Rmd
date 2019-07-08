@@ -6,13 +6,16 @@ Dans ce chapitre nous allons utiliser les packages suivants.
 library(cartogram)
 library(tmap)
 library(ggplot2)
+#remotes::install_github("MaelTheuliere/variousdata")
+library(variousdata)
+data("World")
 ```
 
 ## cartogramme d'aire contigue
 
 Définition de la couche à partir de la variable d'une table. Ici en l'occurence le taux de mortalité de la mère à la naissance.
 
-  La fonction `cartogram_cont()` permet de définir la déformation attendue.
+La fonction `cartogram_cont()` permet de définir la déformation attendue.
 
 ```{r, message = F,warning = F}
 mmr_cont <- cartogram_cont(sdg_indicators_sf %>% 
@@ -118,6 +121,13 @@ tm_shape(World) +
   tm_borders() +
   tm_shape(gdp_dorling) + 
   tm_polygons("continent") +
-  tm_layout(frame = FALSE)
+  tm_layout(frame = FALSE) +
+  tm_layout(main.title="PIB par habitant dans le monde",
+            main.title.size=1,
+            bg.color = "skyblue",
+            legend.position=c("left","bottom"),
+            legend.outside = F,
+            main.title.position = "center",
+            frame = T)
 ```
 

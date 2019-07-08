@@ -11,6 +11,8 @@ Dans ce chapitre, nous utiliserons les packages suivants
 library(leaflet)
 library(sf)
 library(tidyverse)
+#remotes::install_github("MaelTheuliere/variousdata")
+library(variousdata)
 ```
 
 ### Carte choroplète

@@ -32,6 +32,8 @@ Dans ce chapitre nous allons utiliser les packages suivants
 library(tmap)
 library(sf)
 library(tidyverse)
+#remotes::install_github("MaelTheuliere/variousdata")
+library(variousdata)
 ```
 
 ## tm_shape
