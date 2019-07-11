@@ -2,6 +2,11 @@
 
 
 ```{r}
-devtools::session_info()
+devtools::session_info()$platform
+
+package <- devtools::session_info()$packages %>% as_tibble() %>% 
+  filter(attached == T,is_base == F) %>% 
+  select(package,ondiskversion,source)
+knitr::kable(package) %>% kableExtra::kable_styling()
 ```
 

@@ -22,7 +22,7 @@ Les différences avec `ggplot2` :
 
 - Les variables s'appellent dans des cotes "" ;
 - Le facetting peut se faire sur un format de données large (une carte par colonne et non une carte par modalité d'une variable) ;
-- La grande différence entre les `tm_xx()` et les `geom_xx()`, c'est que les `tm_xx()`  inclus la définition des *classes* (nombre de classe, définition des classes et des palettes) sans passer par une fonction `scale()`  dont l'équivalant n'existe pas.
+- La grande différence entre les `tm_xx()` et les `geom_xx()`, c'est que les `tm_xx()`  inclus la définition des *classes* (nombre de classe, définition des classes et des palettes) sans passer par une fonction `scale()`  dont l'équivalent n'existe pas.
 
 La mise en page se définit avec la fonction `tm_layout()`, la légende avec `tm_legend()`
 
