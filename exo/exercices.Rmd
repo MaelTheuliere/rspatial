@@ -1,0 +1,490 @@
+---
+title: "Intitulé et correction des exercices"
+author: "Maël THEULIERE"
+date: "15/07/2019"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+# Exercice 1 : exploitation des données DVF en API
+
+Le but de cet exercice va être d’exploiter les données DVF sur les transactions immobilières dans l’ancien et la carte des quartiers de Nantes pour obtenir un prix moyen des transactions par quartier. On va utiliser pour DVF l’API mise en place par Christian Quest.
+
+- Données DVF : http://api.cquest.org/dvf
+
+- Contour des quartiers de Nantes : https://data.nantesmetropole.fr/explore/dataset/244400404_quartiers-nantes/information/?disjunctive.nom
+
+On veut produire les infos suivantes par quartier et annee :
+
+- Volume de ventes
+- Pourcentage de maison dans les ventes
+- Prix moyen au m2 par type de bien
+
+## Activation des packages
+```{r}
+library(httr)
+library(jsonlite)
+library(sf)
+library(tidyverse)
+library(lubridate)
+```
+
+## Chargement des données
+
+### DVF
+
+On utilise l'API pour récupérer les données de Nantes (code commune 44109)
+On ne garde que les données avec une géolocalisation valide, un prix et une surface renseignés.
+
+```{r}
+get_dvf <- GET("http://api.cquest.org/dvf?code_commune=44109")
+
+dvf_content <- content(get_dvf, "text")
+
+dvf_json <- fromJSON(dvf_content)$resultats %>%
+  filter(!is.na(lon), !is.na(lat), !is.na(valeur_fonciere), !is.na(surface_relle_bati))
+
+dvf <- st_as_sf(dvf_json,
+  coords = c("lon", "lat"),
+  crs = 4326
+)
+```
+
+### Récupération de la carte des quartiers de Nantes
+
+```{r}
+# provient de nantes métropole open data :https://data.nantesmetropole.fr/explore/dataset/244400404_quartiers-nantes/information/?disjunctive.nom&location=12,47.23826,-1.56032&basemap=jawg.streets
+quartier_nantes <- st_read(dsn = "extdata/quartier_nantes/244400404_quartiers-nantes.geojson")
+```
+
+## Datapréparation
+
+### Jointure spatiale pour récupérer les ventes par quartiers
+
+```{r}
+dvf_avec_quartier <- st_join(
+  dvf,
+  quartier_nantes %>%
+    select(nom)
+) %>%
+  rename(quartier = nom)
+```
+
+### Calculs
+
+Calcul par quartier et année de la transaction du nombre de ventes, de leur montant et surface total par type de bien et tout bien confondu
+
+```{r}
+stat1 <- dvf_avec_quartier %>%
+  st_drop_geometry() %>%
+  filter(
+    nature_mutation == "Vente",
+    type_local %in% c("Appartement", "Maison")
+  ) %>%
+  mutate(
+    date_mutation = ymd(date_mutation),
+    annee_mutation = year(date_mutation),
+    nb_ventes = 1
+  ) %>%
+  group_by(quartier, type_local, annee_mutation) %>%
+  summarise_at(vars(nb_ventes, valeur_fonciere, surface_relle_bati), funs(sum)) %>%
+  ungroup()
+
+
+stat2 <- dvf_avec_quartier %>%
+  st_drop_geometry() %>%
+  filter(
+    nature_mutation == "Vente",
+    type_local %in% c("Appartement", "Maison")
+  ) %>%
+  mutate(
+    date_mutation = ymd(date_mutation),
+    annee_mutation = year(date_mutation),
+    nb_ventes = 1,
+    type_local = "Ensemble"
+  ) %>%
+  group_by(quartier, type_local, annee_mutation) %>%
+  summarise_at(vars(nb_ventes, valeur_fonciere, surface_relle_bati), funs(sum)) %>%
+  ungroup()
+
+stat <- bind_rows(stat1, stat2)
+```
+
+Calcul des indicateurs demandés 
+
+```{r}
+indicateurs1 <- stat %>%
+  filter(type_local == "Ensemble") %>%
+  select(quartier, annee_mutation, nb_ventes)
+
+indicateurs2 <- stat %>%
+  select(quartier, annee_mutation, type_local, nb_ventes) %>%
+  spread(type_local, nb_ventes) %>%
+  mutate(pourcentage_maison = 100 * Maison / Ensemble) %>%
+  select(quartier, annee_mutation, pourcentage_maison)
+
+indicateurs3 <- stat %>%
+  select(quartier, annee_mutation, type_local, valeur_fonciere, surface_relle_bati) %>%
+  mutate(prix_m2 = valeur_fonciere / surface_relle_bati) %>%
+  select(quartier, annee_mutation, type_local, prix_m2) %>%
+  spread(type_local, prix_m2) %>%
+  rename_at(vars(Appartement, Maison, Ensemble), funs(paste0("prix_m2_", .)))
+
+indicateurs <- reduce(list(indicateurs1, indicateurs2, indicateurs3), left_join)
+
+indicateurs <- quartier_nantes %>%
+  select(quartier = nom) %>%
+  left_join(indicateurs)
+```
+
+## Datavisualisaton
+
+Carte du nombre de ventes et du prix au m2 des maisons en 2018.
+
+```{r}
+ggplot() +
+  geom_sf(
+    data = indicateurs %>%
+      filter(annee_mutation == 2018),
+    aes(fill = nb_ventes)
+  )
+
+ggplot() +
+  geom_sf(
+    data = indicateurs %>%
+      filter(annee_mutation == 2018),
+    aes(fill = prix_m2_Maison)
+  )
+```
+
+# Exercice 2 : Faire un assemblage de cartes
+
+Faire une carte à de ronds proportionnels à partir des données sur les ODD
+- En taille des ronds : le taux de mortalité des mères à naissance
+- En couleur : l'évolution de la mortalité des mères à la naissance entre 2000 et 2015
+y Rajouter deux zooms sur les continents Africain et Sud Américain
+Source : 
+les donénes : `sdg_indicators` du package `variousdata`
+le fond de carte : la table `World` du package `tmap`
+
+## Activation des packages
+
+```{r}
+library(tidyverse)
+library(tmap)
+library(variousdata)
+library(sf)
+library(cowplot)
+```
+
+## Chargement des données
+
+```{r}
+data("World")
+data("sdg_indicators")
+World_centroid <- st_centroid(World, of_largest_polygon = T)
+sdg_indicators_sf_centroid <- World_centroid %>%
+  left_join(sdg_indicators)
+```
+
+## Datapréparation
+
+```{r}
+sdf_indicators_evo_2000_2015_sf <- sdg_indicators_sf_centroid %>%
+  filter(timeperiod %in% c("2000", "2015"), !is.na(sh_sta_mmr)) %>%
+  group_by(iso_a3) %>%
+  mutate(evo_sh_sta_mmr = 100 * (sh_sta_mmr / lag(sh_sta_mmr) - 1)) %>%
+  select(timeperiod, iso_a3, geoareaname, sh_sta_mmr, evo_sh_sta_mmr) %>%
+  ungroup() %>%
+  filter(timeperiod == "2015")
+```
+
+## Datavisualisation
+
+### Carte monde
+
+```{r}
+map1 <- ggplot(data = sdf_indicators_evo_2000_2015_sf) +
+  geom_sf(data = World, fill = "white") +
+  geom_sf(aes(color = evo_sh_sta_mmr, size = sh_sta_mmr)) +
+  theme_minimal() +
+  theme(
+    panel.background = element_rect(fill = "light blue"),
+    legend.position = "right"
+  ) +
+  guides(size = F) +
+  scale_color_gradient2() +
+  labs(
+    title = "Evolution de la mortalité de la mère à la naissance",
+    subtitle = "Entre 2000 et 2015",
+    color = "Evolution\nen %"
+  )
+```
+
+### Zoom sur les deux continents
+
+On va utiliser la bbox pour définir les bornes de notre carte zoomée.
+
+```{r}
+bbox_south_america <- World %>%
+  filter(continent == "South America") %>%
+  st_bbox()
+
+bbox_africa <- World %>%
+  filter(continent == "Africa") %>%
+  st_bbox()
+
+map2 <- ggplot(data = sdf_indicators_evo_2000_2015_sf) +
+  geom_sf(data = World, fill = "white") +
+  geom_sf(aes(color = evo_sh_sta_mmr, size = sh_sta_mmr)) +
+  coord_sf(
+    xlim = c(bbox_south_america[1], bbox_south_america[3]),
+    ylim = c(bbox_south_america[2], bbox_south_america[4])
+  ) +
+  theme_void() +
+  theme(
+    panel.background = element_rect(fill = "light blue"),
+    legend.position = "none"
+  ) +
+  scale_color_gradient2()
+
+map3 <- ggplot(data = sdf_indicators_evo_2000_2015_sf) +
+  geom_sf(data = World, fill = "white") +
+  geom_sf(aes(color = evo_sh_sta_mmr, size = sh_sta_mmr)) +
+  coord_sf(
+    xlim = c(bbox_africa[1], bbox_africa[3]),
+    ylim = c(bbox_africa[2], bbox_africa[4])
+  ) +
+  theme_void() +
+  theme(
+    panel.background = element_rect(fill = "light blue"),
+    legend.position = "none"
+  ) +
+  scale_color_gradient2()
+```
+
+### Assemblage
+
+```{r}
+ggdraw() +
+  draw_plot(map1, x = 0, y = .45, width = 1, height = .55) +
+  draw_plot(map2, x = 0.2, y = 0, width = .25, height = .45) +
+  draw_plot(map3, x = 0.45, y = 0, width = .25, height = .45)
+```
+
+# Exercice 3 : Assemblage de carte sur dvf
+
+Objectif : 
+- Une carte à l'epci : 
+  - un degradé de couleur sur l'évolution des prix au m2 des maisons entre 2014 et 2017
+  - un rond sur le volume des prix au m2 des maisons
+
+Avec un zoom sur les communes des principaux epci (une carte par epci)
+
+Source : 
+- variousdata pour les données dvf
+- CARTElette pour les fonds de carte
+
+## Activation des packages
+
+```{r}
+# devtools::install_github("maeltheuliere/variousdata")
+library(variousdata)
+library(tidyverse)
+library(sf)
+# devtools::install_github("antuki/CARTElette/CARTElette@RPackage")
+library(CARTElette)
+library(lubridate)
+library(cowplot)
+library(stringr)
+```
+
+## Récupération des données
+
+### Fond de carte
+
+```{r}
+com_sf_r52 <- loadMap(COG = 2019, nivsupra = "COM") %>%
+  filter(INSEE_REG == "52")
+epci_sf_r52 <- loadMap(COG = 2019, nivsupra = "EPCI") %>%
+  filter(EPCI %in% unique(com_sf_r52$CODE_EPCI))
+
+# On aura besoin des centroid pour les ronds proportionnels
+
+com_sf_r52_centroid <- st_centroid(com_sf_r52)
+epci_sf_r52_centroid <- st_centroid(epci_sf_r52)
+```
+
+### dvf
+
+```{r}
+dvf_r52 <- dvf_r52
+```
+
+## Datapréparation
+
+
+On tronque filtre sur les données de ventes de maisons en filtrant les données à 98% pour lisser les moyennes
+
+```{r}
+dvf_r52_maisons <- dvf_r52 %>%
+  filter(nature_mutation == "Vente", type_local == "Maison") %>%
+  filter(!is.na(valeur_fonciere), !is.na(surface_reelle_bati)) %>%
+  mutate(prix_m2 = valeur_fonciere / surface_reelle_bati) %>%
+  arrange(prix_m2) %>%
+  filter(between(row_number(), n() * .01, n() * .99)) %>%
+  select(-prix_m2)
+```
+
+  
+
+### Calcul de l'évolution des prix et du nombre de ventes
+
+#### A l'epci
+
+```{r}
+prix_m2_maisons_epci <- dvf_r52_maisons %>%
+  select(EPCI, NOM_EPCI, date_mutation, valeur_fonciere, surface_reelle_bati) %>%
+  mutate(
+    n = 1,
+    annee = year(date_mutation)
+  ) %>%
+  select(-date_mutation) %>%
+  group_by(EPCI, NOM_EPCI, annee) %>%
+  summarise_all(list(sum)) %>%
+  ungroup() %>%
+  group_by(EPCI, NOM_EPCI) %>%
+  mutate(
+    prix_m2 = valeur_fonciere / surface_reelle_bati,
+    evo_prix_m2 = 100 * prix_m2 / lag(prix_m2) - 100
+  ) %>%
+  filter(annee == 2017) %>%
+  ungroup()
+```
+
+#### A la commune
+
+```{r}
+prix_m2_maisons_com <- dvf_r52_maisons %>%
+  select(EPCI, NOM_EPCI, DEPCOM, NOM_DEPCOM, date_mutation, valeur_fonciere, surface_reelle_bati) %>%
+  mutate(
+    n = 1,
+    annee = year(date_mutation)
+  ) %>%
+  select(-date_mutation) %>%
+  group_by(EPCI, NOM_EPCI, DEPCOM, NOM_DEPCOM, annee) %>%
+  summarise_all(list(sum)) %>%
+  ungroup() %>%
+  group_by(EPCI, NOM_EPCI, DEPCOM, NOM_DEPCOM) %>%
+  mutate(
+    prix_m2 = valeur_fonciere / surface_reelle_bati,
+    evo_prix_m2 = 100 * prix_m2 / lag(prix_m2) - 100
+  ) %>%
+  filter(annee == 2017) %>%
+  ungroup()
+```
+
+
+#### Intégration des données aux fonds de carte
+
+```{r}
+prix_m2_maisons_epci_sf <- prix_m2_maisons_epci %>%
+  left_join(epci_sf_r52, ., by = c("EPCI" = "EPCI")) %>%
+  mutate(n = ifelse(is.na(n), 0, n))
+
+prix_m2_maisons_epci_sf_centroid <- prix_m2_maisons_epci %>%
+  left_join(epci_sf_r52_centroid, ., by = c("EPCI" = "EPCI")) %>%
+  mutate(n = ifelse(is.na(n), 0, n))
+
+prix_m2_maisons_com_sf <- prix_m2_maisons_com %>%
+  left_join(com_sf_r52, ., by = c("INSEE_COM" = "DEPCOM")) %>%
+  mutate(n = ifelse(is.na(n), 0, n))
+
+prix_m2_maisons_com_sf_centroid <- prix_m2_maisons_com %>%
+  left_join(com_sf_r52_centroid, ., by = c("INSEE_COM" = "DEPCOM")) %>%
+  mutate(n = ifelse(is.na(n), 0, n))
+```
+
+## Datavisualisation
+
+### Carte à l'EPCI de la région
+```{r}
+p <- ggplot() +
+  geom_sf(
+    data = prix_m2_maisons_epci_sf,
+    aes(fill = evo_prix_m2)
+  ) +
+  scale_fill_gradient2() +
+  geom_sf(
+    data = prix_m2_maisons_epci_sf_centroid,
+    aes(size = n),
+    alpha = .5
+  ) +
+  theme_void() +
+  guides(size = "none") +
+  labs(
+    fill = "En %", title = "Evolution du prix des maisons neuves en euros par m2",
+    subtitle = "Entre 2014 et 2017",
+    caption = "source : DVF"
+  )
+p
+```
+
+  
+### zoom à la commune
+Création d'une fonction pour automatiser la constitution d'un zoom.
+
+```{r}
+zoom_commune <- function(code_epci = "244400404", nom_epci = "Nantes Métropole") {
+  ggplot() +
+    geom_sf(
+      data = prix_m2_maisons_com_sf %>%
+        filter(EPCI == code_epci),
+      aes(fill = evo_prix_m2)
+    ) +
+    scale_fill_gradient2() +
+    geom_sf(
+      data = prix_m2_maisons_com_sf_centroid %>%
+        filter(EPCI == code_epci),
+      aes(size = n),
+      alpha = .5
+    ) +
+    theme_void() +
+    guides(
+      size = "none",
+      fill = "none"
+    ) +
+    labs(fill = "En %", title = str_wrap(nom_epci, width = 20)) +
+    theme(title = element_text(size = 6))
+}
+```
+
+Réalisation des zooms
+
+```{r}
+p1 <- zoom_commune(code_epci = "244400404", nom_epci = "Nantes Métropole")
+p2 <- zoom_commune(code_epci = "244400644", nom_epci = "La CARENE")
+p3 <- zoom_commune(code_epci = "200083392", nom_epci = "Laval Agglo")
+p4 <- zoom_commune(code_epci = "244900015", nom_epci = "ALM")
+p5 <- zoom_commune(code_epci = "247200132", nom_epci = "Le Mans Métropole")
+```
+
+
+### Assemblage
+
+```{r}
+ggdraw() +
+  draw_plot(p, x = 0, y = .2, width = 1, height = .8) +
+  draw_plot(p1, x = 0, y = 0, width = .2, height = .2) +
+  draw_plot(p2, x = 0.2, y = 0, width = 0.2, height = .2) +
+  draw_plot(p3, x = 0.4, y = 0, width = 0.2, height = .2) +
+  draw_plot(p4, x = 0.6, y = 0, width = 0.2, height = .2) +
+  draw_plot(p5, x = 0.8, y = 0, width = 0.2, height = .2)
+```
+
