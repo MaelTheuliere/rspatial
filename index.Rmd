@@ -4,7 +4,7 @@ author: "Maël THEULIERE"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography: [packages.bib]
 biblio-style: apalike
 link-citations: yes
 description: "Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique"
@@ -19,9 +19,9 @@ Ce support est le support du module du même nom du master Mégadonnées et Anal
 L’objectif de ce cours est de présenter les éléments de manipulation des données spatiales à partir de R. Nous verrons ainsi :
 
 - Ce que sont les données spatiales
-- Comment lire des données spatiales
-- Comment manipuler les données spatiales
-- Comment visualiser les données spatiales
+- Comment lire des données spatiales ?
+- Comment manipuler les données spatiales ?
+- Comment visualiser les données spatiales ?
 
 
 
@@ -61,6 +61,6 @@ tmap_mode("plot")
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown','sf','ggplot2','tmap'
+  .packages(), 'bookdown', 'knitr','kableextra', 'rmarkdown','sf','ggplot2','tmap'
 ), 'packages.bib')
 ```

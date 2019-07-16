@@ -1,3 +1,43 @@
 # (PART) A propos {-}
 
-A propos de ce support
+# A propos de ce document {-}
+
+## Code source {-}
+
+Le code source de ce document se trouve à l'adresse suivante : https://github.com/MaelTheuliere/rspatial
+
+Il est généré par l’excellente extension [bookdown](https://bookdown.org/yihui/bookdown/) de [Yihui Xie](https://yihui.name/en/).
+
+## Inspiration {-}
+
+Ce document est largement inspiré des deux supports suivant : 
+
+- [Geocomputation with R](https://geocompr.robinlovelace.net/) de Robin Lovelace, Jakub Nowosad et Jannes Muenchow
+
+- [Datavisualisation : produire des graphiques, des cartes et des tableaux avec R](https://rawgit.com/MTES-MCT/parcours-r/master/Supports_formations/m5_valorisation_des_donnees/_book/index.html), de Murielle Lethrones et Maël THEULIERE, du parcours de formation à R du Ministère de la Transition écologique et solidaire et du Ministère de la Cohésion des territoires et des Relations avec les collectivités territoriales
+
+La feuille de style utilisée a été réalisée par Julien Barnier pour son [Introduction à R et au tidyverse](https://juba.github.io/tidyverse/)
+
+
+## Licence {-}
+
+Ce document est mise à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International</a>.
+
+<center>
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+</center>
+
+
+
+## Session info {-}
+
+
+```{r,echo = F}
+devtools::session_info()$platform
+
+package <- devtools::session_info()$packages %>% as_tibble() %>% 
+  filter(attached == T,is_base == F,package != "COGiter") %>% 
+  select(package,ondiskversion,source)
+knitr::kable(package) %>% kableExtra::kable_styling()
+```
+

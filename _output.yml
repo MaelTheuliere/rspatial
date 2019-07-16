@@ -7,7 +7,7 @@ bookdown::gitbook:
       collapse: section
       before: |
         <li><a href="./index.html">Les données spatiales avec R</a></li>
-      after: <center><a href="https://github.com/maeltheuliere">Maël THEULIERE</a></center>
+      after: <center><a href="https://github.com/maeltheuliere">Maël THEULIERE</a><br><br><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a></center>
     sharing:
       twitter: yes
       github: no

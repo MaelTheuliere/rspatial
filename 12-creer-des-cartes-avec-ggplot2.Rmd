@@ -18,7 +18,9 @@ library(variousdata)
 library(ggspatial)
 ```
 
-## Présentation du package ggplot2
+## Quelques rappels sur ggplot2
+
+### Présentation du package ggplot2
 
 
 - [ggplot 2](http://ggplot2.tidyverse.org/) est un package créé par Hadley Wickham et Winston Chang pour implémenter dans R la vision développée par Leland Wilkinson dans  [The Grammar of Graphics (Statistics and Computing)](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448/ref=as_li_ss_tl?ie=UTF8&qid=1477928463&sr=8-1&keywords=the+grammar+of+graphics&linkCode=sl1&tag=ggplot2-20&linkId=f0130e557161b83fbe97ba0e9175c431) de la conception de graphiques.
@@ -27,10 +29,10 @@ library(ggspatial)
 
 - Ce Package aujourd'hui s'inscrit dans R dans le **framework tidyverse** qui propose une approche cohérente entre l'importation et la préparation des données, leur analyse et leur valorisation.
 
-## Le Tidyverse
+### Le Tidyverse
 ![le tidyverse](pic/tidyverse.png "le tidyverse"){#id .class width=800}
 
-## ggplot 2 : les concepts clefs
+### ggplot 2 : les concepts clefs
 
 Pour construire un graphique avec ggplot il va falloir lui définir plusieurs éléments : 
 
@@ -59,9 +61,9 @@ ggplot(data = <DATA>) +
   ...
 ```
 
-## Le mapping
+### Le mapping
 
-### Les paramètres du mapping
+#### Les paramètres du mapping
 
 Dans l'exemple qui suit, la représentation géographique utilisée est le nuage de point `geom_point()`.
 D'autres types de représentations géographiques sont présentés dans la partie suivante.
@@ -94,7 +96,7 @@ sdg_indicators %>%
                  color = continent))
 ```
 
-### Les "autres" paramètres
+#### Les "autres" paramètres
 
 Il est possible de spécifier des paramètres qui seront valables pour l'ensemble du graphique. 
 On retrouve entre autre les mêmes paramètres que proposés dans l'aes mais il faut alors les passer **en dehors de l'aesthetic**.
@@ -134,9 +136,9 @@ Il est installable comme n'importe quel package.
 Pour plus d'informations: https://github.com/daattali/colourpicker
 
 
-## L'habillage simple
+### L'habillage simple
 
-### Titre et libellé des axes
+#### Titre et libellé des axes
 
 Chaque nouvel élément graphique est à rajouter sous forme de layer, ici nous utilisons la fonction `labs()` qui permet de labelliser tout les éléments possibles de l'aesthétic, ainsi que le titre (`title`), le sous titre (`subtitle`) et le bas de page (`caption`)
 
@@ -161,7 +163,7 @@ sdg_indicators %>%
 
 A noter qu'il existe plusieurs autres façons de spécifier ces élèments par des couches spécifiques: ggtitle, xlab, ylab,...
 
-### Légende
+#### Légende
 
 Les fonctions `guide()` et `guides` permettent de modifier finement la légende.
 Les guides peuvent être spécifiées dans chaque `scale_` ou dans une instruction `guides`.
@@ -194,7 +196,7 @@ sdg_indicators %>%
   theme(legend.position = "bottom")
 ```
 
-### Annotation
+#### Annotation
 
 Il est aussi possible de rajouter des annotations de type texte, par exemple, "à la volée".
 
@@ -242,7 +244,7 @@ sdg_indicators %>%
   annotate("rect", xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = 2, fill = "green", alpha = 0.2)
 ```
 
-## Les thèmes
+### Les thèmes
 
 Pour modifier simplement la position de la légende,c'est la fonction [`theme()`](http://ggplot2.tidyverse.org/reference/theme.html) qu'il faut utiliser.
 
@@ -261,7 +263,7 @@ Des packages externe permettent d'enrichir cette collection de thèmes, par exem
 Lorsque l'on souhaite garder une cohérence entre plusieurs graphiques, le mieux est d'en définir un à part pour l'appeler ensuite.
 
 
-### Les fonctions "élément"
+#### Les fonctions "élément"
 
 Elle utilise 4 types de fonctions:
 
@@ -299,7 +301,7 @@ lineend | le type de fin de ligne ("round", "butt" ou "square")
 
 - `element_blank()` : permet de ne rien dessiner.
 
-### Les composantes
+#### Les composantes
 
 Il s'agit des différents éléments modifiables dans le thème.
 Par exemple:
@@ -315,7 +317,7 @@ panel.background, panel.border, panel.grid.major, panel.grid.minor,...
 
  etc
 
-### Quelques exemples 
+#### Quelques exemples 
 
 - Changer le fond du graphique `panel_background()`
 
@@ -409,7 +411,7 @@ sdg_indicators %>%
   theme(legend.position = "left", legend.title = element_blank())
 ```
 
-### Modifier le thème par défaut.
+#### Modifier le thème par défaut.
 
 La fonction `theme_set()` vous permet de définir un thème par défaut pour l'ensemble de vos graphiques.
 
@@ -435,7 +437,7 @@ sdg_indicators %>%
 ```
 
 
-### Créer son propre thème
+#### Créer son propre thème
 
 Un thème est une fonction R qui va prendre ne paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.
 
@@ -475,7 +477,7 @@ sdg_indicators %>%
 ```
 
 
-## Les scales
+### Les scales
 
 Les fonctions `scales()` permettent globalement de paramétrer les éléments rentrés dans l'aesthétic : 
 
@@ -563,7 +565,7 @@ sdg_indicators %>%
   scale_y_log10()
 ```
 
-### Formatage spécifique
+#### Formatage spécifique
 
 - Transformation en pourcentage;
 ```{r, echo=T,eval=F}
@@ -581,7 +583,7 @@ scale_y_continuous(labels = function(x) paste(x, " €"))
 
 
 
-## La mise en page de plusieurs graphiques
+### La mise en page de plusieurs graphiques
 
 Le package cowplot permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.
 
@@ -639,7 +641,7 @@ ggdraw() +
   draw_plot(gg3, x = 0.3, y = 0, width = 0.7, height = .5)
 ```
 
-## Les facettes
+### Les facettes
 
 Lorsque l'on veut pouvoir réaliser un graphique pour plusieurs sous ensemble, les facettes sont alors très utiles. On va ici l'illustrer avec la réalisation du même graphique ci dessus mais pour plusieurs années différentes.
 
@@ -694,7 +696,7 @@ sdg_indicators %>%
 ```
 
 
-## Exporter un graphique
+### Exporter un graphique
 
 ggplot contient une fonction `ggsave()` permet d'exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf 
 
