@@ -25,10 +25,6 @@ L’objectif de ce cours est de présenter les éléments de manipulation des do
 
 
 
-```{block, type='rmdimportant'}
-Support en construction
-```
-
 ```{r setup, eval=T,echo=F,message=F,warning=F}
 knitr::opts_chunk$set(cache=T,echo=T,comment="",message=F,warning = F)
 #Chargement des packages et des données.
