@@ -1,7 +1,7 @@
 # Bien commencer
 
 
-## Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.
+## Créer un projet sous Rstudio pour vous permettre de recenser vos travaux.
 
 Pourquoi travailler avec les projets Rstudio plutôt que les scripts R ?
 
@@ -10,9 +10,9 @@ Pourquoi travailler avec les projets Rstudio plutôt que les scripts R ?
 > **Fini les `setwd("chemin/qui/marche/uniquement/sur/mon/poste")` !** 
 
 
-- Toujours sur la portabilité, un projet peut être utiliser avec un package comme `packrat` ou `renv` qui vont vous permettre d'internaliser au sein du projet l'ensemble des packages dont vous aurez besoin dans votre projet dans la version avec laquelle vous l'avez utilisé. Cela permet donc à votre collègue à qui vous passer votre projet de ne pas avoir à les installer dans la même version, et si vous mettez à jour votre environnement R, votre projet restera toujours avec les versions des packages avec lesquelles vous avez fait tourné votre projet à l'époque. Cela évite d'avoir à subir les effets d'une mise à jour important d'un package qui casserait votre code.
+- Toujours sur la portabilité, un projet peut être utilisé avec un package comme `packrat` ou `renv` qui vont vous permettre d'internaliser au sein du projet l'ensemble des packages dont vous aurez besoin dans la version avec laquelle vous l'avez utilisé. Cela permet donc à votre collègue à qui vous passez votre projet de ne pas avoir à les installer dans la même version, et si vous mettez à jour votre environnement R, votre projet restera toujours avec les versions des packages avec lesquelles vous l'avez fait tourner à l'époque. Cela évite d'avoir à subir les effets d'une mise à jour d'un package qui casserait votre code.
 
-`Packrat` est intégré à Rstudio. pour activer packrat sur un projet, aller dans `Tools/Project Options->Packrat`
+`Packrat` est intégré à Rstudio. Pour activer `packrat` sur un projet, aller dans `Tools/Project Options->Packrat`
 
 [En savoir plus sur Packrat](https://www.rstudio.com/resources/webinars/managing-package-dependencies-in-r-with-packrat/)
 
@@ -21,9 +21,9 @@ Pourquoi travailler avec les projets Rstudio plutôt que les scripts R ?
 `renv` est plus récent que `Packrat`, il n'est pas encore intégré à Rstudio mais apporte des améliorations subsentielles par rapport à son prédécesseur. 
 [En savoir plus sur renv](https://rstudio.github.io/renv/)
 
-- Cela permet de se forcer à travailler en mode projet : on intègre à un seul endroit tous ce qui est lié à un projet : données brutes, données retravaillées, scripts, illustrations, documentations, publications... et donc y compris packages avec `packrat` ou `renv`.
+- Cela permet de se forcer à travailler en mode projet : on intègre à un seul endroit tous ce qui est lié à ce projet : données brutes, données retravaillées, scripts, illustrations, documentations, publications... et donc y compris packages avec `packrat` ou `renv`.
 
-- On peut travailler sur plusieurs projets en même temps, Rstudio ouvre autant de sessions que de projets dans ce cas.
+- On peut travailler sur plusieurs projets en même temps, Rstudio ouvre alors autant de sessions que de projets.
 
 - Les projets Rstudio intègrent une interface avec les outils de gestion de version `git` et `svn.` Cela veut dire que vous pouvez versionniser votre projet et l'héberger simplement comme répertoire sur des plateformes de gestion de code telle que `github` ou `gitlab.`
 
@@ -55,9 +55,9 @@ Si par la suite vous souhaitez avoir des exemples de bonnes pratiques sur commen
 
 ## Créer votre arborescence de projet
 
-- Créer un répertoire `/src` ou vous mettrez vos scripts R.
+- Créer un répertoire `/src` où vous mettrez vos scripts R.
 
-- Créer un répertoire `/figures` ou vous mettrez vos illustrations issues de R.
+- Créer un répertoire `/figures` où vous mettrez vos illustrations issues de R.
 
 ## Activer les packages nécessaires
 
@@ -65,7 +65,7 @@ Commencer par rajouter un script dans le répertoire `/src` à votre projet qui 
 
 - activer l'ensemble des packages nécessaires
 
-- charger les données dont vous aurez besoins.
+- charger les données dont vous aurez besoin.
 
 ## Bien structurer ses projets data
 

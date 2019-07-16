@@ -33,7 +33,7 @@ glimpse(regions_geo)
 
 ## Filtrer
 
-Nous souhaitons par exemple filtrer nos epci sur les epci du département de Loire-Atlantique.
+Nous souhaitons par exemple filtrer nos EPCI sur les EPCI du département de Loire-Atlantique.
 
 ```{r}
 departement_44 <- departements_geo %>%
@@ -46,22 +46,25 @@ mapview(list(departement_44, epci_d44), zcol = c("NOM_DEP", "NOM_EPCI"), legend 
 
 L'opération de filtre sur les données spatiales fonctionne en prenant la table en entrée (`epci_geo`), la table avec laquelle on souhaite définir les lignes à garder (`departement_44`),et l'opérateur qui va définir le test entre les deux géométries. Ici cet opérateur est `st_within(x,y)`, qui renvoie `TRUE` si la géométrie de `x` est contenue à l'intérieur de celle de `y`.
 
-On peut spécifier différents prédicats spatiaux pour réaliser ce filre.
+On peut spécifier différents prédicats spatiaux pour réaliser ce filtre.
 
-En deuxième argument (`, ,`), on peut rajouter,comme dans une opération `[` classique de R les colonnes que l'on souhaite garder.
+En deuxième argument (`, ,`), on peut rajouter, comme dans une opération `[` classique de R les colonnes que l'on souhaite garder.
 
 On voit ici que le résultat n'est pas très concluant :  il manque 3 epci du département, ceux qui sortent des frontières de celui-ci.
 Prenons un buffer autour du département.
 
 ```{block2, type='rmdnote'}
-Qu'est ce qu'un buffer ? C'est un tampon qui va nous permettre d'appliquer une transformation sur votre objet vectoriel.
+Qu'est ce qu'un buffer ? C'est un tampon qui va nous permettre d'appliquer une transformation sur un objet vectoriel.
 
 A partir d'une couche de départ de type ponctuel, linéaire ou polygonal, le buffer va créer une nouvelle couche vectorielle. La géométrie de cette couche représente des objets surfaciques dont les frontières sont positionnées à une distance euclidienne, définie par l'utilisateur, des limites des objets vectoriels de la couche de départ.
 ```
 
 La fonction qui permet de faire cela avec `sf` s'appelle `st_buffer()`.
 
-`st_buffer()` prend en paramètre un objet de classe *sf* et une distance dont l'unité est définie par celle de l'objet `sf` que l'on peut obtenir comme ceci `st_crs(x)$units`.
+`st_buffer()` prend en paramètre : 
+
+- un objet de classe *sf* 
+- une distance dont l'unité est définie par celle de l'objet `sf`, que l'on peut obtenir comme ceci `st_crs(x)$units`.
 
 ```{r}
 departement_44_buffer <- departement_44 %>%
@@ -118,9 +121,9 @@ A partir de ces objets, on peut se poser les questions suivantes :
 
 - Quels sont les points de `p` qui ne sont pas contenus dans le triangle `a` ?
 
-- Quels sont les points de `p` qui touchent dans le triangle `a` ?
+- Quels sont les points de `p` qui touchent le triangle `a` ?
 
-- Quelles sont les lignes de `l` contenue dans `a` ?
+- Quelles sont les lignes de `l` contenues dans `a` ?
 
 
 Les prédicats spatiaux vont nous permettre de répondre à ces questions. `sf` contient une liste de fonctions qui permettent chacune de répondre à l'une ou l'autre de ces questions.
@@ -131,13 +134,13 @@ Les prédicats spatiaux vont nous permettre de répondre à ces questions. `sf` 
 st_intersects(p, a)
 ```
 
-L'opposé de `st_intersects()` est `st_disjoint()` :  `st_disjoint(x,y)` renvoie `TRUE` pour les objets de `x` non relié à `y`
+L'opposé de `st_intersects()` est `st_disjoint()` :  `st_disjoint(x,y)` renvoie `TRUE` pour les objets de `x` non reliés à `y`.
 
 ```{r}
 st_disjoint(p, a)
 ```
 
-Le résultat de cette opération est une liste. Par défaut, la fonction `st_intersect()` renvoi une *matrice creuse*^[https://fr.wikipedia.org/wiki/Matrice_creuse]. Cette structure permet d'économiser de la mémmoire en n'enregistrant que les relations qui existent. Sur une opération de ce type, le gain est peu évident,mais quand on travail sur des objets plus complexes, le gain est appréciable.
+Le résultat de cette opération est une liste. Par défaut, la fonction `st_intersect()` renvoie une *matrice creuse*^[https://fr.wikipedia.org/wiki/Matrice_creuse]. Cette structure permet d'économiser de la mémoire en n'enregistrant que les relations qui existent. Sur une opération de ce type, le gain est peu évident, mais quand on travail sur des objets plus complexes, le gain est appréciable.
 
 Si on souhaite mieux utiliser cette information, on peut vouloir privilégier la *matrice dense*, qui renvoie une matrice de booléen pour chaque relation possible.
 
@@ -147,7 +150,7 @@ Pour cela on peut utiliser l'option `sparse=F`.
 st_intersects(p, a, sparse = F)
 ```
 
-`st_within()` est une variante de `st_intersect()` qui ne renvoit `TRUE` que pour les points *à l'intérieur* du polygone.
+`st_within()` est une variante de `st_intersect()` qui ne renvoie `TRUE` que pour les points *à l'intérieur* du polygone.
 
 ```{r}
 st_within(p, a, sparse = F)
@@ -159,7 +162,7 @@ Une variante de `st_within()` permet d'ajouter un critère de distance pour int�
 st_is_within_distance(p, a, dist = 0.8)
 ```
 
-`st_touches()` permet elle de récupérer les points qui *touchent* le polygone sans sans être à l'intérieur du polygone.
+`st_touches()` permet de récupérer les points qui *touchent* le polygone sans sans être à l'intérieur du polygone.
 
 ```{r}
 st_touches(p, a, sparse = F)
@@ -197,7 +200,7 @@ Il existent encore d'autres prédicats qu'on ne détaillera pas ici :
 
 ### Exercices
 
-- Créer un objet des points p qui intersecte avec le polygone a
+- Créer un objet des points de p qui intersectent avec le polygone a
 
 
 ## Les jointures spatiales
@@ -208,7 +211,7 @@ Les jointures spatiales se basent sur un appariement sur un espace geographique 
 
 ### Jointure de points avec des polygones
 
-Ce cas est relativement simple, une jointure spatiale entre une liste de point et une liste de polygone va attribuer pour chaque point le polygone auquel il appartient.
+Ce cas est relativement simple, une jointure spatiale entre une liste de points et une liste de polygones va attribuer pour chaque point le polygone auquel il appartient.
 
 On va utiliser ici le fichier sirene du département de Loire Atlantique géocodé par Christian Quest^[http://data.cquest.org/geo_sirene/].
 Prenons les entreprises de production de sel sur ce département et regardons dans quelle partie du territoire elles se trouvent.
@@ -233,14 +236,14 @@ mapview(list(departement_44, epci_d44, sirene44_sel_avec_code_epci), zcol = c("N
 ```
 
 ```{block2, type='rmdnote'}
-Une jointure entre deux couches de données géographique demande à ce que celles ci partagent la même projection.
+Une jointure entre deux couches de données géographique demande à ce que celles-ci partagent la même projection.
 ```
 
 ### Jointure de polygones avec des polygones
 
-A la différence des appariements entre point et polygone, la jointure spatiales entre deux couches de polygones nécessite quelques critères complémentaires : souhaite t on joindre deux polygones dès qu'ils s'intersectent ? Souhaite t on joindre à un polygone de la première couche à celui de la deuxième avec lequel il partage le plus de surface en commun ?
+A la différence des appariements entre points et polygones, la jointure spatiales entre deux couches de polygones nécessite quelques critères complémentaires : souhaite-t-on joindre deux polygones dès qu'ils s'intersectent ? Souhaite-t-on joindre à un polygone de la première couche à celui de la deuxième avec lequel il partage le plus de surface en commun ?
 
-Par exemple,imaginons que nous voulions joindre notre couche des epci avec celle des départements, souhaite-t-on que l'EPCI de Redon se retrouve apparié avec tous les départements dans lesquels il se retrouve, ou seulement le département dans lequel il est principalement situé ?
+Par exemple, imaginons que nous voulions joindre notre couche des epci avec celle des départements, souhaite-t-on que l'EPCI de Redon se retrouve apparié avec tous les départements dans lesquels il se retrouve, ou seulement le département dans lequel il est principalement situé ?
 
 ```{r}
 epci_d44_avec_departement <- epci_d44 %>%
@@ -274,10 +277,10 @@ On va utiliser pour DVF l'API mise en place par Christian Quest.
 
 - Contour des quartiers de Nantes : https://data.nantesmetropole.fr/explore/dataset/244400404_quartiers-nantes/information/?disjunctive.nom
 
-On veut produire les infos suivantes par quartier et annee :
+On veut produire les infos suivantes par quartier et année :
 
 - Volume de ventes
-- Pourcentage de maison dans les ventes
+- Pourcentage de maisons dans les ventes
 - Prix moyen au m2 par type de bien
 
 ## Les calculs de distance
@@ -303,7 +306,7 @@ Trois choses à noter sur le résultat :
 
 - ...et qui a un paramètre `Units` nous donnant l'unité de mesure des distances calculées.
 
-Ici on calcule notre matrice sur un seul objet.Vous pouvez calculer des distances entre deux objets `x` et `y` de classe `sf`. Dans ce cas il fera le calcul des distances pour toutes les combinaisons possibles d'objet de `x` et de `y`. Une option de `st_distance()` vous permet de limiter le résultat aux calculs 2 à 2 : `by_element = T`. Dans ce cas le résultat est un vecteur.
+Ici on calcule notre matrice sur un seul objet. Vous pouvez calculer des distances entre deux objets `x` et `y` de classe `sf`. Dans ce cas il fera le calcul des distances pour toutes les combinaisons possibles d'objets de `x` et de `y`. Une option de `st_distance()` vous permet de limiter le résultat aux calculs 2 à 2 : `by_element = T`. Dans ce cas le résultat est un vecteur.
 
 ### Identification du plus proche voisin
 
@@ -319,9 +322,9 @@ index_dep_pdl <- st_nearest_feature(
 )
 ```
 
-`st_nearest_feature()` renvoi un vecteur d'index en résultat. 
+`st_nearest_feature()` renvoie un vecteur d'index en résultat. 
 
-Pour visualiser cet index, vous pouvez utiliser ensuite la fonction `st_nearest_point()` qui va permettre de faire un lien entre nos départements et le département ligérien les plus proches.
+Pour visualiser cet index, vous pouvez utiliser ensuite la fonction `st_nearest_point()` qui va permettre de faire un lien entre les départements et le département ligérien le plus proche.
 
 `st_nearest_point()` permet en effet de renvoyer pour deux géométries la ligne rejoignant les 2 points les plus proches.
 

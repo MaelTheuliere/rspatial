@@ -12,7 +12,7 @@ Les systèmes de coordonnées de référence vont permettre de se repérer sur l
 
 Pour modéliser la surface terrestre, on va définir un *géoïde*, qui est la surface théorique de la pesanteur.
 
-Ce *géoïde* est proche d'un ellipsoïde, c'est un dire une surface obtenue en faisant tournée une ellipse sur son axe. La terre est en effet compressée :  le rayon à l'équateur est 11,5 km plus long que le rayon polaire (Maling 1992).
+Ce *géoïde* est proche d'un ellipsoïde, c'est à dire une surface obtenue en faisant tourner une ellipse sur son axe. La terre est en effet compressée :  le rayon à l'équateur est 11,5 km plus long que le rayon polaire (Maling 1992).
 
 On va donc pouvoir approximer ce géoïde par un ellipsoïde.
 
@@ -22,7 +22,7 @@ Un point quelconque est repéré par rapport à l’ellipsoïde en utilisant un 
 
 Le *datum* ou *système géodésique* va correspondre aux paramètre de forme de l'ellipsoïde et de positionnement sur celle ci.
 
-On va distinguer deux type de datum : les datum *locaux* et les datum *globaux*.
+On va distinguer deux types de datum : les datum *locaux* et les datum *globaux*.
 
 Historiquement n'existait que des datum locaux, c'est à dire qui définissait une ellipse optimale pour correspondre à une partie déterminée de la surface de la terre. Cette contrainte était liée à la façon de définir le géoïde : avant les techniques spatiales, on utilisait des mesures de triangulation à partir d'un point défini par mesure astronomique.
 
@@ -49,7 +49,7 @@ Les systèmes de coordonnées géographiques identifient tout lieux sur la surfa
 <iframe width="560" height="315" src="https://www.youtube.com/embed/eSTJV40Lzro" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-Dans un systèmes de coordonnées géographique, les lieux sont donc identifiés par des *angles* et non des *mètres*.
+Dans un système de coordonnées géographiques, les lieux sont donc identifiés par des *angles* et non des *mètres*.
 
 
 ### Coordonnées en projection
@@ -60,7 +60,7 @@ Tous les systèmes de coordonnées projetés se basent sur un système de coordo
 
 Cet exercice ne peut se faire sans distorsion. Les propriétés de la surface de la terre comme l'aire, la direction, la distance, la forme ne peuvent être toutes conservées.
 
-En général un système de coordonnées projeté ne permet de préserver qu'une ou deux de ces propriétés. On classifie d'ailleurs ces projections selon les propriétés conservées  : 
+En général un système de coordonnées projetés ne permet de préserver qu'une ou deux de ces propriétés. On classifie d'ailleurs ces projections selon les propriétés conservées  : 
 
 - conformes (conservent les angles)
 - équivalentes (conservent les surfaces) 

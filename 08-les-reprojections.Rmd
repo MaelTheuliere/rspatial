@@ -11,9 +11,9 @@ library(lwgeom)
 ```
 
 
-Pour rappel, il existe deux types de CRS, les CRS géographiques (longitude/lattitude avec pour unité de compté des degrés) et les CRS projeté (avec un datum et une unité en mètre par exemple).
+Pour rappel, il existe deux types de CRS, les CRS géographiques (longitude/lattitude avec pour unité de compte des degrés) et les CRS projetés (avec un datum et une unité en mètre par exemple).
 
-La plupart des fonctions de `sf` présuppose s'appliquer sur un CRS projeté, car les fonctions de GEOS sur lesquelles elles se basent le font aussi.
+La plupart des fonctions de `sf` présupposent s'appliquer sur un CRS projeté, car les fonctions de GEOS sur lesquelles elles se basent le font aussi.
 
 ## Un premier exemple de reprojection
 
@@ -32,13 +32,13 @@ mapview(nantes)
 ```
 
 
-`st_is_longlat()` est fonction de `sf` permet de faire un test sur la famille de CRS à laquelle on a à faire.
+`st_is_longlat()` est une fonction de `sf` qui permet de faire un test sur la famille de CRS à laquelle on a à faire.
 
 ```{r}
 st_is_longlat(nantes)
 ```
 
-Essayons de créer un buffer de 1km autour de nantes
+Essayons de créer un buffer de 1km autour de Nantes
 
 ```{r,warning=T}
 nantes_buffer= st_buffer(nantes, dist = 1)
@@ -57,7 +57,7 @@ On va ici passer en lambert 93 nos données.
 nantes_proj<-st_transform(nantes, 2154)
 ```
 
-Le CRS lambert 93 n'est bien pas une projection en longitude lattitude : 
+Le CRS lambert 93 est bien un CRS projeté : 
 
 ```{r}
 st_is_longlat(nantes_proj)
@@ -73,9 +73,9 @@ mapview(list(nantes_proj,nantes_proj_buffer))
 
 ## Quand reprojeter ?
 
-Quelques cas usuel qui peuvent vous amener à reprojeter vos données : 
+Quelques cas usuels qui peuvent vous amener à reprojeter vos données : 
 
-- la manipulation de données fournies dans des CRS différents?
+- la manipulation de données fournies dans des CRS différents
 
 - l'usage du package leaflet impose des données spécifiées en WGS 84
 
@@ -104,7 +104,7 @@ Avec la données en Lambert 93, la fonction `st_distance()` renvoie un message d
 st_distance(rennes,nantes_proj)
 ```
 
-Avec la données en WGS 84, la fonction `st_distance()` renvoie un bien le résultat.
+Avec la données en WGS 84, la fonction `st_distance()` renvoie bien le résultat.
 
 ```{r,error=T}
 st_distance(rennes,nantes)
@@ -128,7 +128,7 @@ Reprojeter des données vecteur se fait à l'aide de la fonction `st_transform()
 
 ### Modifier la projection d'une carte.
 
-Parfois on souhaite pouvoir aller plus loin dans les reprojection, en adaptant le centre de la projection, pour cela on peut utiliser un `proj4string` ad hoc.
+Parfois on souhaite pouvoir aller plus loin dans les reprojections, en adaptant le centre de la projection, pour cela on peut utiliser un `proj4string` ad hoc.
 
 Pour cela, on va modifier l'argument `+proj` de notre crs avec `st_transform`.
 
@@ -138,7 +138,7 @@ Tentons par exemple de reprojeter notre carte du globe en utilisant la projectio
 world_pekin<-st_transform(world,crs = "+proj=laea +x_0=0 +y_0=0 +lon_0=116 +lat_0=40")
 ```
 
-Le paramètre `+proj=laea` permet de redéfinir la projection, les paramètre `+lon_0` et `lat_0` permette de définir le centre de la projection. `x_0` et `y_0` définissent le centre du plan pour les coordonnées.
+Le paramètre `+proj=laea` permet de redéfinir la projection, les paramètres `+lon_0` et `lat_0` permettent de définir le centre de la projection. `x_0` et `y_0` définissent le centre du plan pour les coordonnées.
 
 Qu'est ce qui a changé entre nos deux cartes ?
 

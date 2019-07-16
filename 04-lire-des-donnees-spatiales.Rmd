@@ -13,11 +13,11 @@ library(RPostgres)
 
 Le package `sf` s'appuie sur `GDAL` (Geospatial Data Abstraction Library) pour lire et écrire les données spatiales.
 
-`GDAL` est une librairie permettant de lire et d'écrire des données vecteurs et raster de n'importe quel format de fichier ou base de données.
+`GDAL` est une librairie permettant de lire et d'écrire des données vecteur et raster de n'importe quel format de fichier ou base de données.
 
 Les fonctions de lecture et d'écriture de `sf` s'appellent `st_read()` et `st_write()`.
 
-Pour lire des données spatiale, `st_read()` a besoin :
+Pour lire des données spatiales,s `st_read()` a besoin :
 
 - d'une source de donnée : un fichier, un répertoire, une base de données ;
 - d'un layer: une table de données spatiale spécifique du du fichier, répertoire, ou de la base de données ;
@@ -26,7 +26,7 @@ On peut avoir besoin de rajouter des options spécifiques au format de la source
 
 ## Lire des fichiers plats
 
-`st_read()` permet de lire des données spatiales disponibles en fichier plats.
+`st_read()` permet de lire des données spatiales disponibles en fichier plat.
 
 Le format de fichier plat le plus populaire en géomatique est `ESRI Shapefile`. Ce format, en plus de ne pas être un format ouvert, a des limites bien documentées^[voir http://switchfromshapefile.org/]. 
 
@@ -57,7 +57,7 @@ Ecrire des fichiers plats va se faire avec la fonction `st_write()`.
 st_write(obj = NY_leukemia, dsn = "extdata/NY_leukemia.gpkg")
 ```
 
-Notez que si vous chercher à exporter une nouvelle fois ce fichier, vous aurez un message d'errreur.
+Notez que si vous cherchez à exporter une nouvelle fois ce fichier, vous aurez un message d'erreur.
 
 Pour pouvoir écraser ce fichier, vous avez deux options : 
 
@@ -90,7 +90,7 @@ R va vous permettre de vous connecter simplement à une base PostGIS, pour cela 
 
 Rstudio a développé tout un site sur les interactions entre les bases de données et R, vous pouvez le trouver à l'adresse suivante : [db.rstudio.com](https://db.rstudio.com/).
 
-Rstudio possède même depuis la version 1.1 d'un onglet de connexion vous permetttant de visualiser vos connexions aux bases.
+Rstudio possède même depuis la version 1.1 un onglet de connexion vous permetttant de visualiser vos connexions aux bases.
 
 Pour se connecter à une base, on va définir un driver (à quelle type de base on veut se connecter) et un connecteur (les informations de connexion).
 

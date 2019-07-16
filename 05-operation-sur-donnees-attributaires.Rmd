@@ -23,7 +23,7 @@ Prenons la table des départements, cette table est un `spatial dataframe`.
 class(departements_geo)
 ```
 
-On peut utiliser `mapview()` pour voir ce jeux de données.
+On peut utiliser `mapview()` pour voir ce jeu de données.
 
 ```{r}
 mapview(departements_geo, zcol = "NOM_DEP", legend = F)
@@ -48,7 +48,7 @@ departements_geo %>%
 
 A noter que par défaut, un `spatial dataframe` gardera toujours la géométrie.
 
-Nous pouvons aggréger nos données.
+Nous pouvons agréger nos données.
 
 ```{r}
 regions <- departements_geo %>%
@@ -58,7 +58,7 @@ regions <- departements_geo %>%
 glimpse(regions)
 ```
 
-On voit que `summarise` permet non seulement d'aggréger nos données attributaires, mais également les géométries.
+On voit que `summarise` permet non seulement d'agréger nos données attributaires, mais également les géométries.
 
 Cette opération permet donc de retrouver directement notre carte des régions métropolitaines.
 
@@ -66,7 +66,7 @@ Cette opération permet donc de retrouver directement notre carte des régions m
 mapview(regions, zcol = "INSEE_REG", legend = F)
 ```
 
-On enfin effectuer des jointures attributaines sur nos données en utilisant les verbes à deux dataframe de `dplyr`.
+On peut enfin effectuer des jointures attributaines sur nos données en utilisant les verbes à deux dataframe de `dplyr`.
 
 Par exemple on va pouvoir récupérer, dans la table `regions_geo` de notre `RData`, les libellées de nos régions.
 
@@ -78,7 +78,7 @@ regions <- regions %>%
   )
 ```
 
-Nous pouvons alors utiliser ce nouvelle attibu pour nos cartes.
+Nous pouvons alors utiliser ce nouvelle attribut pour nos cartes.
 
 ```{r}
 mapview(regions, zcol = "NOM_REG", legend = F)
