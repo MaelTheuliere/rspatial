@@ -832,10 +832,10 @@ sdg_indicators_sf %>%
   annotation_north_arrow(location = "bl", height = unit(0.7, "cm"), width = unit(0.7, "cm"))
 ```
 
-### Mettre plusieurs cartes cote à cote
+### Mettre plusieurs cartes côte à côte
 
 On peut a partir d'une même carte vouloir réaliser un zoom sur une sous partie de celle-ci.
-`coord_sf()` va nous permettre de *zoomer* sur une carte, et `cow_plot()` va nous permettre d'afficher nos deux cartes cote à cote.
+`coord_sf()` va nous permettre de *zoomer* sur une carte, et `cow_plot()` va nous permettre d'afficher nos deux cartes côte à côte.
 
 Pour zoomer sur une carte,`coord_sf()` va avoir besoin des coordonnées x et y du cadre sur lequel on veut zoomer.
 Le plus simple pour cela est de filtrer préalablement 
@@ -864,7 +864,7 @@ map_sdg_indicators_africa <- sdg_indicators_sf %>%
   theme(legend.position = "right", panel.background = element_rect(fill = "light blue"))
 ```
 
-On peut utiliser ensuite `plot_grid()` pour afficher nos cartes cote à cote. Il faut jouer sur les largeurs relatives pour que les deux cartes s'agencent bien.
+On peut utiliser ensuite `plot_grid()` pour afficher nos cartes côte à côte. Il faut jouer sur les largeurs relatives pour que les deux cartes s'agencent bien.
 
 ```{r, fig.height=6,fig.width=12}
 map_sdg_indicators_compo <- map_sdg_indicators +
