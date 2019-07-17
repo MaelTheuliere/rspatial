@@ -251,7 +251,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.1" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#tm_shape"><i class="fa fa-check"></i><b>10.1</b> tm_shape</a></li>
 <li class="chapter" data-level="10.2" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-choroplethe"><i class="fa fa-check"></i><b>10.2</b> Exemple de carte choroplèthe</a></li>
 <li class="chapter" data-level="10.3" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-a-ronds-proportionnels"><i class="fa fa-check"></i><b>10.3</b> Exemple de carte à ronds proportionnels</a></li>
-<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> discretisation</a></li>
+<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> Discretisation</a></li>
 <li class="chapter" data-level="10.5" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>10.5</b> Exemples de cartes avec facet</a></li>
 <li class="chapter" data-level="10.6" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>10.6</b> gestion des palettes</a></li>
 <li class="chapter" data-level="10.7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>10.7</b> La mise en page</a></li>
@@ -260,7 +260,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.10" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>10.10</b> Export d’une carte</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html"><i class="fa fa-check"></i><b>11</b> Créer des cartogrammes</a><ul>
-<li class="chapter" data-level="11.1" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> cartogramme d’aire contigue</a></li>
+<li class="chapter" data-level="11.1" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> Cartogramme d’aire contigue</a></li>
 <li class="chapter" data-level="11.2" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-non-contigue"><i class="fa fa-check"></i><b>11.2</b> Cartogramme d’aire non contigue</a></li>
 <li class="chapter" data-level="11.3" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-de-dorling"><i class="fa fa-check"></i><b>11.3</b> Cartogramme de Dorling</a></li>
 </ul></li>
@@ -299,6 +299,8 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="creer-des-cartogrammes" class="section level1">
 <h1><span class="header-section-number">Chapitre 11</span> Créer des cartogrammes</h1>
+<p>Un cartogramme est une carte pour laquelle une variable continue, remplace la surface des territoires représentés. La géométrie de l’espace de la carte est déformée afin de se conformer aux informations relatives à cette variable.</p>
+<p>Les fonctions du package <code>cartogramm</code> permettent de réaliser l’opération de déformation attendue. La sortie de ces fonctions est un <em>spatial dataframe</em> avec une nouvelle géométrie. On peut ensuite utiliser cette nouvelle géométrie pour la visualiser avec tout package de cartographie.</p>
 <p>Dans ce chapitre nous allons utiliser les packages suivants.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartogram)
 <span class="kw">library</span>(tmap)
@@ -307,7 +309,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span class="kw">library</span>(variousdata)
 <span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)</code></pre>
 <div id="cartogramme-daire-contigue" class="section level2">
-<h2><span class="header-section-number">11.1</span> cartogramme d’aire contigue</h2>
+<h2><span class="header-section-number">11.1</span> Cartogramme d’aire contigue</h2>
 <p>Définition de la couche à partir de la variable d’une table. Ici en l’occurence le taux de mortalité de la mère à la naissance.</p>
 <p>La fonction <code>cartogram_cont()</code> permet de définir la déformation attendue.</p>
 <pre class="sourceCode r"><code class="sourceCode r">mmr_cont &lt;-<span class="st"> </span><span class="kw">cartogram_cont</span>(sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span>
@@ -363,7 +365,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="cartogramme-daire-non-contigue" class="section level2">
 <h2><span class="header-section-number">11.2</span> Cartogramme d’aire non contigue</h2>
 <p>La fonction <code>cartogram_ncont()</code> permet de définir la déformation attendue.</p>
-<p>On va ici réaliser un cartogramme de dorling sur le PIB par habitant en 2015.</p>
+<p>On va ici réaliser le cartogramme sur le log de la mortalité des mères à la naissance.</p>
 <pre class="sourceCode r"><code class="sourceCode r">mmr_ncont &lt;-<span class="st"> </span><span class="kw">cartogram_ncont</span>(sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">                               </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>,continent <span class="op">==</span><span class="st"> &quot;Africa&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">                               </span><span class="kw">mutate</span>(<span class="dt">log_sh_sta_mmr =</span> <span class="kw">log</span>(sh_sta_mmr)),
@@ -385,7 +387,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="cartogramme-de-dorling" class="section level2">
 <h2><span class="header-section-number">11.3</span> Cartogramme de Dorling</h2>
 <p>Le cartogramme de Dorling est une représentation spatiale qui vise à remplaer les polygones par des cercles proportionnels à une variable données respectant au maximum la position spatiale des polygones.</p>
-<p>La fonction <code>cartogram_dorling()</code> permet de définir le fond de carte attendu.</p>
+<p>La fonction <code>cartogram_dorling()</code> permet de définir la géométrie attendue.</p>
+<p>On va ici réaliser un cartogramme de dorling sur le PIB par habitant en 2015.</p>
 <pre class="sourceCode r"><code class="sourceCode r">gdp_dorling &lt;-<span class="st"> </span><span class="kw">cartogram_dorling</span>(sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">                                   </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>,<span class="op">!</span><span class="kw">is.na</span>(gdp_per_cap)),<span class="st">&quot;gdp_per_cap&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tm_shape</span>(World) <span class="op">+</span><span class="st"> </span>

@@ -4,11 +4,11 @@
 tmap_mode("plot")
 ```
 
-tmap est un package dédié à la réalisation de carte sous R.
+`tmap` est un package dédié à la réalisation de cartes sous R.
 
-La syntaxe est très proche de ggplot,avec l'opérateur "+" pour enchainer les options. 
+La syntaxe est très proche de `ggplot`, avec l'opérateur `+` pour enchainer les options. 
 
-L'équivalent des `geom_xx()` dans tmap sont les fonctions suivantes : 
+L'équivalent des `geom_xx()` dans `tmap` sont les fonctions suivantes : 
 
 - `tm_lines()` : afficher des lignes
 - `tm_polygons()` : afficher des polygones
@@ -20,9 +20,9 @@ L'équivalent des `geom_xx()` dans tmap sont les fonctions suivantes :
 
 Les différences avec `ggplot2` :
 
-- Les variables s'appellent dans des cotes "" ;
+- Les variables s'appellent dans des cotes `""` ;
 - Le facetting peut se faire sur un format de données large (une carte par colonne et non une carte par modalité d'une variable) ;
-- La grande différence entre les `tm_xx()` et les `geom_xx()`, c'est que les `tm_xx()`  inclus la définition des *classes* (nombre de classe, définition des classes et des palettes) sans passer par une fonction `scale()`  dont l'équivalent n'existe pas.
+- Les fonctions `tm_xx()`  incluent la définition des *classes* (nombre de classe, définition des classes et des palettes) sans passer par une fonction `scale()`  dont l'équivalent n'existe pas.
 
 La mise en page se définit avec la fonction `tm_layout()`, la légende avec `tm_legend()`
 
@@ -81,7 +81,7 @@ sdg_indicators_sf %>%
   tm_bubbles(size="sh_sta_mmr",col="sh_sta_mmr",textNA = "Valeur manquante")
 ```
 
-## discretisation
+## Discretisation
 
 Pour définir comment notre variable continue va être discrétisée, deux méthodes : 
 
@@ -145,7 +145,7 @@ sdg_indicators_sf %>%
 
 `tm_layout()` permet de controler les polices, la légende, les marges, les couleurs.
 l'option `design.mode=T` permet de voir visuellement les marges,la position de la légende.
-Le titre de la légende ne se défini pas dans `tm_layout()` mais dans `tm_polygons()`. 
+Le titre de la légende ne se définit pas dans `tm_layout()` mais dans `tm_polygons()`. 
 
 L'option `title` de ces fonctions est l'équivalent d'un libellé de la variable mise dans l'aesthetic.
 
@@ -195,7 +195,7 @@ sdg_indicators_sf %>%
 
 ## Assembler plusieurs cartes
 
-`tmap_arrange()` permet d'assembler plusieurs cartes ensemble. La limite de `tmap_arrange()` :  la fonction en permet pas de fixer un vecteur de largeur différent pour les cartes. A utiliser donc sur des cas qui peuvent convenir à cette contrainte.
+`tmap_arrange()` permet d'assembler plusieurs cartes ensemble. La limite de `tmap_arrange()` :  la fonction ne permet pas de fixer un vecteur de largeur différent pour les cartes. A utiliser donc sur des cas qui peuvent convenir à cette contrainte.
 
 ```{r}
 tmap_sdg_indicators <- sdg_indicators_sf %>%
@@ -216,7 +216,7 @@ tmap_arrange(tmap_sdg_indicators,tmap_sdg_indicators_africa,nrow = 1)
 
 ## tmap pour le web
 
-tmap permet simplement de convertir une carte tmap en carte interactive. Pour cela il faut changer le mode d'affichage de la carte avec `tmap_mode()`
+`tmap` permet simplement de convertir une carte *image* en carte interactive. Pour cela il faut changer le mode d'affichage de la carte avec `tmap_mode()`
 
 ```{r,warning=F,message=F}
 tmap_mode("view")
@@ -230,7 +230,7 @@ sdg_indicators_sf %>%
 
 ## Export d'une carte
 
-La fonction `tmap_save()`  permet d'exporter une carte tmap. Suivant le `tmap_mode()` activé, l'export peut se faire en fichier image ou en fichier html.
+La fonction `tmap_save()`  permet d'exporter une carte `tmap`. Suivant le `tmap_mode()` activé, l'export peut se faire en fichier image ou en fichier html.
 
 ```{r echo=T,eval=F,fig.height=5,fig.width=8}
 carte <- sdg_indicators_sf %>%

@@ -27,7 +27,7 @@ library(ggspatial)
 
 - Le but est de fournir une approche unique pour produire quasiment **toute valorisation graphique** de données que l'on peut trouver dans des revues scientifiques, les journaux, dans l'analyse statistique ou la data visualisation.
 
-- Ce Package aujourd'hui s'inscrit dans R dans le **framework tidyverse** qui propose une approche cohérente entre l'importation et la préparation des données, leur analyse et leur valorisation.
+- Ce package aujourd'hui s'inscrit dans R dans le **framework Tidyverse** qui propose une approche cohérente sur l'ensemble de la chaîne de vie de la donnée : importation, préparation des données, analyse et valorisation.
 
 ### Le Tidyverse
 ![le tidyverse](pic/tidyverse.png "le tidyverse"){#id .class width=800}
@@ -40,9 +40,9 @@ Pour construire un graphique avec ggplot il va falloir lui définir plusieurs é
 
 - le **mapping** : on définit dans l'aesthetic (ou aes) le **mapping**, c'est à dire ce que l'on veut représenter qui **dépend des variables** (quelle variable sur l'axe x, sur l'axe y, quelle variable pour définir une graduation de couleurs...) ;
 
-- les **paramètres** : on définit les autres paramètres qui dépendent de constantes (par exemple : je veux que toutes mes lignes soient rouge ou de taille 2 pixels) ;
+- les **paramètres** : on définit les autres paramètres qui dépendent de constantes (par exemple : je veux que toutes mes lignes soient rouges ou de taille 2 pixels) ;
 
-- le **layer ("forme géométrique")** : on définie sous quelle représentation graphique on représente les paramètres précédents. Sous ggplot, ces fonctions sont de la forme geom_XX ;
+- le **layer ("forme géométrique")** : on définit sous quelle représentation graphique on représente les paramètres précédents. Sous ggplot, ces fonctions sont de la forme geom_XX ;
 
 L'écriture type d'un graphique sera donc: 
 
@@ -51,8 +51,8 @@ ggplot(data = <DATA>) +
   <FORME_GEO>(mapping = aes(<MAPPINGS>),...=<PARAMS>)
 ```
 
-On va ensuite pouvoir à partir de cette base pour enrichir avec des fonctions supplémentaires.
-Chaque fonction s'enchaine avec des `+` comme les pipe.
+On va ensuite pouvoir partir de cette base pour l'enrichir avec des fonctions supplémentaires.
+Chaque fonction s'enchaine avec des `+` comme les `%>% `.
 
 ```{r, echo=T,eval=F}
 ggplot(data = <DATA>) + 
@@ -66,7 +66,7 @@ ggplot(data = <DATA>) +
 #### Les paramètres du mapping
 
 Dans l'exemple qui suit, la représentation géographique utilisée est le nuage de point `geom_point()`.
-D'autres types de représentations géographiques sont présentés dans la partie suivante.
+D'autres types de représentations graphiques sont présentées dans la partie suivante.
 
 L'aesthetic sert à identifier les variables que l'on souhaite représenter.
 Par exemple, si l'on souhaite représenter le taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) :
@@ -129,7 +129,7 @@ sdg_indicators %>%
   )
 ```
 
-Pour choisir et modifier facilement les couleurs d'un graphe, il existe un addin développé par Dean Attali: `Colour Picker`.
+Pour choisir et modifier facilement les couleurs d'un graphique, il existe un addin développé par Dean Attali: `Colour Picker`.
 
 Il est installable comme n'importe quel package.
 
@@ -161,7 +161,7 @@ sdg_indicators %>%
   )
 ```
 
-A noter qu'il existe plusieurs autres façons de spécifier ces élèments par des couches spécifiques: ggtitle, xlab, ylab,...
+A noter qu'il existe plusieurs autres façons de spécifier ces élèments par des fonctions spécifiques: ggtitle, xlab, ylab,...
 
 #### Légende
 
@@ -217,11 +217,11 @@ sdg_indicators %>%
     y = "Taux de mortalité de la mère \n(pour 100 000 naissances)",
     caption = "Source : ODD / ONU"
   ) +
-  annotate("text", x = 16, y = 2, label = "je rajoute mon texte", color = "blue")
+  annotate("text", x = 100000, y = 2, label = "je rajoute mon texte", color = "blue")
 
 ```
 
-La fonction `annotate()` permet aussi d'ajouter d'autre type d'annotation comme par exemple des rectangles:
+La fonction `annotate()` permet aussi d'ajouter d'autres types d'annotation comme par exemple des rectangles:
 
 ```{r, echo=T,eval=T,fig.height=5,fig.width=10,warning=F}
 sdg_indicators %>% 
@@ -246,11 +246,11 @@ sdg_indicators %>%
 
 ### Les thèmes
 
-Pour modifier simplement la position de la légende,c'est la fonction [`theme()`](http://ggplot2.tidyverse.org/reference/theme.html) qu'il faut utiliser.
+Pour modifier simplement la position de la légende, c'est la fonction [`theme()`](http://ggplot2.tidyverse.org/reference/theme.html) qu'il faut utiliser.
 
 `theme()` permet de créer des templates, c'est à dire de définir tout ce qui n'est pas lié directement aux données sur un graphique, notamment: 
 
-- la position, taille,couleur,police des éléments textuel
+- la position, taille,couleur,police des éléments textuels
 
 - la couleur des grilles primaires et secondaires du graphique
 
@@ -258,7 +258,7 @@ Pour modifier simplement la position de la légende,c'est la fonction [`theme()`
 Il existe des [thèmes prédéfinis](http://ggplot2.tidyverse.org/reference/index.html#section-themes) dans ggplot que l'on peut déjà utiliser.
 Par exemple: `theme_classic()`, `theme_bw()`, `theme_dark()`, ...
 
-Des packages externe permettent d'enrichir cette collection de thèmes, par exemple `ggthemes` ou `hrbrthemes`.
+Des packages externes permettent d'enrichir cette collection de thèmes, par exemple `ggthemes` ou `hrbrthemes`.
 
 Lorsque l'on souhaite garder une cohérence entre plusieurs graphiques, le mieux est d'en définir un à part pour l'appeler ensuite.
 
@@ -439,7 +439,7 @@ sdg_indicators %>%
 
 #### Créer son propre thème
 
-Un thème est une fonction R qui va prendre ne paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.
+Un thème est une fonction R qui va prendre en paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.
 
 Créons ici un thème avec un fond vert pour le ministère de la transition écologique et solidaire. On rajoute un paramètre pour la taille de la police du titre du graphique.
 
@@ -481,16 +481,16 @@ sdg_indicators %>%
 
 Les fonctions `scales()` permettent globalement de paramétrer les éléments rentrés dans l'aesthétic : 
 
-- Si je veux un gradient de couleur fonction d'une variable continue : quelle palette de couleur je choisie, comment je cale mon dégradé en fonction de cette variable continue ?
+- Si je veux un gradient de couleurs fonction d'une variable continue : quelle palette de couleurs je choisie, comment je cale mon dégradé en fonction de cette variable continue ?
 
 - Si je met une variable continue en ordonnée, comment je définis le minimum et maximum de cette axe, sa position, les valeurs que j'affiche sur l'échelle...
 
 
-L'ensemble des scales possibles peuvent se décrire sous forme suivante:
+L'ensemble des scales possibles peuvent se décrire sous la forme suivante:
 
 `scale_xx_yy()`
 
-ou xx peut être un des paramètre de l'aesthétic : 
+ou `xx` peut être un des paramètres de l'aesthétic : 
 
 xx|description
 -----------------|---
@@ -504,7 +504,7 @@ x|variable de l'axe x
 y|variable de l'axe y
 
 
-Et y un type de paramétrage :  
+Et `yy` un type de paramétrage :  
 
 yy|description
 -----------------|--------------------------
@@ -571,7 +571,8 @@ sdg_indicators %>%
 ```{r, echo=T,eval=F}
   scale_y_continuous(labels = scales::percent)
 ```
-- Ajout du séparateurs des milliers;
+
+- Ajout du séparateur des milliers;
 ```{r, echo=T,eval=F}
 scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE))
 ```
@@ -585,7 +586,7 @@ scale_y_continuous(labels = function(x) paste(x, " €"))
 
 ### La mise en page de plusieurs graphiques
 
-Le package cowplot permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.
+Le package `cowplot` permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.
 
 - le fonction `plot_grid()` qui permet de disposer ***n*** graphes sur ***i*** colonnes et ***j*** lignes
 
@@ -620,7 +621,7 @@ gg1 <- sdg_indicators %>%
 plot_grid(gg1, gg2, ncol = 1, nrow = 2)
 ```
 
-- le fonction `draw_plot()` associée à `ggdraw()` qui permet de disposer les graphiques à des places spécifiques.
+- la fonction `draw_plot()` associée à `ggdraw()` qui permet de disposer les graphiques à des places spécifiques.
 
 `ggdraw()` initialise le graphique
 
@@ -643,7 +644,7 @@ ggdraw() +
 
 ### Les facettes
 
-Lorsque l'on veut pouvoir réaliser un graphique pour plusieurs sous ensemble, les facettes sont alors très utiles. On va ici l'illustrer avec la réalisation du même graphique ci dessus mais pour plusieurs années différentes.
+Lorsque l'on veut pouvoir réaliser un graphique pour plusieurs sous-ensembles, les facettes sont alors très utiles. On va ici l'illustrer avec la réalisation du même graphique ci-dessus mais pour plusieurs années différentes.
 
 ```{r, echo=T,eval=T,warning = F,fig.height=5,fig.width=8}
 
@@ -669,7 +670,7 @@ sdg_indicators %>%
 
 L'exemple pris ici "scinde" notre table en fonction d'une seule variable, mais on peut le faire sur plusieurs variables également.
 
-On peut choisir avec facet_wrap : 
+On peut choisir avec `facet_wrap()` : 
 
 - le nombre de colonnes ou de ligne sur lesquel on veut voir s'afficher le graphique
 - si on veut fixer l'échelle de l'un ou l'autre des axes ou les deux
@@ -698,9 +699,9 @@ sdg_indicators %>%
 
 ### Exporter un graphique
 
-ggplot contient une fonction `ggsave()` permet d'exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf 
+ggplot contient une fonction `ggsave()` qui permet d'exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf 
 
-```{r, echo=T,eval=T,eval=F,fig.height=5,fig.width=12}
+```{r, echo=T,eval=F,fig.height=5,fig.width=12}
 p <- sdg_indicators %>% 
   filter(timeperiod  %in% c(2000, 2005, 2010, 2015),
          geoareaname %in% c("France","Canada","Burkina Faso","China","Australia")) %>%
@@ -727,13 +728,13 @@ ggsave("figures/Mortalité maternelle sur quelques pays du globe.svg", p, width 
 
 ### Les cartes choroplèthe
 
-ggplot2 intègre une fonction geom permettant l'utilisation de données géomatrique : `geom_sf`
+ggplot2 intègre une fonction geom permettant l'utilisation de données géomatrique : `geom_sf()`
 
-Celle ci doit se coupler avec la fonction `coord_sf` qui permet de s'assurer en cas de superposition de couches que celle ci utiliseront bien le même crs.
+Celle ci doit se coupler avec la fonction `coord_sf()` qui permet de s'assurer en cas de superposition de couches que celles-ci utiliseront bien le même crs en spécifiant le datum.  `coord_sf()` permet également de *zoomer* sur la carte en spécifiant les bornes x et y de la carte, ou également de définir les labels des axes.
 
 Le premier exemple que nous allons pouvoir voir, c'est une carte choroplèthe.
 
-Pour cela, préalablement, nous allons intégrer à nos données le fond de carte grace au *spatial dataframe* `World` présent dans le package `tmap`
+Pour cela, préalablement, nous allons intégrer à nos données un fond de carte : le *spatial dataframe* `World` présent dans le package `tmap`
 
 ```{r echo=T,eval=T,warning = F}
 data("World")
@@ -753,7 +754,7 @@ map_sdg_indicators <- sdg_indicators_sf %>%
 map_sdg_indicators
 ```
 
-On peut exploiter de la même façon les différentes fonctions vue précédement. Par exemple avec un peu de thème et de facet.
+On peut exploiter de la même façon les différentes fonctions vues précédement. Par exemple avec un peu de thème et de facet.
 
 ```{r,warning= F,, fig.height=12,fig.width=14}
 sdg_indicators_sf %>% 
@@ -792,7 +793,7 @@ sdg_indicators_sf %>%
 
 ggplot ne peut attribuer par défaut un rond proportionnel à un polygone.
 
-Pour travailler sur des ronds proportionnels,il faut d'abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec `geom_sf`.
+Pour travailler sur des ronds proportionnels, il faut d'abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec `geom_sf()`.
 
 ```{r, echo=T,eval=T,warning= F, fig.height=5,fig.width=12}
 World_centroid <- st_centroid(World, of_largest_polygon = T)
@@ -812,11 +813,11 @@ map_sdg_indicators_centroid
 
 ### Ajouter une barre d'échelle et la flèche du nord
 
-Le package `ggspatial()` permet d'enrichir simplement nos cartes `ggplot2` avec une barre d'échelle et la flèche du nord.
+Le package `ggspatial` permet d'enrichir simplement nos cartes `ggplot2` avec une barre d'échelle et la flèche du nord.
 
-Les deux fonctions qui permettent cela sont `annotation_scale` et `annotation_north_arrow`.
+Les deux fonctions qui permettent cela sont `annotation_scale()` et `annotation_north_arrow()`.
 
-L'utilisation de ces fonctions ne peut se faire que sur une carte en longitude / latitude.
+L'utilisation de ces fonctions nécessitent un système de coordonnées géographiques.
 
 ```{r,message =F,warning=F, fig.height=5,fig.width=12}
 sdg_indicators_sf %>%
@@ -837,9 +838,9 @@ sdg_indicators_sf %>%
 On peut a partir d'une même carte vouloir réaliser un zoom sur une sous partie de celle-ci.
 `coord_sf()` va nous permettre de *zoomer* sur une carte, et `cow_plot()` va nous permettre d'afficher nos deux cartes côte à côte.
 
-Pour zoomer sur une carte,`coord_sf()` va avoir besoin des coordonnées x et y du cadre sur lequel on veut zoomer.
+Pour zoomer sur une carte,`coord_sf()` va avoir besoin des coordonnées *x* et *y* du cadre sur lequel on veut zoomer.
 Le plus simple pour cela est de filtrer préalablement 
-notre carte et de récupérer la bbox de celle ci.
+notre spatial dataframe et de récupérer la bbox de celle-ci.
 
 Filtrons par exemple sur le continent africain.
 

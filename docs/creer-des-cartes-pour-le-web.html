@@ -251,7 +251,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.1" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#tm_shape"><i class="fa fa-check"></i><b>10.1</b> tm_shape</a></li>
 <li class="chapter" data-level="10.2" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-choroplethe"><i class="fa fa-check"></i><b>10.2</b> Exemple de carte choroplèthe</a></li>
 <li class="chapter" data-level="10.3" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-a-ronds-proportionnels"><i class="fa fa-check"></i><b>10.3</b> Exemple de carte à ronds proportionnels</a></li>
-<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> discretisation</a></li>
+<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> Discretisation</a></li>
 <li class="chapter" data-level="10.5" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>10.5</b> Exemples de cartes avec facet</a></li>
 <li class="chapter" data-level="10.6" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>10.6</b> gestion des palettes</a></li>
 <li class="chapter" data-level="10.7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>10.7</b> La mise en page</a></li>
@@ -260,7 +260,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.10" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>10.10</b> Export d’une carte</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html"><i class="fa fa-check"></i><b>11</b> Créer des cartogrammes</a><ul>
-<li class="chapter" data-level="11.1" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> cartogramme d’aire contigue</a></li>
+<li class="chapter" data-level="11.1" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> Cartogramme d’aire contigue</a></li>
 <li class="chapter" data-level="11.2" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-non-contigue"><i class="fa fa-check"></i><b>11.2</b> Cartogramme d’aire non contigue</a></li>
 <li class="chapter" data-level="11.3" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-de-dorling"><i class="fa fa-check"></i><b>11.3</b> Cartogramme de Dorling</a></li>
 </ul></li>
@@ -301,7 +301,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h1><span class="header-section-number">Chapitre 12</span> Créer des cartes pour le web</h1>
 <div id="les-cartes-leaflet" class="section level2">
 <h2><span class="header-section-number">12.1</span> Les cartes Leaflet</h2>
-<p>Leaflet est au départ un package de cartographique réalisé en javascript. R permet de produire des cartes en exploitant cette librairie.</p>
+<p><a href="https://leafletjs.com/"><code>leaflet</code></a> est une bibliothèque javascript de cartographie en ligne. R permet de produire des cartes en exploitant cette bibliothèque.</p>
 <p>La limitation de <code>leaflet</code> est qu’il ne permet de visualiser que des données en projection WGS84.</p>
 <p>Dans ce chapitre, nous utiliserons les packages suivants</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(leaflet)
@@ -312,7 +312,9 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="carte-choroplete" class="section level3">
 <h3><span class="header-section-number">12.1.1</span> Carte choroplète</h3>
 <p>Ci-dessous un exemple avancé de carte choroplète avec leaflet.</p>
-<p>Définition des données de départ</p>
+<ul>
+<li>Définition des données de départ</li>
+</ul>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators_<span class="dv">2015</span>_sf &lt;-<span class="st"> </span>sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>)</code></pre>
 <ul>
@@ -327,7 +329,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li>Création d’une palette de couleurs associée</li>
 </ul>
-<p><code>leaflet</code> intègre une fonction <code>colorBin()</code> qui permet d’associer à un vecteur un vecteur de couleur en fonction d’une palette et d’un vecteur de bornes.</p>
+<p><code>leaflet</code> intègre une fonction <code>colorBin()</code> qui permet d’associer à un vecteur de valeurs numériques un vecteur de couleurs en fonction d’une palette et d’un vecteur de bornes.</p>
 <pre class="sourceCode r"><code class="sourceCode r">pal &lt;-<span class="st"> </span><span class="kw">colorBin</span>(<span class="st">&quot;YlOrRd&quot;</span>, <span class="dt">domain =</span> 
                   sdg_indicators_<span class="dv">2015</span>_sf<span class="op">$</span>sh_sta_mmr,
                 <span class="dt">bins =</span> bins)</code></pre>
@@ -342,7 +344,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li>Réalisation de la carte</li>
 </ul>
 <p>La fonction <code>addPolygons()</code> permet de créer la carte choroplète.</p>
-<p>La fonction <code>addProviderTiles()</code> permet de rajouter un fond cartographique parmis les couches fournies par leaflet.</p>
+<p>La fonction <code>addProviderTiles()</code> permet de rajouter un fond cartographique parmis les couches fournies par <code>leaflet</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">leaflet</span>(sdg_indicators_<span class="dv">2015</span>_sf) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">addProviderTiles</span>(providers<span class="op">$</span>CartoDB.Positron) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">addPolygons</span>(<span class="dt">data=</span>sdg_indicators_<span class="dv">2015</span>_sf,
@@ -368,7 +370,7 @@ code span.wa { color: #bf0303; } /* Warning */
 </div>
 <div id="carte-a-ronds-proportionnels" class="section level3">
 <h3><span class="header-section-number">12.1.2</span> Carte à ronds proportionnels</h3>
-<p>Pour réaliser des ronds proportionnels, il va falloir comme pour <code>ggplot2</code> partir des centroide de nos polygones.</p>
+<p>Pour réaliser des ronds proportionnels, il va falloir comme pour <code>ggplot2</code> partir des centroides de nos polygones.</p>
 <ul>
 <li>Création de la table en entrée</li>
 </ul>

@@ -251,7 +251,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.1" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#tm_shape"><i class="fa fa-check"></i><b>10.1</b> tm_shape</a></li>
 <li class="chapter" data-level="10.2" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-choroplethe"><i class="fa fa-check"></i><b>10.2</b> Exemple de carte choroplèthe</a></li>
 <li class="chapter" data-level="10.3" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemple-de-carte-a-ronds-proportionnels"><i class="fa fa-check"></i><b>10.3</b> Exemple de carte à ronds proportionnels</a></li>
-<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> discretisation</a></li>
+<li class="chapter" data-level="10.4" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> Discretisation</a></li>
 <li class="chapter" data-level="10.5" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>10.5</b> Exemples de cartes avec facet</a></li>
 <li class="chapter" data-level="10.6" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>10.6</b> gestion des palettes</a></li>
 <li class="chapter" data-level="10.7" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>10.7</b> La mise en page</a></li>
@@ -260,7 +260,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.10" data-path="creer-des-cartes-avec-tmap.html"><a href="creer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>10.10</b> Export d’une carte</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html"><i class="fa fa-check"></i><b>11</b> Créer des cartogrammes</a><ul>
-<li class="chapter" data-level="11.1" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> cartogramme d’aire contigue</a></li>
+<li class="chapter" data-level="11.1" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> Cartogramme d’aire contigue</a></li>
 <li class="chapter" data-level="11.2" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-daire-non-contigue"><i class="fa fa-check"></i><b>11.2</b> Cartogramme d’aire non contigue</a></li>
 <li class="chapter" data-level="11.3" data-path="creer-des-cartogrammes.html"><a href="creer-des-cartogrammes.html#cartogramme-de-dorling"><i class="fa fa-check"></i><b>11.3</b> Cartogramme de Dorling</a></li>
 </ul></li>
@@ -315,7 +315,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li><p><a href="http://ggplot2.tidyverse.org/">ggplot 2</a> est un package créé par Hadley Wickham et Winston Chang pour implémenter dans R la vision développée par Leland Wilkinson dans <a href="https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448/ref=as_li_ss_tl?ie=UTF8&amp;qid=1477928463&amp;sr=8-1&amp;keywords=the+grammar+of+graphics&amp;linkCode=sl1&amp;tag=ggplot2-20&amp;linkId=f0130e557161b83fbe97ba0e9175c431">The Grammar of Graphics (Statistics and Computing)</a> de la conception de graphiques.</p></li>
 <li><p>Le but est de fournir une approche unique pour produire quasiment <strong>toute valorisation graphique</strong> de données que l’on peut trouver dans des revues scientifiques, les journaux, dans l’analyse statistique ou la data visualisation.</p></li>
-<li><p>Ce Package aujourd’hui s’inscrit dans R dans le <strong>framework tidyverse</strong> qui propose une approche cohérente entre l’importation et la préparation des données, leur analyse et leur valorisation.</p></li>
+<li><p>Ce package aujourd’hui s’inscrit dans R dans le <strong>framework Tidyverse</strong> qui propose une approche cohérente sur l’ensemble de la chaîne de vie de la donnée : importation, préparation des données, analyse et valorisation.</p></li>
 </ul>
 </div>
 <div id="le-tidyverse" class="section level3">
@@ -331,14 +331,14 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li><p><strong>la donnée</strong> : ggplot2 permet de travailler sur des vecteurs, des dataframes, des tibbles, ou des données spatiales ;</p></li>
 <li><p>le <strong>mapping</strong> : on définit dans l’aesthetic (ou aes) le <strong>mapping</strong>, c’est à dire ce que l’on veut représenter qui <strong>dépend des variables</strong> (quelle variable sur l’axe x, sur l’axe y, quelle variable pour définir une graduation de couleurs…) ;</p></li>
-<li><p>les <strong>paramètres</strong> : on définit les autres paramètres qui dépendent de constantes (par exemple : je veux que toutes mes lignes soient rouge ou de taille 2 pixels) ;</p></li>
-<li><p>le <strong>layer (“forme géométrique”)</strong> : on définie sous quelle représentation graphique on représente les paramètres précédents. Sous ggplot, ces fonctions sont de la forme geom_XX ;</p></li>
+<li><p>les <strong>paramètres</strong> : on définit les autres paramètres qui dépendent de constantes (par exemple : je veux que toutes mes lignes soient rouges ou de taille 2 pixels) ;</p></li>
+<li><p>le <strong>layer (“forme géométrique”)</strong> : on définit sous quelle représentation graphique on représente les paramètres précédents. Sous ggplot, ces fonctions sont de la forme geom_XX ;</p></li>
 </ul>
 <p>L’écriture type d’un graphique sera donc:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>FORME_GEO<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>),<span class="dt">...=</span><span class="op">&lt;</span>PARAMS<span class="op">&gt;</span>)</code></pre>
-<p>On va ensuite pouvoir à partir de cette base pour enrichir avec des fonctions supplémentaires.
-Chaque fonction s’enchaine avec des <code>+</code> comme les pipe.</p>
+<p>On va ensuite pouvoir partir de cette base pour l’enrichir avec des fonctions supplémentaires.
+Chaque fonction s’enchaine avec des <code>+</code> comme les <code>%&gt;%</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>FORME_GEO<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>),<span class="dt">...=</span><span class="op">&lt;</span>PARAMS<span class="op">&gt;</span>)<span class="op">+</span>
 <span class="st">  </span><span class="er">&lt;</span>FONCTION1<span class="op">&gt;+</span>
@@ -349,7 +349,7 @@ Chaque fonction s’enchaine avec des <code>+</code> comme les pipe.</p>
 <div id="les-parametres-du-mapping" class="section level4">
 <h4><span class="header-section-number">9.1.4.1</span> Les paramètres du mapping</h4>
 <p>Dans l’exemple qui suit, la représentation géographique utilisée est le nuage de point <code>geom_point()</code>.
-D’autres types de représentations géographiques sont présentés dans la partie suivante.</p>
+D’autres types de représentations graphiques sont présentées dans la partie suivante.</p>
 <p>L’aesthetic sert à identifier les variables que l’on souhaite représenter.
 Par exemple, si l’on souhaite représenter le taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) :</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
@@ -399,7 +399,7 @@ On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais i
     <span class="dt">size =</span> <span class="fl">1.9</span>
   )</code></pre>
 <p><img src="support_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
-<p>Pour choisir et modifier facilement les couleurs d’un graphe, il existe un addin développé par Dean Attali: <code>Colour Picker</code>.</p>
+<p>Pour choisir et modifier facilement les couleurs d’un graphique, il existe un addin développé par Dean Attali: <code>Colour Picker</code>.</p>
 <p>Il est installable comme n’importe quel package.</p>
 <p>Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" class="uri">https://github.com/daattali/colourpicker</a></p>
 </div>
@@ -426,7 +426,7 @@ On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais i
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   )</code></pre>
 <p><img src="support_files/figure-html/unnamed-chunk-103-1.png" width="960" /></p>
-<p>A noter qu’il existe plusieurs autres façons de spécifier ces élèments par des couches spécifiques: ggtitle, xlab, ylab,…</p>
+<p>A noter qu’il existe plusieurs autres façons de spécifier ces élèments par des fonctions spécifiques: ggtitle, xlab, ylab,…</p>
 </div>
 <div id="legende" class="section level4">
 <h4><span class="header-section-number">9.1.5.2</span> Légende</h4>
@@ -478,9 +478,9 @@ Les guides peuvent être spécifiées dans chaque <code>scale_</code> ou dans un
     <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,
     <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span>
   ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">16</span>, <span class="dt">y =</span> <span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;je rajoute mon texte&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">100000</span>, <span class="dt">y =</span> <span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;je rajoute mon texte&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre>
 <p><img src="support_files/figure-html/unnamed-chunk-105-1.png" width="960" /></p>
-<p>La fonction <code>annotate()</code> permet aussi d’ajouter d’autre type d’annotation comme par exemple des rectangles:</p>
+<p>La fonction <code>annotate()</code> permet aussi d’ajouter d’autres types d’annotation comme par exemple des rectangles:</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
@@ -504,15 +504,15 @@ Les guides peuvent être spécifiées dans chaque <code>scale_</code> ou dans un
 </div>
 <div id="les-themes" class="section level3">
 <h3><span class="header-section-number">9.1.6</span> Les thèmes</h3>
-<p>Pour modifier simplement la position de la légende,c’est la fonction <a href="http://ggplot2.tidyverse.org/reference/theme.html"><code>theme()</code></a> qu’il faut utiliser.</p>
+<p>Pour modifier simplement la position de la légende, c’est la fonction <a href="http://ggplot2.tidyverse.org/reference/theme.html"><code>theme()</code></a> qu’il faut utiliser.</p>
 <p><code>theme()</code> permet de créer des templates, c’est à dire de définir tout ce qui n’est pas lié directement aux données sur un graphique, notamment:</p>
 <ul>
-<li><p>la position, taille,couleur,police des éléments textuel</p></li>
+<li><p>la position, taille,couleur,police des éléments textuels</p></li>
 <li><p>la couleur des grilles primaires et secondaires du graphique</p></li>
 </ul>
 <p>Il existe des <a href="http://ggplot2.tidyverse.org/reference/index.html#section-themes">thèmes prédéfinis</a> dans ggplot que l’on peut déjà utiliser.
 Par exemple: <code>theme_classic()</code>, <code>theme_bw()</code>, <code>theme_dark()</code>, …</p>
-<p>Des packages externe permettent d’enrichir cette collection de thèmes, par exemple <code>ggthemes</code> ou <code>hrbrthemes</code>.</p>
+<p>Des packages externes permettent d’enrichir cette collection de thèmes, par exemple <code>ggthemes</code> ou <code>hrbrthemes</code>.</p>
 <p>Lorsque l’on souhaite garder une cohérence entre plusieurs graphiques, le mieux est d’en définir un à part pour l’appeler ensuite.</p>
 <div id="les-fonctions-element" class="section level4">
 <h4><span class="header-section-number">9.1.6.1</span> Les fonctions “élément”</h4>
@@ -758,7 +758,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 </div>
 <div id="creer-son-propre-theme" class="section level4">
 <h4><span class="header-section-number">9.1.6.5</span> Créer son propre thème</h4>
-<p>Un thème est une fonction R qui va prendre ne paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.</p>
+<p>Un thème est une fonction R qui va prendre en paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.</p>
 <p>Créons ici un thème avec un fond vert pour le ministère de la transition écologique et solidaire. On rajoute un paramètre pour la taille de la police du titre du graphique.</p>
 <pre class="sourceCode r"><code class="sourceCode r">theme_mtes &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">taille_police =</span> <span class="dv">14</span>) {
   <span class="kw">theme_bw</span>() <span class="op">+</span>
@@ -797,12 +797,12 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <h3><span class="header-section-number">9.1.7</span> Les scales</h3>
 <p>Les fonctions <code>scales()</code> permettent globalement de paramétrer les éléments rentrés dans l’aesthétic :</p>
 <ul>
-<li><p>Si je veux un gradient de couleur fonction d’une variable continue : quelle palette de couleur je choisie, comment je cale mon dégradé en fonction de cette variable continue ?</p></li>
+<li><p>Si je veux un gradient de couleurs fonction d’une variable continue : quelle palette de couleurs je choisie, comment je cale mon dégradé en fonction de cette variable continue ?</p></li>
 <li><p>Si je met une variable continue en ordonnée, comment je définis le minimum et maximum de cette axe, sa position, les valeurs que j’affiche sur l’échelle…</p></li>
 </ul>
-<p>L’ensemble des scales possibles peuvent se décrire sous forme suivante:</p>
+<p>L’ensemble des scales possibles peuvent se décrire sous la forme suivante:</p>
 <p><code>scale_xx_yy()</code></p>
-<p>ou xx peut être un des paramètre de l’aesthétic :</p>
+<p>ou <code>xx</code> peut être un des paramètres de l’aesthétic :</p>
 <table>
 <thead>
 <tr class="header">
@@ -845,7 +845,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 </tr>
 </tbody>
 </table>
-<p>Et y un type de paramétrage :</p>
+<p>Et <code>yy</code> un type de paramétrage :</p>
 <table>
 <colgroup>
 <col width="39%" />
@@ -950,7 +950,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)</code></pre>
 <ul>
-<li>Ajout du séparateurs des milliers;</li>
+<li>Ajout du séparateur des milliers;</li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> <span class="cf">function</span>(x) <span class="kw">format</span>(x, <span class="dt">big.mark =</span> <span class="st">&quot; &quot;</span>, <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</code></pre>
 <ul>
@@ -961,7 +961,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 </div>
 <div id="la-mise-en-page-de-plusieurs-graphiques" class="section level3">
 <h3><span class="header-section-number">9.1.8</span> La mise en page de plusieurs graphiques</h3>
-<p>Le package cowplot permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.</p>
+<p>Le package <code>cowplot</code> permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.</p>
 <ul>
 <li>le fonction <code>plot_grid()</code> qui permet de disposer <strong><em>n</em></strong> graphes sur <strong><em>i</em></strong> colonnes et <strong><em>j</em></strong> lignes</li>
 </ul>
@@ -994,7 +994,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="kw">plot_grid</span>(gg1, gg2, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre>
 <p><img src="support_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
 <ul>
-<li>le fonction <code>draw_plot()</code> associée à <code>ggdraw()</code> qui permet de disposer les graphiques à des places spécifiques.</li>
+<li>la fonction <code>draw_plot()</code> associée à <code>ggdraw()</code> qui permet de disposer les graphiques à des places spécifiques.</li>
 </ul>
 <p><code>ggdraw()</code> initialise le graphique</p>
 <pre class="sourceCode r"><code class="sourceCode r">gg3 &lt;-<span class="st"> </span>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
@@ -1013,7 +1013,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 </div>
 <div id="les-facettes" class="section level3">
 <h3><span class="header-section-number">9.1.9</span> Les facettes</h3>
-<p>Lorsque l’on veut pouvoir réaliser un graphique pour plusieurs sous ensemble, les facettes sont alors très utiles. On va ici l’illustrer avec la réalisation du même graphique ci dessus mais pour plusieurs années différentes.</p>
+<p>Lorsque l’on veut pouvoir réaliser un graphique pour plusieurs sous-ensembles, les facettes sont alors très utiles. On va ici l’illustrer avec la réalisation du même graphique ci-dessus mais pour plusieurs années différentes.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod  <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>),
          geoareaname <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;France&quot;</span>,<span class="st">&quot;Canada&quot;</span>,<span class="st">&quot;Burkina Faso&quot;</span>,<span class="st">&quot;China&quot;</span>,<span class="st">&quot;Australia&quot;</span>)) <span class="op">%&gt;%</span>
@@ -1034,7 +1034,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod)</code></pre>
 <p><img src="support_files/figure-html/unnamed-chunk-120-1.png" width="768" /></p>
 <p>L’exemple pris ici “scinde” notre table en fonction d’une seule variable, mais on peut le faire sur plusieurs variables également.</p>
-<p>On peut choisir avec facet_wrap :</p>
+<p>On peut choisir avec <code>facet_wrap()</code> :</p>
 <ul>
 <li>le nombre de colonnes ou de ligne sur lesquel on veut voir s’afficher le graphique</li>
 <li>si on veut fixer l’échelle de l’un ou l’autre des axes ou les deux</li>
@@ -1061,7 +1061,7 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 </div>
 <div id="exporter-un-graphique" class="section level3">
 <h3><span class="header-section-number">9.1.10</span> Exporter un graphique</h3>
-<p>ggplot contient une fonction <code>ggsave()</code> permet d’exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf</p>
+<p>ggplot contient une fonction <code>ggsave()</code> qui permet d’exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf</p>
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod  <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>),
          geoareaname <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;France&quot;</span>,<span class="st">&quot;Canada&quot;</span>,<span class="st">&quot;Burkina Faso&quot;</span>,<span class="st">&quot;China&quot;</span>,<span class="st">&quot;Australia&quot;</span>)) <span class="op">%&gt;%</span>
@@ -1088,10 +1088,10 @@ sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span>
 <h2><span class="header-section-number">9.2</span> Faire des cartes avec ggplot2</h2>
 <div id="les-cartes-choroplethe" class="section level3">
 <h3><span class="header-section-number">9.2.1</span> Les cartes choroplèthe</h3>
-<p>ggplot2 intègre une fonction geom permettant l’utilisation de données géomatrique : <code>geom_sf</code></p>
-<p>Celle ci doit se coupler avec la fonction <code>coord_sf</code> qui permet de s’assurer en cas de superposition de couches que celle ci utiliseront bien le même crs.</p>
+<p>ggplot2 intègre une fonction geom permettant l’utilisation de données géomatrique : <code>geom_sf()</code></p>
+<p>Celle ci doit se coupler avec la fonction <code>coord_sf()</code> qui permet de s’assurer en cas de superposition de couches que celles-ci utiliseront bien le même crs en spécifiant le datum. <code>coord_sf()</code> permet également de <em>zoomer</em> sur la carte en spécifiant les bornes x et y de la carte, ou également de définir les labels des axes.</p>
 <p>Le premier exemple que nous allons pouvoir voir, c’est une carte choroplèthe.</p>
-<p>Pour cela, préalablement, nous allons intégrer à nos données le fond de carte grace au <em>spatial dataframe</em> <code>World</code> présent dans le package <code>tmap</code></p>
+<p>Pour cela, préalablement, nous allons intégrer à nos données un fond de carte : le <em>spatial dataframe</em> <code>World</code> présent dans le package <code>tmap</code></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)
 
 sdg_indicators_sf &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span>
@@ -1105,7 +1105,7 @@ sdg_indicators_sf &lt;-<span class="st"> </span>World <span class="op">%&gt;%</s
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))
 map_sdg_indicators</code></pre>
 <p><img src="support_files/figure-html/unnamed-chunk-124-1.png" width="1152" /></p>
-<p>On peut exploiter de la même façon les différentes fonctions vue précédement. Par exemple avec un peu de thème et de facet.</p>
+<p>On peut exploiter de la même façon les différentes fonctions vues précédement. Par exemple avec un peu de thème et de facet.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;2000&quot;</span>,<span class="st">&quot;2005&quot;</span>,<span class="st">&quot;2010&quot;</span>,<span class="st">&quot;2015&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">           </span><span class="kw">ggplot</span>() <span class="op">+</span>
@@ -1139,7 +1139,7 @@ map_sdg_indicators</code></pre>
 <div id="les-cartes-a-ronds-proportionnels" class="section level3">
 <h3><span class="header-section-number">9.2.2</span> Les cartes à ronds proportionnels</h3>
 <p>ggplot ne peut attribuer par défaut un rond proportionnel à un polygone.</p>
-<p>Pour travailler sur des ronds proportionnels,il faut d’abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec <code>geom_sf</code>.</p>
+<p>Pour travailler sur des ronds proportionnels, il faut d’abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec <code>geom_sf()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">World_centroid &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(World, <span class="dt">of_largest_polygon =</span> T)
 sdg_indicators_sf_centroid &lt;-<span class="st"> </span>World_centroid <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">left_join</span>(sdg_indicators)
@@ -1157,9 +1157,9 @@ map_sdg_indicators_centroid</code></pre>
 </div>
 <div id="ajouter-une-barre-dechelle-et-la-fleche-du-nord" class="section level3">
 <h3><span class="header-section-number">9.2.3</span> Ajouter une barre d’échelle et la flèche du nord</h3>
-<p>Le package <code>ggspatial()</code> permet d’enrichir simplement nos cartes <code>ggplot2</code> avec une barre d’échelle et la flèche du nord.</p>
-<p>Les deux fonctions qui permettent cela sont <code>annotation_scale</code> et <code>annotation_north_arrow</code>.</p>
-<p>L’utilisation de ces fonctions ne peut se faire que sur une carte en longitude / latitude.</p>
+<p>Le package <code>ggspatial</code> permet d’enrichir simplement nos cartes <code>ggplot2</code> avec une barre d’échelle et la flèche du nord.</p>
+<p>Les deux fonctions qui permettent cela sont <code>annotation_scale()</code> et <code>annotation_north_arrow()</code>.</p>
+<p>L’utilisation de ces fonctions nécessitent un système de coordonnées géographiques.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sdg_indicators_sf <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">st_transform</span>(<span class="dt">crs =</span> <span class="dv">4326</span>) <span class="op">%&gt;%</span>
@@ -1177,9 +1177,9 @@ map_sdg_indicators_centroid</code></pre>
 <h3><span class="header-section-number">9.2.4</span> Mettre plusieurs cartes côte à côte</h3>
 <p>On peut a partir d’une même carte vouloir réaliser un zoom sur une sous partie de celle-ci.
 <code>coord_sf()</code> va nous permettre de <em>zoomer</em> sur une carte, et <code>cow_plot()</code> va nous permettre d’afficher nos deux cartes côte à côte.</p>
-<p>Pour zoomer sur une carte,<code>coord_sf()</code> va avoir besoin des coordonnées x et y du cadre sur lequel on veut zoomer.
+<p>Pour zoomer sur une carte,<code>coord_sf()</code> va avoir besoin des coordonnées <em>x</em> et <em>y</em> du cadre sur lequel on veut zoomer.
 Le plus simple pour cela est de filtrer préalablement
-notre carte et de récupérer la bbox de celle ci.</p>
+notre spatial dataframe et de récupérer la bbox de celle-ci.</p>
 <p>Filtrons par exemple sur le continent africain.</p>
 <pre class="sourceCode r"><code class="sourceCode r">bbox_africa &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(continent<span class="op">==</span><span class="st">&quot;Africa&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>

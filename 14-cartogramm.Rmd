@@ -1,5 +1,9 @@
 # Créer des cartogrammes
 
+Un cartogramme est une carte pour laquelle une variable continue, remplace la surface des territoires représentés. La géométrie de l'espace de la carte est déformée afin de se conformer aux informations relatives à cette variable.
+
+Les fonctions du package `cartogramm` permettent de réaliser l'opération de déformation attendue. La sortie de ces fonctions est un *spatial dataframe* avec une nouvelle géométrie. On peut ensuite utiliser cette nouvelle géométrie pour la visualiser avec tout package de cartographie.
+
 Dans ce chapitre nous allons utiliser les packages suivants.
 
 ```{r}
@@ -11,7 +15,7 @@ library(variousdata)
 data("World")
 ```
 
-## cartogramme d'aire contigue
+## Cartogramme d'aire contigue
 
 Définition de la couche à partir de la variable d'une table. Ici en l'occurence le taux de mortalité de la mère à la naissance.
 
@@ -77,7 +81,7 @@ mmr_cont %>%
 
 La fonction `cartogram_ncont()` permet de définir la déformation attendue.
 
-On va ici réaliser un cartogramme de dorling sur le PIB par habitant en 2015.
+On va ici réaliser le cartogramme sur le log de la mortalité des mères à la naissance.
 
 ```{r, message = F,warning = F}
 mmr_ncont <- cartogram_ncont(sdg_indicators_sf %>% 
@@ -107,7 +111,9 @@ tm_shape(World)+
 
 Le cartogramme de Dorling est une représentation spatiale qui vise à remplaer les polygones par des cercles proportionnels à une variable données respectant au maximum la position spatiale des polygones.
 
-La fonction `cartogram_dorling()` permet de définir le fond de carte attendu.
+La fonction `cartogram_dorling()` permet de définir la géométrie attendue.
+
+On va ici réaliser un cartogramme de dorling sur le PIB par habitant en 2015.
 
 ```{r}
 gdp_dorling <- cartogram_dorling(sdg_indicators_sf %>% 

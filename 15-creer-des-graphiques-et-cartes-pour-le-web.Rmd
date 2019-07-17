@@ -2,7 +2,7 @@
 
 ## Les cartes Leaflet
 
-Leaflet est au départ un package de cartographique réalisé en javascript. R permet de produire des cartes en exploitant cette librairie.
+[`leaflet`](https://leafletjs.com/) est une bibliothèque javascript de cartographie en ligne. R permet de produire des cartes en exploitant cette bibliothèque.
 
 La limitation de `leaflet` est qu'il ne permet de visualiser que des données en projection WGS84.
 
@@ -19,7 +19,7 @@ library(variousdata)
 
 Ci-dessous un exemple avancé de carte choroplète avec leaflet.
 
-Définition des données de départ
+- Définition des données de départ
 
 ```{r}
 sdg_indicators_2015_sf <- sdg_indicators_sf %>% 
@@ -41,7 +41,7 @@ bins <-quantile(sdg_indicators_2015_sf$sh_sta_mmr,
 
 - Création d'une palette de couleurs associée
 
-`leaflet` intègre une fonction `colorBin()` qui permet d'associer à un vecteur un vecteur de couleur en fonction d'une palette et d'un vecteur de bornes.
+`leaflet` intègre une fonction `colorBin()` qui permet d'associer à un vecteur de valeurs numériques un vecteur de couleurs en fonction d'une palette et d'un vecteur de bornes.
 
 ```{r}
 pal <- colorBin("YlOrRd", domain = 
@@ -62,7 +62,7 @@ labels <- sprintf(
 
 La fonction `addPolygons()` permet de créer la carte choroplète.
 
-La fonction `addProviderTiles()` permet de rajouter un fond cartographique parmis les couches fournies par leaflet.
+La fonction `addProviderTiles()` permet de rajouter un fond cartographique parmis les couches fournies par `leaflet`.
 
 ```{r,fig.width=7,fig.height=4}
 leaflet(sdg_indicators_2015_sf) %>%
@@ -89,7 +89,7 @@ leaflet(sdg_indicators_2015_sf) %>%
 
 ### Carte à ronds proportionnels
 
-Pour réaliser des ronds proportionnels, il va falloir comme pour `ggplot2` partir des centroide de nos polygones.
+Pour réaliser des ronds proportionnels, il va falloir comme pour `ggplot2` partir des centroides de nos polygones.
 
 - Création de la table en entrée 
 
