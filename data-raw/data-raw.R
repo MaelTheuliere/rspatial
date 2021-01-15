@@ -5,14 +5,14 @@ library(sf)
 library(stringr)
 library(readr)
 library(readxl)
-epci_geo<-st_read(dsn="extdata/epci/",layer="EPCI")
+epci_geo<-st_read(dsn="extdata/adminexpress/EPCI.shp")
 
-departements_geo<-st_read(dsn="extdata/departements/",layer="DEPARTEMENT") %>% 
+departements_geo<-st_read(dsn="extdata/adminexpress/DEPARTEMENT.shp") %>% 
   mutate(AREA=st_area(geometry))
 
-regions_geo<-st_read(dsn="extdata/regions/",layer="REGION")
+regions_geo<-st_read(dsn="extdata/adminexpress/REGION.shp")
 
-prefecture_de_region_geo<-st_read(dsn="extdata/adminexpress/",layer="CHEF_LIEU") %>% 
+prefecture_de_region_geo<-st_read(dsn="extdata/adminexpress/CHEF_LIEU.shp") %>% 
   filter(STATUT == "Préfecture de région") %>% 
   mutate(coords=as.character(geometry) %>% 
            str_replace_all("c\\(","") %>% 

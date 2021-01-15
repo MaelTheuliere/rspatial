@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 3 Les Systèmes de Coordonnées de Référence | Les données spatiales avec R</title>
+  <meta name="description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 3 Les Systèmes de Coordonnées de Référence | Les données spatiales avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 3 Les Systèmes de Coordonnées de Référence | Les données spatiales avec R" />
+  
+  <meta name="twitter:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+<meta name="author" content="Maël THEULIERE" />
+
+
+<meta name="date" content="2021-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="la-modélisation-des-données-spatiales.html"/>
+<link rel="next" href="lire-et-écrire-des-données-spatiales-avec-r.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.16/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Les données spatiales avec R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>1</b> Bien commencer</a><ul>
+<li class="chapter" data-level="1.1" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-un-projet-sous-rstudio-pour-vous-permettre-de-recenser-vos-travaux."><i class="fa fa-check"></i><b>1.1</b> Créer un projet sous Rstudio pour vous permettre de recenser vos travaux.</a></li>
+<li class="chapter" data-level="1.2" data-path="bien-commencer.html"><a href="bien-commencer.html#désactiver-les-options-de-sauvegarde-automatique-de-rstudio"><i class="fa fa-check"></i><b>1.2</b> Désactiver les options de sauvegarde automatique de Rstudio</a></li>
+<li class="chapter" data-level="1.3" data-path="bien-commencer.html"><a href="bien-commencer.html#intégrer-vos-données"><i class="fa fa-check"></i><b>1.3</b> Intégrer vos données</a></li>
+<li class="chapter" data-level="1.4" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-votre-arborescence-de-projet"><i class="fa fa-check"></i><b>1.4</b> Créer votre arborescence de projet</a></li>
+<li class="chapter" data-level="1.5" data-path="bien-commencer.html"><a href="bien-commencer.html#activer-les-packages-nécessaires"><i class="fa fa-check"></i><b>1.5</b> Activer les packages nécessaires</a></li>
+<li class="chapter" data-level="1.6" data-path="bien-commencer.html"><a href="bien-commencer.html#bien-structurer-ses-projets-data"><i class="fa fa-check"></i><b>1.6</b> Bien structurer ses projets data</a></li>
+</ul></li>
+<li class="part"><span><b>I Introduction aux données spatiales</b></span></li>
+<li class="chapter" data-level="2" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html"><i class="fa fa-check"></i><b>2</b> La modélisation des données spatiales</a><ul>
+<li class="chapter" data-level="2.1" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#les-données-vecteur"><i class="fa fa-check"></i><b>2.1</b> Les données vecteur</a></li>
+<li class="chapter" data-level="2.2" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#les-données-raster"><i class="fa fa-check"></i><b>2.2</b> Les données raster</a></li>
+<li class="chapter" data-level="2.3" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#la-structuration-des-données-géographiques-avec-r"><i class="fa fa-check"></i><b>2.3</b> La structuration des données géographiques avec R</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#sf-pour-les-données-vecteur"><i class="fa fa-check"></i><b>2.3.1</b> sf pour les données vecteur</a></li>
+<li class="chapter" data-level="2.3.2" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#raster-et-stars-pour-les-données-raster"><i class="fa fa-check"></i><b>2.3.2</b> raster et stars pour les données raster</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html"><i class="fa fa-check"></i><b>3</b> Les Systèmes de Coordonnées de Référence</a><ul>
+<li class="chapter" data-level="3.1" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#le-système-géodésique-ou-datum"><i class="fa fa-check"></i><b>3.1</b> Le système géodésique ou datum</a></li>
+<li class="chapter" data-level="3.2" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#les-coordonnées"><i class="fa fa-check"></i><b>3.2</b> Les coordonnées</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#coordonnées-géographiques"><i class="fa fa-check"></i><b>3.2.1</b> Coordonnées géographiques</a></li>
+<li class="chapter" data-level="3.2.2" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#coordonnées-en-projection"><i class="fa fa-check"></i><b>3.2.2</b> Coordonnées en projection</a></li>
+<li class="chapter" data-level="3.2.3" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#exemple-de-projections"><i class="fa fa-check"></i><b>3.2.3</b> Exemple de projections</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#code-epsg"><i class="fa fa-check"></i><b>3.3</b> Code EPSG</a></li>
+</ul></li>
+<li class="part"><span><b>II Lire et écrire des données spatiales</b></span></li>
+<li class="chapter" data-level="4" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html"><i class="fa fa-check"></i><b>4</b> Lire et écrire des données spatiales avec R</a><ul>
+<li class="chapter" data-level="4.1" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.1</b> Lire des fichiers plats</a></li>
+<li class="chapter" data-level="4.2" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#ecrire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.2</b> Ecrire des fichiers plats</a></li>
+<li class="chapter" data-level="4.3" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#lireecrire-des-données-spatiales-sur-postgis"><i class="fa fa-check"></i><b>4.3</b> Lire/ecrire des données spatiales sur PostGIS</a></li>
+<li class="chapter" data-level="4.4" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#convertir-un-dataframe"><i class="fa fa-check"></i><b>4.4</b> Convertir un dataframe</a></li>
+</ul></li>
+<li class="part"><span><b>III Manipuler des données spatiales</b></span></li>
+<li class="chapter" data-level="5" data-path="les-opérations-sur-données-attributaires.html"><a href="les-opérations-sur-données-attributaires.html"><i class="fa fa-check"></i><b>5</b> Les opérations sur données attributaires</a></li>
+<li class="chapter" data-level="6" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html"><i class="fa fa-check"></i><b>6</b> Les opérations spatiales sur les données</a><ul>
+<li class="chapter" data-level="6.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#filtrer"><i class="fa fa-check"></i><b>6.1</b> Filtrer</a></li>
+<li class="chapter" data-level="6.2" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#prédicats-spatiaux"><i class="fa fa-check"></i><b>6.2</b> Prédicats spatiaux</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#exercices"><i class="fa fa-check"></i><b>6.2.1</b> Exercices</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#les-jointures-spatiales"><i class="fa fa-check"></i><b>6.3</b> Les jointures spatiales</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#jointure-de-points-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.1</b> Jointure de points avec des polygones</a></li>
+<li class="chapter" data-level="6.3.2" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#jointure-de-polygones-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.2</b> Jointure de polygones avec des polygones</a></li>
+<li class="chapter" data-level="6.3.3" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#exercice"><i class="fa fa-check"></i><b>6.3.3</b> Exercice</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#les-calculs-de-distance"><i class="fa fa-check"></i><b>6.4</b> Les calculs de distance</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#matrice-de-distances"><i class="fa fa-check"></i><b>6.4.1</b> Matrice de distances</a></li>
+<li class="chapter" data-level="6.4.2" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#identification-du-plus-proche-voisin"><i class="fa fa-check"></i><b>6.4.2</b> Identification du plus proche voisin</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html"><i class="fa fa-check"></i><b>7</b> Les opérations géométriques</a><ul>
+<li class="chapter" data-level="7.1" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#opérations-unaires"><i class="fa fa-check"></i><b>7.1</b> Opérations unaires</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#simplification"><i class="fa fa-check"></i><b>7.1.1</b> Simplification</a></li>
+<li class="chapter" data-level="7.1.2" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#centroïde"><i class="fa fa-check"></i><b>7.1.2</b> Centroïde</a></li>
+<li class="chapter" data-level="7.1.3" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#buffer"><i class="fa fa-check"></i><b>7.1.3</b> Buffer</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#opérations-binaires"><i class="fa fa-check"></i><b>7.2</b> Opérations binaires</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#transformation-affine"><i class="fa fa-check"></i><b>7.2.1</b> Transformation affine</a></li>
+<li class="chapter" data-level="7.2.2" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#découpage"><i class="fa fa-check"></i><b>7.2.2</b> Découpage</a></li>
+<li class="chapter" data-level="7.2.3" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#union"><i class="fa fa-check"></i><b>7.2.3</b> Union</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="les-reprojections.html"><a href="les-reprojections.html"><i class="fa fa-check"></i><b>8</b> Les reprojections</a><ul>
+<li class="chapter" data-level="8.1" data-path="les-reprojections.html"><a href="les-reprojections.html#un-premier-exemple-de-reprojection"><i class="fa fa-check"></i><b>8.1</b> Un premier exemple de reprojection</a></li>
+<li class="chapter" data-level="8.2" data-path="les-reprojections.html"><a href="les-reprojections.html#quand-reprojeter"><i class="fa fa-check"></i><b>8.2</b> Quand reprojeter ?</a></li>
+<li class="chapter" data-level="8.3" data-path="les-reprojections.html"><a href="les-reprojections.html#quel-crs-utiliser"><i class="fa fa-check"></i><b>8.3</b> Quel CRS utiliser ?</a></li>
+<li class="chapter" data-level="8.4" data-path="les-reprojections.html"><a href="les-reprojections.html#comment-projeter"><i class="fa fa-check"></i><b>8.4</b> Comment projeter ?</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="les-reprojections.html"><a href="les-reprojections.html#projeter-des-vecteurs"><i class="fa fa-check"></i><b>8.4.1</b> Projeter des vecteurs</a></li>
+<li class="chapter" data-level="8.4.2" data-path="les-reprojections.html"><a href="les-reprojections.html#modifier-la-projection-dune-carte."><i class="fa fa-check"></i><b>8.4.2</b> Modifier la projection d’une carte.</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Créer des cartes sous R</b></span></li>
+<li class="chapter" data-level="9" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html"><i class="fa fa-check"></i><b>9</b> Créer des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.1" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#quelques-rappels-sur-ggplot2"><i class="fa fa-check"></i><b>9.1</b> Quelques rappels sur ggplot2</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#présentation-du-package-ggplot2"><i class="fa fa-check"></i><b>9.1.1</b> Présentation du package ggplot2</a></li>
+<li class="chapter" data-level="9.1.2" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#le-tidyverse"><i class="fa fa-check"></i><b>9.1.2</b> Le Tidyverse</a></li>
+<li class="chapter" data-level="9.1.3" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#ggplot-2-les-concepts-clefs"><i class="fa fa-check"></i><b>9.1.3</b> ggplot 2 : les concepts clefs</a></li>
+<li class="chapter" data-level="9.1.4" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#le-mapping"><i class="fa fa-check"></i><b>9.1.4</b> Le mapping</a></li>
+<li class="chapter" data-level="9.1.5" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#lhabillage-simple"><i class="fa fa-check"></i><b>9.1.5</b> L’habillage simple</a></li>
+<li class="chapter" data-level="9.1.6" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-thèmes"><i class="fa fa-check"></i><b>9.1.6</b> Les thèmes</a></li>
+<li class="chapter" data-level="9.1.7" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-scales"><i class="fa fa-check"></i><b>9.1.7</b> Les scales</a></li>
+<li class="chapter" data-level="9.1.8" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#la-mise-en-page-de-plusieurs-graphiques"><i class="fa fa-check"></i><b>9.1.8</b> La mise en page de plusieurs graphiques</a></li>
+<li class="chapter" data-level="9.1.9" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-facettes"><i class="fa fa-check"></i><b>9.1.9</b> Les facettes</a></li>
+<li class="chapter" data-level="9.1.10" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#exporter-un-graphique"><i class="fa fa-check"></i><b>9.1.10</b> Exporter un graphique</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#faire-des-cartes-avec-ggplot2"><i class="fa fa-check"></i><b>9.2</b> Faire des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-cartes-choroplèthe"><i class="fa fa-check"></i><b>9.2.1</b> Les cartes choroplèthe</a></li>
+<li class="chapter" data-level="9.2.2" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-cartes-à-ronds-proportionnels"><i class="fa fa-check"></i><b>9.2.2</b> Les cartes à ronds proportionnels</a></li>
+<li class="chapter" data-level="9.2.3" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#ajouter-une-barre-déchelle-et-la-flèche-du-nord"><i class="fa fa-check"></i><b>9.2.3</b> Ajouter une barre d’échelle et la flèche du nord</a></li>
+<li class="chapter" data-level="9.2.4" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#mettre-plusieurs-cartes-côte-à-côte"><i class="fa fa-check"></i><b>9.2.4</b> Mettre plusieurs cartes côte à côte</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html"><i class="fa fa-check"></i><b>10</b> Créer des cartes avec tmap</a><ul>
+<li class="chapter" data-level="10.1" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#tm_shape"><i class="fa fa-check"></i><b>10.1</b> tm_shape</a></li>
+<li class="chapter" data-level="10.2" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#exemple-de-carte-choroplèthe"><i class="fa fa-check"></i><b>10.2</b> Exemple de carte choroplèthe</a></li>
+<li class="chapter" data-level="10.3" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#exemple-de-carte-à-ronds-proportionnels"><i class="fa fa-check"></i><b>10.3</b> Exemple de carte à ronds proportionnels</a></li>
+<li class="chapter" data-level="10.4" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> Discretisation</a></li>
+<li class="chapter" data-level="10.5" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>10.5</b> Exemples de cartes avec facet</a></li>
+<li class="chapter" data-level="10.6" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>10.6</b> gestion des palettes</a></li>
+<li class="chapter" data-level="10.7" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>10.7</b> La mise en page</a></li>
+<li class="chapter" data-level="10.8" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#assembler-plusieurs-cartes"><i class="fa fa-check"></i><b>10.8</b> Assembler plusieurs cartes</a></li>
+<li class="chapter" data-level="10.9" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#tmap-pour-le-web"><i class="fa fa-check"></i><b>10.9</b> tmap pour le web</a></li>
+<li class="chapter" data-level="10.10" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>10.10</b> Export d’une carte</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html"><i class="fa fa-check"></i><b>11</b> Créer des cartogrammes</a><ul>
+<li class="chapter" data-level="11.1" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> Cartogramme d’aire contigue</a></li>
+<li class="chapter" data-level="11.2" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html#cartogramme-daire-non-contigue"><i class="fa fa-check"></i><b>11.2</b> Cartogramme d’aire non contigue</a></li>
+<li class="chapter" data-level="11.3" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html#cartogramme-de-dorling"><i class="fa fa-check"></i><b>11.3</b> Cartogramme de Dorling</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html"><i class="fa fa-check"></i><b>12</b> Créer des cartes pour le web</a><ul>
+<li class="chapter" data-level="12.1" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#les-cartes-leaflet"><i class="fa fa-check"></i><b>12.1</b> Les cartes Leaflet</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#carte-choroplète"><i class="fa fa-check"></i><b>12.1.1</b> Carte choroplète</a></li>
+<li class="chapter" data-level="12.1.2" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#carte-à-ronds-proportionnels"><i class="fa fa-check"></i><b>12.1.2</b> Carte à ronds proportionnels</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#exporter-une-sortie-html"><i class="fa fa-check"></i><b>12.2</b> Exporter une sortie html</a></li>
+</ul></li>
+<li class="part"><span><b>V A propos</b></span></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html"><i class="fa fa-check"></i>A propos de ce document</a><ul>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#code-source"><i class="fa fa-check"></i>Code source</a></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#inspiration"><i class="fa fa-check"></i>Inspiration</a></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#session-info"><i class="fa fa-check"></i>Session info</a></li>
+</ul></li>
+<li class="divider"></li>
+<center><a href="https://github.com/maeltheuliere">Maël THEULIERE</a><br><br><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a></center>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Les données spatiales avec R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="les-systèmes-de-coordonnées-de-référence" class="section level1">
+<h1><span class="header-section-number">Chapitre 3</span> Les Systèmes de Coordonnées de Référence</h1>
+<p>Les données spatiales vises à modéliser la terre.
+La terre est un objet dont la mesure a une longue histoire, qu’on a pensé plate, cylindrique, ronde, ellipsoïde. Maintenant, on sait que la terre a cette forme là :</p>
+<iframe src="https://player.vimeo.com/video/213210796" width="640" height="640" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+</iframe>
+<p>
+<a href="https://vimeo.com/213210796">THE REAL SHAPE OF PLANET EARTH - 3D Animation HD</a> from <a href="https://vimeo.com/elearnpunjab">eLearn.Punjab</a> on <a href="https://vimeo.com">Vimeo</a>.
+</p>
+<p>Les systèmes de coordonnées de référence vont permettre de se repérer sur la surface de la terre.</p>
+<div id="le-système-géodésique-ou-datum" class="section level2">
+<h2><span class="header-section-number">3.1</span> Le système géodésique ou datum</h2>
+<p>Pour modéliser la surface terrestre, on va définir un <em>géoïde</em>, qui est la surface théorique de la pesanteur.</p>
+<p>Ce <em>géoïde</em> est proche d’un ellipsoïde, c’est à dire une surface obtenue en faisant tourner une ellipse sur son axe. La terre est en effet compressée : le rayon à l’équateur est 11,5 km plus long que le rayon polaire (Maling 1992).</p>
+<p>On va donc pouvoir approximer ce géoïde par un ellipsoïde.</p>
+<p><img src="pic/datum.png" /></p>
+<p>Un point quelconque est repéré par rapport à l’ellipsoïde en utilisant un système de coordonnées sphériques : longitude, latitude, altitude.</p>
+<p>Le <em>datum</em> ou <em>système géodésique</em> va correspondre aux paramètre de forme de l’ellipsoïde et de positionnement sur celle ci.</p>
+<p>On va distinguer deux types de datum : les datum <em>locaux</em> et les datum <em>globaux</em>.</p>
+<p>Historiquement n’existait que des datum locaux, c’est à dire qui définissait une ellipse optimale pour correspondre à une partie déterminée de la surface de la terre. Cette contrainte était liée à la façon de définir le géoïde : avant les techniques spatiales, on utilisait des mesures de triangulation à partir d’un point défini par mesure astronomique.</p>
+<p><img src="http://www.ngi.be/images/2/1/lokalgeodatf.gif" /></p>
+<p>Depuis l’avènement des techniques spatiales, on est capable de définir un <em>datum global</em> grâce aux mesures satellitaires. Le système mondial de référence est aujourd’hui le WGS 84, associé au GPS.</p>
+<p>Il y a donc aujourd’hui beaucoup de <em>datum</em>, un pour la plupart des pays, qui maximise la modélisation de l’ellipsoïde sur leur territoire, et des datums globaux.</p>
+</div>
+<div id="les-coordonnées" class="section level2">
+<h2><span class="header-section-number">3.2</span> Les coordonnées</h2>
+<p>Pour se repérer sur terre, on va utiliser un système géodésique sur lequel on va se positionner avec des coordonnées.</p>
+<p>On distingue deux types de coordonnées :</p>
+<div id="coordonnées-géographiques" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Coordonnées géographiques</h3>
+<p>Les systèmes de coordonnées géographiques identifient tout lieux sur la surface de la terre en utilisant deux paramètres, la longitude et la lattitude :</p>
+<ul>
+<li><p>La Longitude est la localisation sur la direction Est-Ouest. Elle est définie par l’angle par rapport à un méridien.</p></li>
+<li><p>La Latitude définie la localisation sur la direction Nord-Sud. Elle est définie par l’angle avec l’équateur.</p></li>
+</ul>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eSTJV40Lzro" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p>Dans un système de coordonnées géographiques, les lieux sont donc identifiés par des <em>angles</em> et non des <em>mètres</em>.</p>
+</div>
+<div id="coordonnées-en-projection" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Coordonnées en projection</h3>
+<p>Les systèmes de coordonnées projetés se basent sur une modélisation de la terre plane (donc projetée sur un plan) et un système de coordonnés cartésien pour définir un point sur ce plan à partir d’une origine, d’un axe x, d’un axe y et d’une unité de mesure (comme le mètre).</p>
+<p>Tous les systèmes de coordonnées projetés se basent sur un système de coordonnées géographiques et sur une projection spatiale des données de l’ellipse en 3D sur un plan.</p>
+<p>Cet exercice ne peut se faire sans distorsion. Les propriétés de la surface de la terre comme l’aire, la direction, la distance, la forme ne peuvent être toutes conservées.</p>
+<p>En général un système de coordonnées projetés ne permet de préserver qu’une ou deux de ces propriétés. On classifie d’ailleurs ces projections selon les propriétés conservées :</p>
+<ul>
+<li>conformes (conservent les angles)</li>
+<li>équivalentes (conservent les surfaces)</li>
+<li>aphylactique (peut être équidistante, c’est-à-dire conserver les distances sur les méridiens)</li>
+</ul>
+<p>On distingue également les projection en fonction de leur mode de projection. Il y a trois principaux groupes de projections :</p>
+<ul>
+<li><p>Conique : la terre est projetée sur un cone reposant sur une ou deux tangentes. Les distorsions sont faibles sur la ligne de tangente et augmentent ensuite avec la distance à celle-ci. C’est ainsi le type de projection le mieux adapté pour des cartes réalisées sur des latitudes médianes.</p></li>
+<li><p>Cylindrique : ces projections projettent la surface de la terre sur un cylindre. Souvent utilisées pour cartographier la terre entière.</p></li>
+<li><p>Plane : projection du globe sur une surface plane tangeante en un point ou sur une ligne. Souvent utilisée pour les régions polaires.</p></li>
+</ul>
+</div>
+<div id="exemple-de-projections" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Exemple de projections</h3>
+<div id="equal-earth" class="section level4">
+<h4><span class="header-section-number">3.2.3.1</span> Equal Earth</h4>
+<p>Le but de la projection <a href="http://equal-earth.com">Equal-Earth</a> est de représenter la Terre avec toutes ses régions à part égale.</p>
+<p>Equal Earth est une projection pseudo-cylindrique ressemblant à celle de Robinson qui évoque comme elle la rotondité de la Terre. Mais à la différence de cette dernière, elle préserve les surfaces.</p>
+<ul>
+<li><a href="http://cartonumerique.blogspot.com/2018/11/la-projection-equal-earth.html" class="uri">http://cartonumerique.blogspot.com/2018/11/la-projection-equal-earth.html</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="code-epsg" class="section level2">
+<h2><span class="header-section-number">3.3</span> Code EPSG</h2>
+<p>L’EPSG (European Petroleum Survey Group), un groupe créé en 1985, a défini une liste des systèmes de coordonnées géoréférencées et leur a associé des codes pour les identifier. Le groupe est devenu en 2005 le “Comité de topographie et de positionnement” de l’Association internationale des producteurs de pétrole et de gaz (OGP). La liste peut être trouvée sur <a href="http://www.epsg.org/">ce site</a>.</p>
+<p>Un système géodésique peut recevoir plusieurs codes EPSG selon son utilisation : 2D ou 3D par exemple.</p>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="la-modélisation-des-données-spatiales.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lire-et-écrire-des-données-spatiales-avec-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"],
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

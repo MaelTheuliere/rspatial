@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 9 Créer des cartes avec ggplot2 | Les données spatiales avec R</title>
+  <meta name="description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 9 Créer des cartes avec ggplot2 | Les données spatiales avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 9 Créer des cartes avec ggplot2 | Les données spatiales avec R" />
+  
+  <meta name="twitter:description" content="Support de cours du module du même nom du master Mégadonnées et Analyse sociale du CNAM de Loire-Atlantique" />
+  
+
+<meta name="author" content="Maël THEULIERE" />
+
+
+<meta name="date" content="2021-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="les-reprojections.html"/>
+<link rel="next" href="créer-des-cartes-avec-tmap.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.16/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Les données spatiales avec R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>1</b> Bien commencer</a><ul>
+<li class="chapter" data-level="1.1" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-un-projet-sous-rstudio-pour-vous-permettre-de-recenser-vos-travaux."><i class="fa fa-check"></i><b>1.1</b> Créer un projet sous Rstudio pour vous permettre de recenser vos travaux.</a></li>
+<li class="chapter" data-level="1.2" data-path="bien-commencer.html"><a href="bien-commencer.html#désactiver-les-options-de-sauvegarde-automatique-de-rstudio"><i class="fa fa-check"></i><b>1.2</b> Désactiver les options de sauvegarde automatique de Rstudio</a></li>
+<li class="chapter" data-level="1.3" data-path="bien-commencer.html"><a href="bien-commencer.html#intégrer-vos-données"><i class="fa fa-check"></i><b>1.3</b> Intégrer vos données</a></li>
+<li class="chapter" data-level="1.4" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-votre-arborescence-de-projet"><i class="fa fa-check"></i><b>1.4</b> Créer votre arborescence de projet</a></li>
+<li class="chapter" data-level="1.5" data-path="bien-commencer.html"><a href="bien-commencer.html#activer-les-packages-nécessaires"><i class="fa fa-check"></i><b>1.5</b> Activer les packages nécessaires</a></li>
+<li class="chapter" data-level="1.6" data-path="bien-commencer.html"><a href="bien-commencer.html#bien-structurer-ses-projets-data"><i class="fa fa-check"></i><b>1.6</b> Bien structurer ses projets data</a></li>
+</ul></li>
+<li class="part"><span><b>I Introduction aux données spatiales</b></span></li>
+<li class="chapter" data-level="2" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html"><i class="fa fa-check"></i><b>2</b> La modélisation des données spatiales</a><ul>
+<li class="chapter" data-level="2.1" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#les-données-vecteur"><i class="fa fa-check"></i><b>2.1</b> Les données vecteur</a></li>
+<li class="chapter" data-level="2.2" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#les-données-raster"><i class="fa fa-check"></i><b>2.2</b> Les données raster</a></li>
+<li class="chapter" data-level="2.3" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#la-structuration-des-données-géographiques-avec-r"><i class="fa fa-check"></i><b>2.3</b> La structuration des données géographiques avec R</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#sf-pour-les-données-vecteur"><i class="fa fa-check"></i><b>2.3.1</b> sf pour les données vecteur</a></li>
+<li class="chapter" data-level="2.3.2" data-path="la-modélisation-des-données-spatiales.html"><a href="la-modélisation-des-données-spatiales.html#raster-et-stars-pour-les-données-raster"><i class="fa fa-check"></i><b>2.3.2</b> raster et stars pour les données raster</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html"><i class="fa fa-check"></i><b>3</b> Les Systèmes de Coordonnées de Référence</a><ul>
+<li class="chapter" data-level="3.1" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#le-système-géodésique-ou-datum"><i class="fa fa-check"></i><b>3.1</b> Le système géodésique ou datum</a></li>
+<li class="chapter" data-level="3.2" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#les-coordonnées"><i class="fa fa-check"></i><b>3.2</b> Les coordonnées</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#coordonnées-géographiques"><i class="fa fa-check"></i><b>3.2.1</b> Coordonnées géographiques</a></li>
+<li class="chapter" data-level="3.2.2" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#coordonnées-en-projection"><i class="fa fa-check"></i><b>3.2.2</b> Coordonnées en projection</a></li>
+<li class="chapter" data-level="3.2.3" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#exemple-de-projections"><i class="fa fa-check"></i><b>3.2.3</b> Exemple de projections</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="les-systèmes-de-coordonnées-de-référence.html"><a href="les-systèmes-de-coordonnées-de-référence.html#code-epsg"><i class="fa fa-check"></i><b>3.3</b> Code EPSG</a></li>
+</ul></li>
+<li class="part"><span><b>II Lire et écrire des données spatiales</b></span></li>
+<li class="chapter" data-level="4" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html"><i class="fa fa-check"></i><b>4</b> Lire et écrire des données spatiales avec R</a><ul>
+<li class="chapter" data-level="4.1" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.1</b> Lire des fichiers plats</a></li>
+<li class="chapter" data-level="4.2" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#ecrire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.2</b> Ecrire des fichiers plats</a></li>
+<li class="chapter" data-level="4.3" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#lireecrire-des-données-spatiales-sur-postgis"><i class="fa fa-check"></i><b>4.3</b> Lire/ecrire des données spatiales sur PostGIS</a></li>
+<li class="chapter" data-level="4.4" data-path="lire-et-écrire-des-données-spatiales-avec-r.html"><a href="lire-et-écrire-des-données-spatiales-avec-r.html#convertir-un-dataframe"><i class="fa fa-check"></i><b>4.4</b> Convertir un dataframe</a></li>
+</ul></li>
+<li class="part"><span><b>III Manipuler des données spatiales</b></span></li>
+<li class="chapter" data-level="5" data-path="les-opérations-sur-données-attributaires.html"><a href="les-opérations-sur-données-attributaires.html"><i class="fa fa-check"></i><b>5</b> Les opérations sur données attributaires</a></li>
+<li class="chapter" data-level="6" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html"><i class="fa fa-check"></i><b>6</b> Les opérations spatiales sur les données</a><ul>
+<li class="chapter" data-level="6.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#filtrer"><i class="fa fa-check"></i><b>6.1</b> Filtrer</a></li>
+<li class="chapter" data-level="6.2" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#prédicats-spatiaux"><i class="fa fa-check"></i><b>6.2</b> Prédicats spatiaux</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#exercices"><i class="fa fa-check"></i><b>6.2.1</b> Exercices</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#les-jointures-spatiales"><i class="fa fa-check"></i><b>6.3</b> Les jointures spatiales</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#jointure-de-points-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.1</b> Jointure de points avec des polygones</a></li>
+<li class="chapter" data-level="6.3.2" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#jointure-de-polygones-avec-des-polygones"><i class="fa fa-check"></i><b>6.3.2</b> Jointure de polygones avec des polygones</a></li>
+<li class="chapter" data-level="6.3.3" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#exercice"><i class="fa fa-check"></i><b>6.3.3</b> Exercice</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#les-calculs-de-distance"><i class="fa fa-check"></i><b>6.4</b> Les calculs de distance</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#matrice-de-distances"><i class="fa fa-check"></i><b>6.4.1</b> Matrice de distances</a></li>
+<li class="chapter" data-level="6.4.2" data-path="les-opérations-spatiales-sur-les-données.html"><a href="les-opérations-spatiales-sur-les-données.html#identification-du-plus-proche-voisin"><i class="fa fa-check"></i><b>6.4.2</b> Identification du plus proche voisin</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html"><i class="fa fa-check"></i><b>7</b> Les opérations géométriques</a><ul>
+<li class="chapter" data-level="7.1" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#opérations-unaires"><i class="fa fa-check"></i><b>7.1</b> Opérations unaires</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#simplification"><i class="fa fa-check"></i><b>7.1.1</b> Simplification</a></li>
+<li class="chapter" data-level="7.1.2" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#centroïde"><i class="fa fa-check"></i><b>7.1.2</b> Centroïde</a></li>
+<li class="chapter" data-level="7.1.3" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#buffer"><i class="fa fa-check"></i><b>7.1.3</b> Buffer</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#opérations-binaires"><i class="fa fa-check"></i><b>7.2</b> Opérations binaires</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#transformation-affine"><i class="fa fa-check"></i><b>7.2.1</b> Transformation affine</a></li>
+<li class="chapter" data-level="7.2.2" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#découpage"><i class="fa fa-check"></i><b>7.2.2</b> Découpage</a></li>
+<li class="chapter" data-level="7.2.3" data-path="les-opérations-géométriques.html"><a href="les-opérations-géométriques.html#union"><i class="fa fa-check"></i><b>7.2.3</b> Union</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="les-reprojections.html"><a href="les-reprojections.html"><i class="fa fa-check"></i><b>8</b> Les reprojections</a><ul>
+<li class="chapter" data-level="8.1" data-path="les-reprojections.html"><a href="les-reprojections.html#un-premier-exemple-de-reprojection"><i class="fa fa-check"></i><b>8.1</b> Un premier exemple de reprojection</a></li>
+<li class="chapter" data-level="8.2" data-path="les-reprojections.html"><a href="les-reprojections.html#quand-reprojeter"><i class="fa fa-check"></i><b>8.2</b> Quand reprojeter ?</a></li>
+<li class="chapter" data-level="8.3" data-path="les-reprojections.html"><a href="les-reprojections.html#quel-crs-utiliser"><i class="fa fa-check"></i><b>8.3</b> Quel CRS utiliser ?</a></li>
+<li class="chapter" data-level="8.4" data-path="les-reprojections.html"><a href="les-reprojections.html#comment-projeter"><i class="fa fa-check"></i><b>8.4</b> Comment projeter ?</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="les-reprojections.html"><a href="les-reprojections.html#projeter-des-vecteurs"><i class="fa fa-check"></i><b>8.4.1</b> Projeter des vecteurs</a></li>
+<li class="chapter" data-level="8.4.2" data-path="les-reprojections.html"><a href="les-reprojections.html#modifier-la-projection-dune-carte."><i class="fa fa-check"></i><b>8.4.2</b> Modifier la projection d’une carte.</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Créer des cartes sous R</b></span></li>
+<li class="chapter" data-level="9" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html"><i class="fa fa-check"></i><b>9</b> Créer des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.1" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#quelques-rappels-sur-ggplot2"><i class="fa fa-check"></i><b>9.1</b> Quelques rappels sur ggplot2</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#présentation-du-package-ggplot2"><i class="fa fa-check"></i><b>9.1.1</b> Présentation du package ggplot2</a></li>
+<li class="chapter" data-level="9.1.2" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#le-tidyverse"><i class="fa fa-check"></i><b>9.1.2</b> Le Tidyverse</a></li>
+<li class="chapter" data-level="9.1.3" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#ggplot-2-les-concepts-clefs"><i class="fa fa-check"></i><b>9.1.3</b> ggplot 2 : les concepts clefs</a></li>
+<li class="chapter" data-level="9.1.4" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#le-mapping"><i class="fa fa-check"></i><b>9.1.4</b> Le mapping</a></li>
+<li class="chapter" data-level="9.1.5" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#lhabillage-simple"><i class="fa fa-check"></i><b>9.1.5</b> L’habillage simple</a></li>
+<li class="chapter" data-level="9.1.6" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-thèmes"><i class="fa fa-check"></i><b>9.1.6</b> Les thèmes</a></li>
+<li class="chapter" data-level="9.1.7" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-scales"><i class="fa fa-check"></i><b>9.1.7</b> Les scales</a></li>
+<li class="chapter" data-level="9.1.8" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#la-mise-en-page-de-plusieurs-graphiques"><i class="fa fa-check"></i><b>9.1.8</b> La mise en page de plusieurs graphiques</a></li>
+<li class="chapter" data-level="9.1.9" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-facettes"><i class="fa fa-check"></i><b>9.1.9</b> Les facettes</a></li>
+<li class="chapter" data-level="9.1.10" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#exporter-un-graphique"><i class="fa fa-check"></i><b>9.1.10</b> Exporter un graphique</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#faire-des-cartes-avec-ggplot2"><i class="fa fa-check"></i><b>9.2</b> Faire des cartes avec ggplot2</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-cartes-choroplèthe"><i class="fa fa-check"></i><b>9.2.1</b> Les cartes choroplèthe</a></li>
+<li class="chapter" data-level="9.2.2" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#les-cartes-à-ronds-proportionnels"><i class="fa fa-check"></i><b>9.2.2</b> Les cartes à ronds proportionnels</a></li>
+<li class="chapter" data-level="9.2.3" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#ajouter-une-barre-déchelle-et-la-flèche-du-nord"><i class="fa fa-check"></i><b>9.2.3</b> Ajouter une barre d’échelle et la flèche du nord</a></li>
+<li class="chapter" data-level="9.2.4" data-path="créer-des-cartes-avec-ggplot2.html"><a href="créer-des-cartes-avec-ggplot2.html#mettre-plusieurs-cartes-côte-à-côte"><i class="fa fa-check"></i><b>9.2.4</b> Mettre plusieurs cartes côte à côte</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html"><i class="fa fa-check"></i><b>10</b> Créer des cartes avec tmap</a><ul>
+<li class="chapter" data-level="10.1" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#tm_shape"><i class="fa fa-check"></i><b>10.1</b> tm_shape</a></li>
+<li class="chapter" data-level="10.2" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#exemple-de-carte-choroplèthe"><i class="fa fa-check"></i><b>10.2</b> Exemple de carte choroplèthe</a></li>
+<li class="chapter" data-level="10.3" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#exemple-de-carte-à-ronds-proportionnels"><i class="fa fa-check"></i><b>10.3</b> Exemple de carte à ronds proportionnels</a></li>
+<li class="chapter" data-level="10.4" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#discretisation"><i class="fa fa-check"></i><b>10.4</b> Discretisation</a></li>
+<li class="chapter" data-level="10.5" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#exemples-de-cartes-avec-facet"><i class="fa fa-check"></i><b>10.5</b> Exemples de cartes avec facet</a></li>
+<li class="chapter" data-level="10.6" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#gestion-des-palettes"><i class="fa fa-check"></i><b>10.6</b> gestion des palettes</a></li>
+<li class="chapter" data-level="10.7" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#la-mise-en-page"><i class="fa fa-check"></i><b>10.7</b> La mise en page</a></li>
+<li class="chapter" data-level="10.8" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#assembler-plusieurs-cartes"><i class="fa fa-check"></i><b>10.8</b> Assembler plusieurs cartes</a></li>
+<li class="chapter" data-level="10.9" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#tmap-pour-le-web"><i class="fa fa-check"></i><b>10.9</b> tmap pour le web</a></li>
+<li class="chapter" data-level="10.10" data-path="créer-des-cartes-avec-tmap.html"><a href="créer-des-cartes-avec-tmap.html#export-dune-carte"><i class="fa fa-check"></i><b>10.10</b> Export d’une carte</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html"><i class="fa fa-check"></i><b>11</b> Créer des cartogrammes</a><ul>
+<li class="chapter" data-level="11.1" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html#cartogramme-daire-contigue"><i class="fa fa-check"></i><b>11.1</b> Cartogramme d’aire contigue</a></li>
+<li class="chapter" data-level="11.2" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html#cartogramme-daire-non-contigue"><i class="fa fa-check"></i><b>11.2</b> Cartogramme d’aire non contigue</a></li>
+<li class="chapter" data-level="11.3" data-path="créer-des-cartogrammes.html"><a href="créer-des-cartogrammes.html#cartogramme-de-dorling"><i class="fa fa-check"></i><b>11.3</b> Cartogramme de Dorling</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html"><i class="fa fa-check"></i><b>12</b> Créer des cartes pour le web</a><ul>
+<li class="chapter" data-level="12.1" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#les-cartes-leaflet"><i class="fa fa-check"></i><b>12.1</b> Les cartes Leaflet</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#carte-choroplète"><i class="fa fa-check"></i><b>12.1.1</b> Carte choroplète</a></li>
+<li class="chapter" data-level="12.1.2" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#carte-à-ronds-proportionnels"><i class="fa fa-check"></i><b>12.1.2</b> Carte à ronds proportionnels</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="créer-des-cartes-pour-le-web.html"><a href="créer-des-cartes-pour-le-web.html#exporter-une-sortie-html"><i class="fa fa-check"></i><b>12.2</b> Exporter une sortie html</a></li>
+</ul></li>
+<li class="part"><span><b>V A propos</b></span></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html"><i class="fa fa-check"></i>A propos de ce document</a><ul>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#code-source"><i class="fa fa-check"></i>Code source</a></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#inspiration"><i class="fa fa-check"></i>Inspiration</a></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+<li class="chapter" data-level="" data-path="a-propos-de-ce-document.html"><a href="a-propos-de-ce-document.html#session-info"><i class="fa fa-check"></i>Session info</a></li>
+</ul></li>
+<li class="divider"></li>
+<center><a href="https://github.com/maeltheuliere">Maël THEULIERE</a><br><br><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a></center>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Les données spatiales avec R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="créer-des-cartes-avec-ggplot2" class="section level1">
+<h1><span class="header-section-number">Chapitre 9</span> Créer des cartes avec ggplot2</h1>
+<p>Dans ce chapitre, nous allons utiliser les librairies suivantes.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="créer-des-cartes-avec-ggplot2.html#cb117-1"></a><span class="kw">library</span>(sf)</span>
+<span id="cb117-2"><a href="créer-des-cartes-avec-ggplot2.html#cb117-2"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb117-3"><a href="créer-des-cartes-avec-ggplot2.html#cb117-3"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb117-4"><a href="créer-des-cartes-avec-ggplot2.html#cb117-4"></a><span class="kw">library</span>(patchwork)</span>
+<span id="cb117-5"><a href="créer-des-cartes-avec-ggplot2.html#cb117-5"></a><span class="kw">library</span>(lwgeom)</span>
+<span id="cb117-6"><a href="créer-des-cartes-avec-ggplot2.html#cb117-6"></a><span class="co">#remotes::install_github(&quot;MaelTheuliere/variousdata&quot;)</span></span>
+<span id="cb117-7"><a href="créer-des-cartes-avec-ggplot2.html#cb117-7"></a><span class="kw">library</span>(variousdata)</span>
+<span id="cb117-8"><a href="créer-des-cartes-avec-ggplot2.html#cb117-8"></a><span class="kw">library</span>(ggspatial)</span></code></pre></div>
+<div id="quelques-rappels-sur-ggplot2" class="section level2">
+<h2><span class="header-section-number">9.1</span> Quelques rappels sur ggplot2</h2>
+<div id="présentation-du-package-ggplot2" class="section level3">
+<h3><span class="header-section-number">9.1.1</span> Présentation du package ggplot2</h3>
+<ul>
+<li><p><a href="http://ggplot2.tidyverse.org/">ggplot 2</a> est un package créé par Hadley Wickham et Winston Chang pour implémenter dans R la vision développée par Leland Wilkinson dans <a href="https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448/ref=as_li_ss_tl?ie=UTF8&amp;qid=1477928463&amp;sr=8-1&amp;keywords=the+grammar+of+graphics&amp;linkCode=sl1&amp;tag=ggplot2-20&amp;linkId=f0130e557161b83fbe97ba0e9175c431">The Grammar of Graphics (Statistics and Computing)</a> de la conception de graphiques.</p></li>
+<li><p>Le but est de fournir une approche unique pour produire quasiment <strong>toute valorisation graphique</strong> de données que l’on peut trouver dans des revues scientifiques, les journaux, dans l’analyse statistique ou la data visualisation.</p></li>
+<li><p>Ce package aujourd’hui s’inscrit dans R dans le <strong>framework Tidyverse</strong> qui propose une approche cohérente sur l’ensemble de la chaîne de vie de la donnée : importation, préparation des données, analyse et valorisation.</p></li>
+</ul>
+</div>
+<div id="le-tidyverse" class="section level3">
+<h3><span class="header-section-number">9.1.2</span> Le Tidyverse</h3>
+<div class="figure">
+<img src="pic/tidyverse.png" title="le tidyverse" id="id" class="class" width="800" alt="" />
+<p class="caption">le tidyverse</p>
+</div>
+</div>
+<div id="ggplot-2-les-concepts-clefs" class="section level3">
+<h3><span class="header-section-number">9.1.3</span> ggplot 2 : les concepts clefs</h3>
+<p>Pour construire un graphique avec ggplot il va falloir lui définir plusieurs éléments :</p>
+<ul>
+<li><p><strong>la donnée</strong> : ggplot2 permet de travailler sur des vecteurs, des dataframes, des tibbles, ou des données spatiales ;</p></li>
+<li><p>le <strong>mapping</strong> : on définit dans l’aesthetic (ou aes) le <strong>mapping</strong>, c’est à dire ce que l’on veut représenter qui <strong>dépend des variables</strong> (quelle variable sur l’axe x, sur l’axe y, quelle variable pour définir une graduation de couleurs…) ;</p></li>
+<li><p>les <strong>paramètres</strong> : on définit les autres paramètres qui dépendent de constantes (par exemple : je veux que toutes mes lignes soient rouges ou de taille 2 pixels) ;</p></li>
+<li><p>le <strong>layer (“forme géométrique”)</strong> : on définit sous quelle représentation graphique on représente les paramètres précédents. Sous ggplot, ces fonctions sont de la forme geom_XX ;</p></li>
+</ul>
+<p>L’écriture type d’un graphique sera donc:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="créer-des-cartes-avec-ggplot2.html#cb118-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb118-2"><a href="créer-des-cartes-avec-ggplot2.html#cb118-2"></a><span class="st">  </span><span class="er">&lt;</span>FORME_GEO<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>),<span class="dt">...=</span><span class="op">&lt;</span>PARAMS<span class="op">&gt;</span>)</span></code></pre></div>
+<p>On va ensuite pouvoir partir de cette base pour l’enrichir avec des fonctions supplémentaires.
+Chaque fonction s’enchaine avec des <code>+</code> comme les <code>%&gt;%</code>.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="créer-des-cartes-avec-ggplot2.html#cb119-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="op">&lt;</span>DATA<span class="op">&gt;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb119-2"><a href="créer-des-cartes-avec-ggplot2.html#cb119-2"></a><span class="st">  </span><span class="er">&lt;</span>FORME_GEO<span class="op">&gt;</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="op">&lt;</span>MAPPINGS<span class="op">&gt;</span>),<span class="dt">...=</span><span class="op">&lt;</span>PARAMS<span class="op">&gt;</span>)<span class="op">+</span></span>
+<span id="cb119-3"><a href="créer-des-cartes-avec-ggplot2.html#cb119-3"></a><span class="st">  </span><span class="er">&lt;</span>FONCTION1<span class="op">&gt;+</span></span>
+<span id="cb119-4"><a href="créer-des-cartes-avec-ggplot2.html#cb119-4"></a><span class="st">  </span>...</span></code></pre></div>
+</div>
+<div id="le-mapping" class="section level3">
+<h3><span class="header-section-number">9.1.4</span> Le mapping</h3>
+<div id="les-paramètres-du-mapping" class="section level4">
+<h4><span class="header-section-number">9.1.4.1</span> Les paramètres du mapping</h4>
+<p>Dans l’exemple qui suit, la représentation géographique utilisée est le nuage de point <code>geom_point()</code>.
+D’autres types de représentations graphiques sont présentées dans la partie suivante.</p>
+<p>L’aesthetic sert à identifier les variables que l’on souhaite représenter.
+Par exemple, si l’on souhaite représenter le taux de mortalité maternelle (Maternal_mortality_ratio) en fonction du produit intérieur brut (Gross_Domestic_Product_GDP) :</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="créer-des-cartes-avec-ggplot2.html#cb120-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb120-2"><a href="créer-des-cartes-avec-ggplot2.html#cb120-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb120-3"><a href="créer-des-cartes-avec-ggplot2.html#cb120-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb120-4"><a href="créer-des-cartes-avec-ggplot2.html#cb120-4"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, <span class="dt">y =</span> sh_sta_mmr))</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<p>De plus, la fonction <code>aes()</code> admet d’autres arguments qui permettent de modifier l’apparence du graphique selon une 3ème variable du jeu de données.</p>
+<ul>
+<li><code>colour</code> : la couleur,</li>
+<li><code>shape</code> : la forme,</li>
+<li><code>size</code> : la taille,</li>
+<li><code>alpha</code> : la transparence,</li>
+<li><code>fill</code> : le remplissage ;</li>
+</ul>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="créer-des-cartes-avec-ggplot2.html#cb121-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb121-2"><a href="créer-des-cartes-avec-ggplot2.html#cb121-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb121-3"><a href="créer-des-cartes-avec-ggplot2.html#cb121-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb121-4"><a href="créer-des-cartes-avec-ggplot2.html#cb121-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb121-5"><a href="créer-des-cartes-avec-ggplot2.html#cb121-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb121-6"><a href="créer-des-cartes-avec-ggplot2.html#cb121-6"></a>                 <span class="dt">color =</span> continent))</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+</div>
+<div id="les-autres-paramètres" class="section level4">
+<h4><span class="header-section-number">9.1.4.2</span> Les “autres” paramètres</h4>
+<p>Il est possible de spécifier des paramètres qui seront valables pour l’ensemble du graphique.
+On retrouve entre autre les mêmes paramètres que proposés dans l’aes mais il faut alors les passer <strong>en dehors de l’aesthetic</strong>.</p>
+<p>Par exemple si l’on souhaite modifier la transparance et la taille de l’ensemble des points du graphique précédent:</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="créer-des-cartes-avec-ggplot2.html#cb122-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb122-2"><a href="créer-des-cartes-avec-ggplot2.html#cb122-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb122-3"><a href="créer-des-cartes-avec-ggplot2.html#cb122-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb122-4"><a href="créer-des-cartes-avec-ggplot2.html#cb122-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb122-5"><a href="créer-des-cartes-avec-ggplot2.html#cb122-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb122-6"><a href="créer-des-cartes-avec-ggplot2.html#cb122-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb122-7"><a href="créer-des-cartes-avec-ggplot2.html#cb122-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb122-8"><a href="créer-des-cartes-avec-ggplot2.html#cb122-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb122-9"><a href="créer-des-cartes-avec-ggplot2.html#cb122-9"></a>  )</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<p>De même si l’on souhaite modifier la couleur générale:</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="créer-des-cartes-avec-ggplot2.html#cb123-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb123-2"><a href="créer-des-cartes-avec-ggplot2.html#cb123-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb123-3"><a href="créer-des-cartes-avec-ggplot2.html#cb123-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb123-4"><a href="créer-des-cartes-avec-ggplot2.html#cb123-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb123-5"><a href="créer-des-cartes-avec-ggplot2.html#cb123-5"></a>                 <span class="dt">y =</span> sh_sta_mmr),</span>
+<span id="cb123-6"><a href="créer-des-cartes-avec-ggplot2.html#cb123-6"></a>    <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb123-7"><a href="créer-des-cartes-avec-ggplot2.html#cb123-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb123-8"><a href="créer-des-cartes-avec-ggplot2.html#cb123-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb123-9"><a href="créer-des-cartes-avec-ggplot2.html#cb123-9"></a>  )</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
+<p>Pour choisir et modifier facilement les couleurs d’un graphique, il existe un addin développé par Dean Attali: <code>Colour Picker</code>.</p>
+<p>Il est installable comme n’importe quel package.</p>
+<p>Pour plus d’informations: <a href="https://github.com/daattali/colourpicker" class="uri">https://github.com/daattali/colourpicker</a></p>
+</div>
+</div>
+<div id="lhabillage-simple" class="section level3">
+<h3><span class="header-section-number">9.1.5</span> L’habillage simple</h3>
+<div id="titre-et-libellé-des-axes" class="section level4">
+<h4><span class="header-section-number">9.1.5.1</span> Titre et libellé des axes</h4>
+<p>Chaque nouvel élément graphique est à rajouter sous forme de layer, ici nous utilisons la fonction <code>labs()</code> qui permet de labelliser tout les éléments possibles de l’aesthétic, ainsi que le titre (<code>title</code>), le sous titre (<code>subtitle</code>) et le bas de page (<code>caption</code>)</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="créer-des-cartes-avec-ggplot2.html#cb124-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb124-2"><a href="créer-des-cartes-avec-ggplot2.html#cb124-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb124-3"><a href="créer-des-cartes-avec-ggplot2.html#cb124-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb124-4"><a href="créer-des-cartes-avec-ggplot2.html#cb124-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb124-5"><a href="créer-des-cartes-avec-ggplot2.html#cb124-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb124-6"><a href="créer-des-cartes-avec-ggplot2.html#cb124-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb124-7"><a href="créer-des-cartes-avec-ggplot2.html#cb124-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb124-8"><a href="créer-des-cartes-avec-ggplot2.html#cb124-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb124-9"><a href="créer-des-cartes-avec-ggplot2.html#cb124-9"></a>  ) <span class="op">+</span></span>
+<span id="cb124-10"><a href="créer-des-cartes-avec-ggplot2.html#cb124-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb124-11"><a href="créer-des-cartes-avec-ggplot2.html#cb124-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb124-12"><a href="créer-des-cartes-avec-ggplot2.html#cb124-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb124-13"><a href="créer-des-cartes-avec-ggplot2.html#cb124-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb124-14"><a href="créer-des-cartes-avec-ggplot2.html#cb124-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb124-15"><a href="créer-des-cartes-avec-ggplot2.html#cb124-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb124-16"><a href="créer-des-cartes-avec-ggplot2.html#cb124-16"></a>  )</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-103-1.png" width="960" /></p>
+<p>A noter qu’il existe plusieurs autres façons de spécifier ces élèments par des fonctions spécifiques: ggtitle, xlab, ylab,…</p>
+</div>
+<div id="légende" class="section level4">
+<h4><span class="header-section-number">9.1.5.2</span> Légende</h4>
+<p>Les fonctions <code>guide()</code> et <code>guides</code> permettent de modifier finement la légende.
+Les guides peuvent être spécifiées dans chaque <code>scale_</code> ou dans une instruction <code>guides</code>.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="créer-des-cartes-avec-ggplot2.html#cb125-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb125-2"><a href="créer-des-cartes-avec-ggplot2.html#cb125-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb125-3"><a href="créer-des-cartes-avec-ggplot2.html#cb125-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb125-4"><a href="créer-des-cartes-avec-ggplot2.html#cb125-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb125-5"><a href="créer-des-cartes-avec-ggplot2.html#cb125-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb125-6"><a href="créer-des-cartes-avec-ggplot2.html#cb125-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb125-7"><a href="créer-des-cartes-avec-ggplot2.html#cb125-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb125-8"><a href="créer-des-cartes-avec-ggplot2.html#cb125-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb125-9"><a href="créer-des-cartes-avec-ggplot2.html#cb125-9"></a>  ) <span class="op">+</span></span>
+<span id="cb125-10"><a href="créer-des-cartes-avec-ggplot2.html#cb125-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb125-11"><a href="créer-des-cartes-avec-ggplot2.html#cb125-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb125-12"><a href="créer-des-cartes-avec-ggplot2.html#cb125-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb125-13"><a href="créer-des-cartes-avec-ggplot2.html#cb125-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb125-14"><a href="créer-des-cartes-avec-ggplot2.html#cb125-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb125-15"><a href="créer-des-cartes-avec-ggplot2.html#cb125-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb125-16"><a href="créer-des-cartes-avec-ggplot2.html#cb125-16"></a>  ) <span class="op">+</span></span>
+<span id="cb125-17"><a href="créer-des-cartes-avec-ggplot2.html#cb125-17"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(</span>
+<span id="cb125-18"><a href="créer-des-cartes-avec-ggplot2.html#cb125-18"></a>    <span class="dt">direction =</span> <span class="st">&quot;horizontal&quot;</span>,</span>
+<span id="cb125-19"><a href="créer-des-cartes-avec-ggplot2.html#cb125-19"></a>    <span class="dt">order =</span> <span class="dv">1</span>,</span>
+<span id="cb125-20"><a href="créer-des-cartes-avec-ggplot2.html#cb125-20"></a>    <span class="dt">title.position =</span> <span class="st">&quot;top&quot;</span>,</span>
+<span id="cb125-21"><a href="créer-des-cartes-avec-ggplot2.html#cb125-21"></a>    <span class="dt">title.hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb125-22"><a href="créer-des-cartes-avec-ggplot2.html#cb125-22"></a>    <span class="dt">nrow =</span> <span class="dv">1</span>,</span>
+<span id="cb125-23"><a href="créer-des-cartes-avec-ggplot2.html#cb125-23"></a>    <span class="dt">label.position =</span> <span class="st">&quot;bottom&quot;</span></span>
+<span id="cb125-24"><a href="créer-des-cartes-avec-ggplot2.html#cb125-24"></a>  )) <span class="op">+</span></span>
+<span id="cb125-25"><a href="créer-des-cartes-avec-ggplot2.html#cb125-25"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-104-1.png" width="960" /></p>
+</div>
+<div id="annotation" class="section level4">
+<h4><span class="header-section-number">9.1.5.3</span> Annotation</h4>
+<p>Il est aussi possible de rajouter des annotations de type texte, par exemple, “à la volée”.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="créer-des-cartes-avec-ggplot2.html#cb126-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb126-2"><a href="créer-des-cartes-avec-ggplot2.html#cb126-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb126-3"><a href="créer-des-cartes-avec-ggplot2.html#cb126-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb126-4"><a href="créer-des-cartes-avec-ggplot2.html#cb126-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb126-5"><a href="créer-des-cartes-avec-ggplot2.html#cb126-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb126-6"><a href="créer-des-cartes-avec-ggplot2.html#cb126-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb126-7"><a href="créer-des-cartes-avec-ggplot2.html#cb126-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb126-8"><a href="créer-des-cartes-avec-ggplot2.html#cb126-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb126-9"><a href="créer-des-cartes-avec-ggplot2.html#cb126-9"></a>  ) <span class="op">+</span></span>
+<span id="cb126-10"><a href="créer-des-cartes-avec-ggplot2.html#cb126-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb126-11"><a href="créer-des-cartes-avec-ggplot2.html#cb126-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb126-12"><a href="créer-des-cartes-avec-ggplot2.html#cb126-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb126-13"><a href="créer-des-cartes-avec-ggplot2.html#cb126-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb126-14"><a href="créer-des-cartes-avec-ggplot2.html#cb126-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb126-15"><a href="créer-des-cartes-avec-ggplot2.html#cb126-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb126-16"><a href="créer-des-cartes-avec-ggplot2.html#cb126-16"></a>  ) <span class="op">+</span></span>
+<span id="cb126-17"><a href="créer-des-cartes-avec-ggplot2.html#cb126-17"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">100000</span>, <span class="dt">y =</span> <span class="dv">2</span>, <span class="dt">label =</span> <span class="st">&quot;je rajoute mon texte&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-105-1.png" width="960" /></p>
+<p>La fonction <code>annotate()</code> permet aussi d’ajouter d’autres types d’annotation comme par exemple des rectangles:</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="créer-des-cartes-avec-ggplot2.html#cb127-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb127-2"><a href="créer-des-cartes-avec-ggplot2.html#cb127-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb127-3"><a href="créer-des-cartes-avec-ggplot2.html#cb127-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb127-4"><a href="créer-des-cartes-avec-ggplot2.html#cb127-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb127-5"><a href="créer-des-cartes-avec-ggplot2.html#cb127-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb127-6"><a href="créer-des-cartes-avec-ggplot2.html#cb127-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb127-7"><a href="créer-des-cartes-avec-ggplot2.html#cb127-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb127-8"><a href="créer-des-cartes-avec-ggplot2.html#cb127-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb127-9"><a href="créer-des-cartes-avec-ggplot2.html#cb127-9"></a>  ) <span class="op">+</span></span>
+<span id="cb127-10"><a href="créer-des-cartes-avec-ggplot2.html#cb127-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb127-11"><a href="créer-des-cartes-avec-ggplot2.html#cb127-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb127-12"><a href="créer-des-cartes-avec-ggplot2.html#cb127-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb127-13"><a href="créer-des-cartes-avec-ggplot2.html#cb127-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb127-14"><a href="créer-des-cartes-avec-ggplot2.html#cb127-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb127-15"><a href="créer-des-cartes-avec-ggplot2.html#cb127-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb127-16"><a href="créer-des-cartes-avec-ggplot2.html#cb127-16"></a>  ) <span class="op">+</span></span>
+<span id="cb127-17"><a href="créer-des-cartes-avec-ggplot2.html#cb127-17"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="dv">10</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="ot">Inf</span>, <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
+<span id="cb127-18"><a href="créer-des-cartes-avec-ggplot2.html#cb127-18"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="dt">xmin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">xmax =</span> <span class="ot">Inf</span>, <span class="dt">ymin =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">ymax =</span> <span class="dv">2</span>, <span class="dt">fill =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-106-1.png" width="960" /></p>
+</div>
+</div>
+<div id="les-thèmes" class="section level3">
+<h3><span class="header-section-number">9.1.6</span> Les thèmes</h3>
+<p>Pour modifier simplement la position de la légende, c’est la fonction <a href="http://ggplot2.tidyverse.org/reference/theme.html"><code>theme()</code></a> qu’il faut utiliser.</p>
+<p><code>theme()</code> permet de créer des templates, c’est à dire de définir tout ce qui n’est pas lié directement aux données sur un graphique, notamment:</p>
+<ul>
+<li><p>la position, taille,couleur,police des éléments textuels</p></li>
+<li><p>la couleur des grilles primaires et secondaires du graphique</p></li>
+</ul>
+<p>Il existe des <a href="http://ggplot2.tidyverse.org/reference/index.html#section-themes">thèmes prédéfinis</a> dans ggplot que l’on peut déjà utiliser.
+Par exemple: <code>theme_classic()</code>, <code>theme_bw()</code>, <code>theme_dark()</code>, …</p>
+<p>Des packages externes permettent d’enrichir cette collection de thèmes, par exemple <code>ggthemes</code> ou <code>hrbrthemes</code>.</p>
+<p>Lorsque l’on souhaite garder une cohérence entre plusieurs graphiques, le mieux est d’en définir un à part pour l’appeler ensuite.</p>
+<div id="les-fonctions-élément" class="section level4">
+<h4><span class="header-section-number">9.1.6.1</span> Les fonctions “élément”</h4>
+<p>Elle utilise 4 types de fonctions:</p>
+<ul>
+<li><code>element_text()</code> : pour toutes les étiquettes</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>PARAMÈTRE</th>
+<th>VALEUR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>family</td>
+<td>la famille de la police</td>
+</tr>
+<tr class="even">
+<td>face</td>
+<td>le type de police (“plain”, “italic”, “bold”, “bold.italic”)</td>
+</tr>
+<tr class="odd">
+<td>colour</td>
+<td>couleur</td>
+</tr>
+<tr class="even">
+<td>size</td>
+<td>taille en points</td>
+</tr>
+<tr class="odd">
+<td>hjust</td>
+<td>justification horizontale, dans [0, 1]</td>
+</tr>
+<tr class="even">
+<td>vjust</td>
+<td>justification verticale, dans [0, 1]</td>
+</tr>
+<tr class="odd">
+<td>angle</td>
+<td>angle, dans [0, 360]</td>
+</tr>
+<tr class="even">
+<td>lineheight</td>
+<td>hauteur de ligne (pour l’espacement entre les lignes)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>element_rect()</code> : pour les fonds et les cadres,</li>
+</ul>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>PARAMÈTRE</th>
+<th>VALEUR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fill</td>
+<td>la couleur de remplissage</td>
+</tr>
+<tr class="even">
+<td>colour</td>
+<td>la couleur de la bordure</td>
+</tr>
+<tr class="odd">
+<td>size</td>
+<td>la taille de la bordure</td>
+</tr>
+<tr class="even">
+<td>linetype</td>
+<td>le type de ligne (“blank”, “solid”, “dashed”, “dotted”, “dotdash”, “longdash”, "twodash)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>element_line()</code> : pour toutes les lignes tracées,</li>
+</ul>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>PARAMÈTRE</th>
+<th>VALEUR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>colour</td>
+<td>la couleur de ligne</td>
+</tr>
+<tr class="even">
+<td>size</td>
+<td>la taille</td>
+</tr>
+<tr class="odd">
+<td>linetype</td>
+<td>le type de ligne (“blank”, “solid”, “dashed”, “dotted”, “dotdash”,“longdash”, "twodash)</td>
+</tr>
+<tr class="even">
+<td>lineend</td>
+<td>le type de fin de ligne (“round”, “butt” ou “square”)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>element_blank()</code> : permet de ne rien dessiner.</li>
+</ul>
+</div>
+<div id="les-composantes" class="section level4">
+<h4><span class="header-section-number">9.1.6.2</span> Les composantes</h4>
+<p>Il s’agit des différents éléments modifiables dans le thème.
+Par exemple:</p>
+<p><strong>Axes</strong>
+axis.line, axis.text.x, axis.text.y, axis.ticks, axis.title.x, axis.title.y,…</p>
+<p><strong>Légende</strong>
+legend.background, legend.key, legend.text, legend.title,…</p>
+<p><strong>Fond de graphe</strong>
+panel.background, panel.border, panel.grid.major, panel.grid.minor,…</p>
+<p>etc</p>
+</div>
+<div id="quelques-exemples" class="section level4">
+<h4><span class="header-section-number">9.1.6.3</span> Quelques exemples</h4>
+<ul>
+<li>Changer le fond du graphique <code>panel_background()</code></li>
+</ul>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="créer-des-cartes-avec-ggplot2.html#cb128-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb128-2"><a href="créer-des-cartes-avec-ggplot2.html#cb128-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb128-3"><a href="créer-des-cartes-avec-ggplot2.html#cb128-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb128-4"><a href="créer-des-cartes-avec-ggplot2.html#cb128-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb128-5"><a href="créer-des-cartes-avec-ggplot2.html#cb128-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb128-6"><a href="créer-des-cartes-avec-ggplot2.html#cb128-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb128-7"><a href="créer-des-cartes-avec-ggplot2.html#cb128-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb128-8"><a href="créer-des-cartes-avec-ggplot2.html#cb128-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb128-9"><a href="créer-des-cartes-avec-ggplot2.html#cb128-9"></a>  ) <span class="op">+</span></span>
+<span id="cb128-10"><a href="créer-des-cartes-avec-ggplot2.html#cb128-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb128-11"><a href="créer-des-cartes-avec-ggplot2.html#cb128-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb128-12"><a href="créer-des-cartes-avec-ggplot2.html#cb128-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb128-13"><a href="créer-des-cartes-avec-ggplot2.html#cb128-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb128-14"><a href="créer-des-cartes-avec-ggplot2.html#cb128-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb128-15"><a href="créer-des-cartes-avec-ggplot2.html#cb128-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb128-16"><a href="créer-des-cartes-avec-ggplot2.html#cb128-16"></a>  ) <span class="op">+</span></span>
+<span id="cb128-17"><a href="créer-des-cartes-avec-ggplot2.html#cb128-17"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;Lavender&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>))</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-107-1.png" width="960" /></p>
+<ul>
+<li>Changer l’apparence du quadrillage : <code>panel_background()</code></li>
+</ul>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="créer-des-cartes-avec-ggplot2.html#cb129-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb129-2"><a href="créer-des-cartes-avec-ggplot2.html#cb129-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb129-3"><a href="créer-des-cartes-avec-ggplot2.html#cb129-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb129-4"><a href="créer-des-cartes-avec-ggplot2.html#cb129-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb129-5"><a href="créer-des-cartes-avec-ggplot2.html#cb129-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb129-6"><a href="créer-des-cartes-avec-ggplot2.html#cb129-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb129-7"><a href="créer-des-cartes-avec-ggplot2.html#cb129-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb129-8"><a href="créer-des-cartes-avec-ggplot2.html#cb129-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb129-9"><a href="créer-des-cartes-avec-ggplot2.html#cb129-9"></a>  ) <span class="op">+</span></span>
+<span id="cb129-10"><a href="créer-des-cartes-avec-ggplot2.html#cb129-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb129-11"><a href="créer-des-cartes-avec-ggplot2.html#cb129-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb129-12"><a href="créer-des-cartes-avec-ggplot2.html#cb129-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb129-13"><a href="créer-des-cartes-avec-ggplot2.html#cb129-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb129-14"><a href="créer-des-cartes-avec-ggplot2.html#cb129-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb129-15"><a href="créer-des-cartes-avec-ggplot2.html#cb129-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb129-16"><a href="créer-des-cartes-avec-ggplot2.html#cb129-16"></a>  ) <span class="op">+</span></span>
+<span id="cb129-17"><a href="créer-des-cartes-avec-ggplot2.html#cb129-17"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="st">&quot;gray&quot;</span>, <span class="dt">size =</span> <span class="fl">0.5</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>))</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-108-1.png" width="960" /></p>
+<ul>
+<li>Changer l’apparence des étiquettes des axes : <code>axis_xxx()</code></li>
+</ul>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="créer-des-cartes-avec-ggplot2.html#cb130-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb130-2"><a href="créer-des-cartes-avec-ggplot2.html#cb130-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb130-3"><a href="créer-des-cartes-avec-ggplot2.html#cb130-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb130-4"><a href="créer-des-cartes-avec-ggplot2.html#cb130-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb130-5"><a href="créer-des-cartes-avec-ggplot2.html#cb130-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb130-6"><a href="créer-des-cartes-avec-ggplot2.html#cb130-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb130-7"><a href="créer-des-cartes-avec-ggplot2.html#cb130-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb130-8"><a href="créer-des-cartes-avec-ggplot2.html#cb130-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb130-9"><a href="créer-des-cartes-avec-ggplot2.html#cb130-9"></a>  ) <span class="op">+</span></span>
+<span id="cb130-10"><a href="créer-des-cartes-avec-ggplot2.html#cb130-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb130-11"><a href="créer-des-cartes-avec-ggplot2.html#cb130-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb130-12"><a href="créer-des-cartes-avec-ggplot2.html#cb130-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb130-13"><a href="créer-des-cartes-avec-ggplot2.html#cb130-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb130-14"><a href="créer-des-cartes-avec-ggplot2.html#cb130-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb130-15"><a href="créer-des-cartes-avec-ggplot2.html#cb130-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb130-16"><a href="créer-des-cartes-avec-ggplot2.html#cb130-16"></a>  ) <span class="op">+</span></span>
+<span id="cb130-17"><a href="créer-des-cartes-avec-ggplot2.html#cb130-17"></a><span class="st">  </span><span class="kw">theme</span>(</span>
+<span id="cb130-18"><a href="créer-des-cartes-avec-ggplot2.html#cb130-18"></a>    <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">angle =</span> <span class="dv">45</span>),</span>
+<span id="cb130-19"><a href="créer-des-cartes-avec-ggplot2.html#cb130-19"></a>    <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb130-20"><a href="créer-des-cartes-avec-ggplot2.html#cb130-20"></a>  )</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-109-1.png" width="960" /></p>
+<p>Certains changements de paramètres ne nécessitent pas l’utilisation de fonctions <code>element_()</code>.
+Par exemple, pour changer la position de la légende : <code>legend.xxx()</code></p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="créer-des-cartes-avec-ggplot2.html#cb131-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb131-2"><a href="créer-des-cartes-avec-ggplot2.html#cb131-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb131-3"><a href="créer-des-cartes-avec-ggplot2.html#cb131-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb131-4"><a href="créer-des-cartes-avec-ggplot2.html#cb131-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb131-5"><a href="créer-des-cartes-avec-ggplot2.html#cb131-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb131-6"><a href="créer-des-cartes-avec-ggplot2.html#cb131-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb131-7"><a href="créer-des-cartes-avec-ggplot2.html#cb131-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb131-8"><a href="créer-des-cartes-avec-ggplot2.html#cb131-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb131-9"><a href="créer-des-cartes-avec-ggplot2.html#cb131-9"></a>  ) <span class="op">+</span></span>
+<span id="cb131-10"><a href="créer-des-cartes-avec-ggplot2.html#cb131-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb131-11"><a href="créer-des-cartes-avec-ggplot2.html#cb131-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb131-12"><a href="créer-des-cartes-avec-ggplot2.html#cb131-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb131-13"><a href="créer-des-cartes-avec-ggplot2.html#cb131-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb131-14"><a href="créer-des-cartes-avec-ggplot2.html#cb131-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb131-15"><a href="créer-des-cartes-avec-ggplot2.html#cb131-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb131-16"><a href="créer-des-cartes-avec-ggplot2.html#cb131-16"></a>  ) <span class="op">+</span></span>
+<span id="cb131-17"><a href="créer-des-cartes-avec-ggplot2.html#cb131-17"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;left&quot;</span>, <span class="dt">legend.title =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-110-1.png" width="960" /></p>
+</div>
+<div id="modifier-le-thème-par-défaut." class="section level4">
+<h4><span class="header-section-number">9.1.6.4</span> Modifier le thème par défaut.</h4>
+<p>La fonction <code>theme_set()</code> vous permet de définir un thème par défaut pour l’ensemble de vos graphiques.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="créer-des-cartes-avec-ggplot2.html#cb132-1"></a><span class="kw">theme_set</span>(<span class="kw">theme_dark</span>())</span>
+<span id="cb132-2"><a href="créer-des-cartes-avec-ggplot2.html#cb132-2"></a></span>
+<span id="cb132-3"><a href="créer-des-cartes-avec-ggplot2.html#cb132-3"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb132-4"><a href="créer-des-cartes-avec-ggplot2.html#cb132-4"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb132-5"><a href="créer-des-cartes-avec-ggplot2.html#cb132-5"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb132-6"><a href="créer-des-cartes-avec-ggplot2.html#cb132-6"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb132-7"><a href="créer-des-cartes-avec-ggplot2.html#cb132-7"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb132-8"><a href="créer-des-cartes-avec-ggplot2.html#cb132-8"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb132-9"><a href="créer-des-cartes-avec-ggplot2.html#cb132-9"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb132-10"><a href="créer-des-cartes-avec-ggplot2.html#cb132-10"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb132-11"><a href="créer-des-cartes-avec-ggplot2.html#cb132-11"></a>  ) <span class="op">+</span></span>
+<span id="cb132-12"><a href="créer-des-cartes-avec-ggplot2.html#cb132-12"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb132-13"><a href="créer-des-cartes-avec-ggplot2.html#cb132-13"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb132-14"><a href="créer-des-cartes-avec-ggplot2.html#cb132-14"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb132-15"><a href="créer-des-cartes-avec-ggplot2.html#cb132-15"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb132-16"><a href="créer-des-cartes-avec-ggplot2.html#cb132-16"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb132-17"><a href="créer-des-cartes-avec-ggplot2.html#cb132-17"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb132-18"><a href="créer-des-cartes-avec-ggplot2.html#cb132-18"></a>  )</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-111-1.png" width="960" /></p>
+</div>
+<div id="créer-son-propre-thème" class="section level4">
+<h4><span class="header-section-number">9.1.6.5</span> Créer son propre thème</h4>
+<p>Un thème est une fonction R qui va prendre en paramètre des éléments que vous souhaitez pouvoir faire varier et fixer des éléments que vous souhaitez avoir comme rendu par défaut.</p>
+<p>Créons ici un thème avec un fond vert pour le ministère de la transition écologique et solidaire. On rajoute un paramètre pour la taille de la police du titre du graphique.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="créer-des-cartes-avec-ggplot2.html#cb133-1"></a>theme_mtes &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">taille_police =</span> <span class="dv">14</span>) {</span>
+<span id="cb133-2"><a href="créer-des-cartes-avec-ggplot2.html#cb133-2"></a>  <span class="kw">theme_bw</span>() <span class="op">+</span></span>
+<span id="cb133-3"><a href="créer-des-cartes-avec-ggplot2.html#cb133-3"></a><span class="st">    </span><span class="kw">theme</span>(</span>
+<span id="cb133-4"><a href="créer-des-cartes-avec-ggplot2.html#cb133-4"></a>      <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> taille_police, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb133-5"><a href="créer-des-cartes-avec-ggplot2.html#cb133-5"></a>      <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>),</span>
+<span id="cb133-6"><a href="créer-des-cartes-avec-ggplot2.html#cb133-6"></a>      <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>),</span>
+<span id="cb133-7"><a href="créer-des-cartes-avec-ggplot2.html#cb133-7"></a>      <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;lightgreen&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;lightgreen&quot;</span>),</span>
+<span id="cb133-8"><a href="créer-des-cartes-avec-ggplot2.html#cb133-8"></a>      <span class="dt">plot.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;#006400&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;lightgreen&quot;</span>),</span>
+<span id="cb133-9"><a href="créer-des-cartes-avec-ggplot2.html#cb133-9"></a>      <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;lightgreen&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;lightgreen&quot;</span>),</span>
+<span id="cb133-10"><a href="créer-des-cartes-avec-ggplot2.html#cb133-10"></a>      <span class="dt">legend.key =</span> <span class="kw">element_blank</span>()</span>
+<span id="cb133-11"><a href="créer-des-cartes-avec-ggplot2.html#cb133-11"></a>    )</span>
+<span id="cb133-12"><a href="créer-des-cartes-avec-ggplot2.html#cb133-12"></a>}</span>
+<span id="cb133-13"><a href="créer-des-cartes-avec-ggplot2.html#cb133-13"></a></span>
+<span id="cb133-14"><a href="créer-des-cartes-avec-ggplot2.html#cb133-14"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb133-15"><a href="créer-des-cartes-avec-ggplot2.html#cb133-15"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb133-16"><a href="créer-des-cartes-avec-ggplot2.html#cb133-16"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb133-17"><a href="créer-des-cartes-avec-ggplot2.html#cb133-17"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb133-18"><a href="créer-des-cartes-avec-ggplot2.html#cb133-18"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb133-19"><a href="créer-des-cartes-avec-ggplot2.html#cb133-19"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb133-20"><a href="créer-des-cartes-avec-ggplot2.html#cb133-20"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb133-21"><a href="créer-des-cartes-avec-ggplot2.html#cb133-21"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb133-22"><a href="créer-des-cartes-avec-ggplot2.html#cb133-22"></a>  ) <span class="op">+</span></span>
+<span id="cb133-23"><a href="créer-des-cartes-avec-ggplot2.html#cb133-23"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb133-24"><a href="créer-des-cartes-avec-ggplot2.html#cb133-24"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb133-25"><a href="créer-des-cartes-avec-ggplot2.html#cb133-25"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb133-26"><a href="créer-des-cartes-avec-ggplot2.html#cb133-26"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb133-27"><a href="créer-des-cartes-avec-ggplot2.html#cb133-27"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb133-28"><a href="créer-des-cartes-avec-ggplot2.html#cb133-28"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb133-29"><a href="créer-des-cartes-avec-ggplot2.html#cb133-29"></a>  ) <span class="op">+</span></span>
+<span id="cb133-30"><a href="créer-des-cartes-avec-ggplot2.html#cb133-30"></a><span class="st">  </span><span class="kw">theme_mtes</span>()</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+</div>
+</div>
+<div id="les-scales" class="section level3">
+<h3><span class="header-section-number">9.1.7</span> Les scales</h3>
+<p>Les fonctions <code>scales()</code> permettent globalement de paramétrer les éléments rentrés dans l’aesthétic :</p>
+<ul>
+<li><p>Si je veux un gradient de couleurs fonction d’une variable continue : quelle palette de couleurs je choisie, comment je cale mon dégradé en fonction de cette variable continue ?</p></li>
+<li><p>Si je met une variable continue en ordonnée, comment je définis le minimum et maximum de cette axe, sa position, les valeurs que j’affiche sur l’échelle…</p></li>
+</ul>
+<p>L’ensemble des scales possibles peuvent se décrire sous la forme suivante:</p>
+<p><code>scale_xx_yy()</code></p>
+<p>ou <code>xx</code> peut être un des paramètres de l’aesthétic :</p>
+<table>
+<thead>
+<tr class="header">
+<th>xx</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>alpha</td>
+<td>transparence</td>
+</tr>
+<tr class="even">
+<td>color</td>
+<td>couleur des lignes ou des points</td>
+</tr>
+<tr class="odd">
+<td>fill</td>
+<td>couleurs des aires</td>
+</tr>
+<tr class="even">
+<td>linetype</td>
+<td>type de ligne (continue,pointillée,…)</td>
+</tr>
+<tr class="odd">
+<td>shape</td>
+<td>forme des points</td>
+</tr>
+<tr class="even">
+<td>size</td>
+<td>aire des points</td>
+</tr>
+<tr class="odd">
+<td>x</td>
+<td>variable de l’axe x</td>
+</tr>
+<tr class="even">
+<td>y</td>
+<td>variable de l’axe y</td>
+</tr>
+</tbody>
+</table>
+<p>Et <code>yy</code> un type de paramétrage :</p>
+<table>
+<colgroup>
+<col width="39%" />
+<col width="60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>yy</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>continuous</td>
+<td>gérer les variables continue</td>
+</tr>
+<tr class="even">
+<td>discrete</td>
+<td>gérer les variables discrètes</td>
+</tr>
+<tr class="odd">
+<td>date</td>
+<td>gérer une variable au format date</td>
+</tr>
+<tr class="even">
+<td>reverse</td>
+<td>inverser l’axe</td>
+</tr>
+<tr class="odd">
+<td>log</td>
+<td>convertire l’échelle d’une variable continue en échelle logarithmique</td>
+</tr>
+<tr class="even">
+<td>log10</td>
+<td>convertire l’échelle d’une variable continue en échelle logarithmique décimale</td>
+</tr>
+<tr class="odd">
+<td>viridis</td>
+<td>utiliser une palette de couleur viridis</td>
+</tr>
+<tr class="even">
+<td>brewer</td>
+<td>utiliser une palette de couleur brewer (variable discrète)</td>
+</tr>
+<tr class="odd">
+<td>distiller</td>
+<td>utiliser une palette de couleur brewer (variable continue)</td>
+</tr>
+<tr class="even">
+<td>gradient</td>
+<td>utiliser un gradient de 2 couleurs</td>
+</tr>
+<tr class="odd">
+<td>gradient2</td>
+<td>utiliser un gradient divergent de 3 couleurs</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="créer-des-cartes-avec-ggplot2.html#cb134-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb134-2"><a href="créer-des-cartes-avec-ggplot2.html#cb134-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb134-3"><a href="créer-des-cartes-avec-ggplot2.html#cb134-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb134-4"><a href="créer-des-cartes-avec-ggplot2.html#cb134-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb134-5"><a href="créer-des-cartes-avec-ggplot2.html#cb134-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb134-6"><a href="créer-des-cartes-avec-ggplot2.html#cb134-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb134-7"><a href="créer-des-cartes-avec-ggplot2.html#cb134-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb134-8"><a href="créer-des-cartes-avec-ggplot2.html#cb134-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb134-9"><a href="créer-des-cartes-avec-ggplot2.html#cb134-9"></a>  ) <span class="op">+</span></span>
+<span id="cb134-10"><a href="créer-des-cartes-avec-ggplot2.html#cb134-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb134-11"><a href="créer-des-cartes-avec-ggplot2.html#cb134-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb134-12"><a href="créer-des-cartes-avec-ggplot2.html#cb134-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb134-13"><a href="créer-des-cartes-avec-ggplot2.html#cb134-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb134-14"><a href="créer-des-cartes-avec-ggplot2.html#cb134-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb134-15"><a href="créer-des-cartes-avec-ggplot2.html#cb134-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb134-16"><a href="créer-des-cartes-avec-ggplot2.html#cb134-16"></a>  ) <span class="op">+</span></span>
+<span id="cb134-17"><a href="créer-des-cartes-avec-ggplot2.html#cb134-17"></a><span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type =</span> <span class="st">&quot;qual&quot;</span>)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
+<p>Par exemple on peut exploiter une fonction scale pour définir une échelle logarithimique sur un axe.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="créer-des-cartes-avec-ggplot2.html#cb135-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb135-2"><a href="créer-des-cartes-avec-ggplot2.html#cb135-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb135-3"><a href="créer-des-cartes-avec-ggplot2.html#cb135-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb135-4"><a href="créer-des-cartes-avec-ggplot2.html#cb135-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb135-5"><a href="créer-des-cartes-avec-ggplot2.html#cb135-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb135-6"><a href="créer-des-cartes-avec-ggplot2.html#cb135-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb135-7"><a href="créer-des-cartes-avec-ggplot2.html#cb135-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb135-8"><a href="créer-des-cartes-avec-ggplot2.html#cb135-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb135-9"><a href="créer-des-cartes-avec-ggplot2.html#cb135-9"></a>  ) <span class="op">+</span></span>
+<span id="cb135-10"><a href="créer-des-cartes-avec-ggplot2.html#cb135-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb135-11"><a href="créer-des-cartes-avec-ggplot2.html#cb135-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb135-12"><a href="créer-des-cartes-avec-ggplot2.html#cb135-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb135-13"><a href="créer-des-cartes-avec-ggplot2.html#cb135-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb135-14"><a href="créer-des-cartes-avec-ggplot2.html#cb135-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb135-15"><a href="créer-des-cartes-avec-ggplot2.html#cb135-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb135-16"><a href="créer-des-cartes-avec-ggplot2.html#cb135-16"></a>  ) <span class="op">+</span></span>
+<span id="cb135-17"><a href="créer-des-cartes-avec-ggplot2.html#cb135-17"></a><span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">type =</span> <span class="st">&quot;qual&quot;</span>) <span class="op">+</span></span>
+<span id="cb135-18"><a href="créer-des-cartes-avec-ggplot2.html#cb135-18"></a><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span></span>
+<span id="cb135-19"><a href="créer-des-cartes-avec-ggplot2.html#cb135-19"></a><span class="st">  </span><span class="kw">scale_y_log10</span>()</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<div id="formatage-spécifique" class="section level4">
+<h4><span class="header-section-number">9.1.7.1</span> Formatage spécifique</h4>
+<ul>
+<li>Transformation en pourcentage;</li>
+</ul>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="créer-des-cartes-avec-ggplot2.html#cb136-1"></a>  <span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)</span></code></pre></div>
+<ul>
+<li>Ajout du séparateur des milliers;</li>
+</ul>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="créer-des-cartes-avec-ggplot2.html#cb137-1"></a><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> <span class="cf">function</span>(x) <span class="kw">format</span>(x, <span class="dt">big.mark =</span> <span class="st">&quot; &quot;</span>, <span class="dt">scientific =</span> <span class="ot">FALSE</span>))</span></code></pre></div>
+<ul>
+<li>Ajout du symbole €;</li>
+</ul>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="créer-des-cartes-avec-ggplot2.html#cb138-1"></a><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="st">&quot; €&quot;</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="la-mise-en-page-de-plusieurs-graphiques" class="section level3">
+<h3><span class="header-section-number">9.1.8</span> La mise en page de plusieurs graphiques</h3>
+<p>Le package <code>cowplot</code> permet la combinaison de plusieurs graphiques. Il est composé de plusieurs fonctions.</p>
+<ul>
+<li>le fonction <code>plot_grid()</code> qui permet de disposer <strong><em>n</em></strong> graphes sur <strong><em>i</em></strong> colonnes et <strong><em>j</em></strong> lignes</li>
+</ul>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="créer-des-cartes-avec-ggplot2.html#cb139-1"></a>gg1 &lt;-<span class="st"> </span>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb139-2"><a href="créer-des-cartes-avec-ggplot2.html#cb139-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb139-3"><a href="créer-des-cartes-avec-ggplot2.html#cb139-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb139-4"><a href="créer-des-cartes-avec-ggplot2.html#cb139-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gdp_per_cap, </span>
+<span id="cb139-5"><a href="créer-des-cartes-avec-ggplot2.html#cb139-5"></a>                 <span class="dt">y =</span> sh_sta_mmr,</span>
+<span id="cb139-6"><a href="créer-des-cartes-avec-ggplot2.html#cb139-6"></a>                 <span class="dt">color =</span> continent),</span>
+<span id="cb139-7"><a href="créer-des-cartes-avec-ggplot2.html#cb139-7"></a>    <span class="dt">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb139-8"><a href="créer-des-cartes-avec-ggplot2.html#cb139-8"></a>    <span class="dt">size =</span> <span class="fl">1.9</span></span>
+<span id="cb139-9"><a href="créer-des-cartes-avec-ggplot2.html#cb139-9"></a>  ) <span class="op">+</span></span>
+<span id="cb139-10"><a href="créer-des-cartes-avec-ggplot2.html#cb139-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb139-11"><a href="créer-des-cartes-avec-ggplot2.html#cb139-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle en fonction du PIB par habitant&quot;</span>,</span>
+<span id="cb139-12"><a href="créer-des-cartes-avec-ggplot2.html#cb139-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb139-13"><a href="créer-des-cartes-avec-ggplot2.html#cb139-13"></a>    <span class="dt">x =</span> <span class="st">&quot;PIB par habitant&quot;</span>,</span>
+<span id="cb139-14"><a href="créer-des-cartes-avec-ggplot2.html#cb139-14"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances)&quot;</span>,</span>
+<span id="cb139-15"><a href="créer-des-cartes-avec-ggplot2.html#cb139-15"></a>    <span class="dt">caption =</span> <span class="st">&quot;Source : ODD / ONU&quot;</span></span>
+<span id="cb139-16"><a href="créer-des-cartes-avec-ggplot2.html#cb139-16"></a>  ) <span class="op">+</span></span>
+<span id="cb139-17"><a href="créer-des-cartes-avec-ggplot2.html#cb139-17"></a><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span></span>
+<span id="cb139-18"><a href="créer-des-cartes-avec-ggplot2.html#cb139-18"></a><span class="st">  </span><span class="kw">scale_y_log10</span>() <span class="op">+</span></span>
+<span id="cb139-19"><a href="créer-des-cartes-avec-ggplot2.html#cb139-19"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">9</span>))</span>
+<span id="cb139-20"><a href="créer-des-cartes-avec-ggplot2.html#cb139-20"></a></span>
+<span id="cb139-21"><a href="créer-des-cartes-avec-ggplot2.html#cb139-21"></a>  gg2 &lt;-<span class="st"> </span>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb139-22"><a href="créer-des-cartes-avec-ggplot2.html#cb139-22"></a><span class="st">    </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb139-23"><a href="créer-des-cartes-avec-ggplot2.html#cb139-23"></a><span class="st">    </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb139-24"><a href="créer-des-cartes-avec-ggplot2.html#cb139-24"></a><span class="st">    </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>gdp_per_cap))<span class="op">+</span></span>
+<span id="cb139-25"><a href="créer-des-cartes-avec-ggplot2.html#cb139-25"></a><span class="st">    </span><span class="kw">scale_x_log10</span>()</span>
+<span id="cb139-26"><a href="créer-des-cartes-avec-ggplot2.html#cb139-26"></a></span>
+<span id="cb139-27"><a href="créer-des-cartes-avec-ggplot2.html#cb139-27"></a><span class="kw">plot_grid</span>(gg1, gg2, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
+<ul>
+<li>la fonction <code>draw_plot()</code> associée à <code>ggdraw()</code> qui permet de disposer les graphiques à des places spécifiques.</li>
+</ul>
+<p><code>ggdraw()</code> initialise le graphique</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="créer-des-cartes-avec-ggplot2.html#cb140-1"></a>gg3 &lt;-<span class="st"> </span>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb140-2"><a href="créer-des-cartes-avec-ggplot2.html#cb140-2"></a><span class="st">    </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> </span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb140-3"><a href="créer-des-cartes-avec-ggplot2.html#cb140-3"></a><span class="st">    </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb140-4"><a href="créer-des-cartes-avec-ggplot2.html#cb140-4"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> continent, <span class="dt">fill =</span> continent)) <span class="op">+</span></span>
+<span id="cb140-5"><a href="créer-des-cartes-avec-ggplot2.html#cb140-5"></a><span class="st">  </span><span class="kw">theme</span>(</span>
+<span id="cb140-6"><a href="créer-des-cartes-avec-ggplot2.html#cb140-6"></a>    <span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb140-7"><a href="créer-des-cartes-avec-ggplot2.html#cb140-7"></a>    <span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>()</span>
+<span id="cb140-8"><a href="créer-des-cartes-avec-ggplot2.html#cb140-8"></a>  )</span>
+<span id="cb140-9"><a href="créer-des-cartes-avec-ggplot2.html#cb140-9"></a><span class="kw">ggdraw</span>() <span class="op">+</span></span>
+<span id="cb140-10"><a href="créer-des-cartes-avec-ggplot2.html#cb140-10"></a><span class="st">  </span><span class="kw">draw_plot</span>(gg1, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">.5</span>, <span class="dt">width =</span> <span class="dv">1</span>, <span class="dt">height =</span> <span class="fl">.5</span>) <span class="op">+</span></span>
+<span id="cb140-11"><a href="créer-des-cartes-avec-ggplot2.html#cb140-11"></a><span class="st">  </span><span class="kw">draw_plot</span>(gg2, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">width =</span> <span class="fl">.3</span>, <span class="dt">height =</span> <span class="fl">.5</span>) <span class="op">+</span></span>
+<span id="cb140-12"><a href="créer-des-cartes-avec-ggplot2.html#cb140-12"></a><span class="st">  </span><span class="kw">draw_plot</span>(gg3, <span class="dt">x =</span> <span class="fl">0.3</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">width =</span> <span class="fl">0.7</span>, <span class="dt">height =</span> <span class="fl">.5</span>)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
+</div>
+<div id="les-facettes" class="section level3">
+<h3><span class="header-section-number">9.1.9</span> Les facettes</h3>
+<p>Lorsque l’on veut pouvoir réaliser un graphique pour plusieurs sous-ensembles, les facettes sont alors très utiles. On va ici l’illustrer avec la réalisation du même graphique ci-dessus mais pour plusieurs années différentes.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="créer-des-cartes-avec-ggplot2.html#cb141-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb141-2"><a href="créer-des-cartes-avec-ggplot2.html#cb141-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod  <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>),</span>
+<span id="cb141-3"><a href="créer-des-cartes-avec-ggplot2.html#cb141-3"></a>         geoareaname <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;France&quot;</span>,<span class="st">&quot;Canada&quot;</span>,<span class="st">&quot;Burkina Faso&quot;</span>,<span class="st">&quot;China&quot;</span>,<span class="st">&quot;Australia&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb141-4"><a href="créer-des-cartes-avec-ggplot2.html#cb141-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb141-5"><a href="créer-des-cartes-avec-ggplot2.html#cb141-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> geoareaname, <span class="dt">weight =</span> sh_sta_mmr, <span class="dt">fill =</span> continent)) <span class="op">+</span></span>
+<span id="cb141-6"><a href="créer-des-cartes-avec-ggplot2.html#cb141-6"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb141-7"><a href="créer-des-cartes-avec-ggplot2.html#cb141-7"></a><span class="st">  </span><span class="kw">scale_fill_viridis_d</span>() <span class="op">+</span></span>
+<span id="cb141-8"><a href="créer-des-cartes-avec-ggplot2.html#cb141-8"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
+<span id="cb141-9"><a href="créer-des-cartes-avec-ggplot2.html#cb141-9"></a><span class="st">  </span><span class="kw">scale_y_log10</span>()<span class="op">+</span></span>
+<span id="cb141-10"><a href="créer-des-cartes-avec-ggplot2.html#cb141-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb141-11"><a href="créer-des-cartes-avec-ggplot2.html#cb141-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle sur quelques pays&quot;</span>,</span>
+<span id="cb141-12"><a href="créer-des-cartes-avec-ggplot2.html#cb141-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb141-13"><a href="créer-des-cartes-avec-ggplot2.html#cb141-13"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances), échelle logarithmique&quot;</span>,</span>
+<span id="cb141-14"><a href="créer-des-cartes-avec-ggplot2.html#cb141-14"></a>    <span class="dt">x =</span> <span class="st">&quot;Pays&quot;</span>,</span>
+<span id="cb141-15"><a href="créer-des-cartes-avec-ggplot2.html#cb141-15"></a>    <span class="dt">fill =</span> <span class="st">&quot;Pays&quot;</span></span>
+<span id="cb141-16"><a href="créer-des-cartes-avec-ggplot2.html#cb141-16"></a>  ) <span class="op">+</span></span>
+<span id="cb141-17"><a href="créer-des-cartes-avec-ggplot2.html#cb141-17"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></span>
+<span id="cb141-18"><a href="créer-des-cartes-avec-ggplot2.html#cb141-18"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-120-1.png" width="768" /></p>
+<p>L’exemple pris ici “scinde” notre table en fonction d’une seule variable, mais on peut le faire sur plusieurs variables également.</p>
+<p>On peut choisir avec <code>facet_wrap()</code> :</p>
+<ul>
+<li>le nombre de colonnes ou de ligne sur lesquel on veut voir s’afficher le graphique</li>
+<li>si on veut fixer l’échelle de l’un ou l’autre des axes ou les deux</li>
+</ul>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="créer-des-cartes-avec-ggplot2.html#cb142-1"></a>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb142-2"><a href="créer-des-cartes-avec-ggplot2.html#cb142-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod  <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>),</span>
+<span id="cb142-3"><a href="créer-des-cartes-avec-ggplot2.html#cb142-3"></a>         geoareaname <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;France&quot;</span>,<span class="st">&quot;Canada&quot;</span>,<span class="st">&quot;Burkina Faso&quot;</span>,<span class="st">&quot;China&quot;</span>,<span class="st">&quot;Australia&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb142-4"><a href="créer-des-cartes-avec-ggplot2.html#cb142-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb142-5"><a href="créer-des-cartes-avec-ggplot2.html#cb142-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> geoareaname, <span class="dt">weight =</span> sh_sta_mmr, <span class="dt">fill =</span> continent)) <span class="op">+</span></span>
+<span id="cb142-6"><a href="créer-des-cartes-avec-ggplot2.html#cb142-6"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb142-7"><a href="créer-des-cartes-avec-ggplot2.html#cb142-7"></a><span class="st">  </span><span class="kw">scale_fill_viridis_d</span>() <span class="op">+</span></span>
+<span id="cb142-8"><a href="créer-des-cartes-avec-ggplot2.html#cb142-8"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
+<span id="cb142-9"><a href="créer-des-cartes-avec-ggplot2.html#cb142-9"></a><span class="st">  </span><span class="kw">scale_y_log10</span>()<span class="op">+</span></span>
+<span id="cb142-10"><a href="créer-des-cartes-avec-ggplot2.html#cb142-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb142-11"><a href="créer-des-cartes-avec-ggplot2.html#cb142-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle sur quelques pays&quot;</span>,</span>
+<span id="cb142-12"><a href="créer-des-cartes-avec-ggplot2.html#cb142-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb142-13"><a href="créer-des-cartes-avec-ggplot2.html#cb142-13"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances), échelle logarithmique&quot;</span>,</span>
+<span id="cb142-14"><a href="créer-des-cartes-avec-ggplot2.html#cb142-14"></a>    <span class="dt">x =</span> <span class="st">&quot;Pays&quot;</span>,</span>
+<span id="cb142-15"><a href="créer-des-cartes-avec-ggplot2.html#cb142-15"></a>    <span class="dt">fill =</span> <span class="st">&quot;Pays&quot;</span></span>
+<span id="cb142-16"><a href="créer-des-cartes-avec-ggplot2.html#cb142-16"></a>  ) <span class="op">+</span></span>
+<span id="cb142-17"><a href="créer-des-cartes-avec-ggplot2.html#cb142-17"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></span>
+<span id="cb142-18"><a href="créer-des-cartes-avec-ggplot2.html#cb142-18"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod, <span class="dt">ncol =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-121-1.png" width="1152" /></p>
+</div>
+<div id="exporter-un-graphique" class="section level3">
+<h3><span class="header-section-number">9.1.10</span> Exporter un graphique</h3>
+<p>ggplot contient une fonction <code>ggsave()</code> qui permet d’exporter nos graphiques au format image dans les formats suivants : eps, ps, tex (pictex), pdf, jpeg, tiff, png, bmp, svg or wmf</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="créer-des-cartes-avec-ggplot2.html#cb143-1"></a>p &lt;-<span class="st"> </span>sdg_indicators <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb143-2"><a href="créer-des-cartes-avec-ggplot2.html#cb143-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod  <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>),</span>
+<span id="cb143-3"><a href="créer-des-cartes-avec-ggplot2.html#cb143-3"></a>         geoareaname <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;France&quot;</span>,<span class="st">&quot;Canada&quot;</span>,<span class="st">&quot;Burkina Faso&quot;</span>,<span class="st">&quot;China&quot;</span>,<span class="st">&quot;Australia&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb143-4"><a href="créer-des-cartes-avec-ggplot2.html#cb143-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb143-5"><a href="créer-des-cartes-avec-ggplot2.html#cb143-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> geoareaname, <span class="dt">weight =</span> sh_sta_mmr, <span class="dt">fill =</span> continent)) <span class="op">+</span></span>
+<span id="cb143-6"><a href="créer-des-cartes-avec-ggplot2.html#cb143-6"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb143-7"><a href="créer-des-cartes-avec-ggplot2.html#cb143-7"></a><span class="st">  </span><span class="kw">scale_fill_viridis_d</span>() <span class="op">+</span></span>
+<span id="cb143-8"><a href="créer-des-cartes-avec-ggplot2.html#cb143-8"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
+<span id="cb143-9"><a href="créer-des-cartes-avec-ggplot2.html#cb143-9"></a><span class="st">  </span><span class="kw">scale_y_log10</span>()<span class="op">+</span></span>
+<span id="cb143-10"><a href="créer-des-cartes-avec-ggplot2.html#cb143-10"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb143-11"><a href="créer-des-cartes-avec-ggplot2.html#cb143-11"></a>    <span class="dt">title =</span> <span class="st">&quot;Mortalité maternelle sur quelques pays&quot;</span>,</span>
+<span id="cb143-12"><a href="créer-des-cartes-avec-ggplot2.html#cb143-12"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;En 2015&quot;</span>,</span>
+<span id="cb143-13"><a href="créer-des-cartes-avec-ggplot2.html#cb143-13"></a>    <span class="dt">y =</span> <span class="st">&quot;Taux de mortalité de la mère </span><span class="ch">\n</span><span class="st">(pour 100 000 naissances), échelle logarithmique&quot;</span>,</span>
+<span id="cb143-14"><a href="créer-des-cartes-avec-ggplot2.html#cb143-14"></a>    <span class="dt">x =</span> <span class="st">&quot;Pays&quot;</span>,</span>
+<span id="cb143-15"><a href="créer-des-cartes-avec-ggplot2.html#cb143-15"></a>    <span class="dt">fill =</span> <span class="st">&quot;Pays&quot;</span></span>
+<span id="cb143-16"><a href="créer-des-cartes-avec-ggplot2.html#cb143-16"></a>  ) <span class="op">+</span></span>
+<span id="cb143-17"><a href="créer-des-cartes-avec-ggplot2.html#cb143-17"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></span>
+<span id="cb143-18"><a href="créer-des-cartes-avec-ggplot2.html#cb143-18"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod, <span class="dt">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb143-19"><a href="créer-des-cartes-avec-ggplot2.html#cb143-19"></a></span>
+<span id="cb143-20"><a href="créer-des-cartes-avec-ggplot2.html#cb143-20"></a><span class="kw">ggsave</span>(<span class="st">&quot;figures/Mortalité maternelle sur quelques pays du globe.svg&quot;</span>, p, <span class="dt">width =</span> <span class="dv">12</span>, <span class="dt">height =</span> <span class="dv">5</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="faire-des-cartes-avec-ggplot2" class="section level2">
+<h2><span class="header-section-number">9.2</span> Faire des cartes avec ggplot2</h2>
+<div id="les-cartes-choroplèthe" class="section level3">
+<h3><span class="header-section-number">9.2.1</span> Les cartes choroplèthe</h3>
+<p>ggplot2 intègre une fonction geom permettant l’utilisation de données géomatrique : <code>geom_sf()</code></p>
+<p>Celle ci doit se coupler avec la fonction <code>coord_sf()</code> qui permet de s’assurer en cas de superposition de couches que celles-ci utiliseront bien le même crs en spécifiant le datum. <code>coord_sf()</code> permet également de <em>zoomer</em> sur la carte en spécifiant les bornes x et y de la carte, ou également de définir les labels des axes.</p>
+<p>Le premier exemple que nous allons pouvoir voir, c’est une carte choroplèthe.</p>
+<p>Pour cela, préalablement, nous allons intégrer à nos données un fond de carte : le <em>spatial dataframe</em> <code>World</code> présent dans le package <code>tmap</code></p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="créer-des-cartes-avec-ggplot2.html#cb144-1"></a><span class="kw">data</span>(<span class="st">&quot;World&quot;</span>)</span>
+<span id="cb144-2"><a href="créer-des-cartes-avec-ggplot2.html#cb144-2"></a></span>
+<span id="cb144-3"><a href="créer-des-cartes-avec-ggplot2.html#cb144-3"></a>sdg_indicators_sf &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span></span>
+<span id="cb144-4"><a href="créer-des-cartes-avec-ggplot2.html#cb144-4"></a><span class="st">  </span><span class="kw">left_join</span>(sdg_indicators)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="créer-des-cartes-avec-ggplot2.html#cb145-1"></a>map_sdg_indicators &lt;-<span class="st"> </span>sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb145-2"><a href="créer-des-cartes-avec-ggplot2.html#cb145-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb145-3"><a href="créer-des-cartes-avec-ggplot2.html#cb145-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb145-4"><a href="créer-des-cartes-avec-ggplot2.html#cb145-4"></a><span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> <span class="kw">log</span>(sh_sta_mmr)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>,<span class="dt">size=</span>.<span class="dv">2</span>)<span class="op">+</span></span>
+<span id="cb145-5"><a href="créer-des-cartes-avec-ggplot2.html#cb145-5"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()<span class="op">+</span></span>
+<span id="cb145-6"><a href="créer-des-cartes-avec-ggplot2.html#cb145-6"></a><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span></span>
+<span id="cb145-7"><a href="créer-des-cartes-avec-ggplot2.html#cb145-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))</span>
+<span id="cb145-8"><a href="créer-des-cartes-avec-ggplot2.html#cb145-8"></a>map_sdg_indicators</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-124-1.png" width="1152" /></p>
+<p>On peut exploiter de la même façon les différentes fonctions vues précédement. Par exemple avec un peu de thème et de facet.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="créer-des-cartes-avec-ggplot2.html#cb146-1"></a>sdg_indicators_sf <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb146-2"><a href="créer-des-cartes-avec-ggplot2.html#cb146-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;2000&quot;</span>,<span class="st">&quot;2005&quot;</span>,<span class="st">&quot;2010&quot;</span>,<span class="st">&quot;2015&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb146-3"><a href="créer-des-cartes-avec-ggplot2.html#cb146-3"></a><span class="st">           </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb146-4"><a href="créer-des-cartes-avec-ggplot2.html#cb146-4"></a><span class="st">           </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> <span class="kw">log</span>(sh_sta_mmr)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>,<span class="dt">size=</span>.<span class="dv">2</span>)<span class="op">+</span></span>
+<span id="cb146-5"><a href="créer-des-cartes-avec-ggplot2.html#cb146-5"></a><span class="st">           </span><span class="kw">scale_fill_viridis_c</span>(</span>
+<span id="cb146-6"><a href="créer-des-cartes-avec-ggplot2.html#cb146-6"></a>             <span class="dt">option =</span> <span class="st">&quot;magma&quot;</span>,</span>
+<span id="cb146-7"><a href="créer-des-cartes-avec-ggplot2.html#cb146-7"></a>             <span class="dt">direction =</span> <span class="dv">1</span>,</span>
+<span id="cb146-8"><a href="créer-des-cartes-avec-ggplot2.html#cb146-8"></a>             <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>))<span class="op">+</span></span>
+<span id="cb146-9"><a href="créer-des-cartes-avec-ggplot2.html#cb146-9"></a><span class="st">           </span><span class="kw">guides</span>(</span>
+<span id="cb146-10"><a href="créer-des-cartes-avec-ggplot2.html#cb146-10"></a>             <span class="dt">colour =</span> F,</span>
+<span id="cb146-11"><a href="créer-des-cartes-avec-ggplot2.html#cb146-11"></a>             <span class="dt">order =</span> <span class="dv">0</span>,</span>
+<span id="cb146-12"><a href="créer-des-cartes-avec-ggplot2.html#cb146-12"></a>             <span class="dt">fill =</span> <span class="kw">guide_legend</span>(</span>
+<span id="cb146-13"><a href="créer-des-cartes-avec-ggplot2.html#cb146-13"></a>               <span class="dt">direction =</span> <span class="st">&quot;horizontal&quot;</span>,</span>
+<span id="cb146-14"><a href="créer-des-cartes-avec-ggplot2.html#cb146-14"></a>               <span class="dt">keyheight =</span> <span class="kw">unit</span>(<span class="dv">2</span>, <span class="dt">units =</span> <span class="st">&quot;mm&quot;</span>),</span>
+<span id="cb146-15"><a href="créer-des-cartes-avec-ggplot2.html#cb146-15"></a>               <span class="dt">keywidth =</span> <span class="kw">unit</span>(<span class="dv">20</span>, <span class="dt">units =</span> <span class="st">&quot;mm&quot;</span>),</span>
+<span id="cb146-16"><a href="créer-des-cartes-avec-ggplot2.html#cb146-16"></a>               <span class="dt">order =</span> <span class="dv">1</span>,</span>
+<span id="cb146-17"><a href="créer-des-cartes-avec-ggplot2.html#cb146-17"></a>               <span class="dt">title.position =</span> <span class="st">&quot;top&quot;</span>,</span>
+<span id="cb146-18"><a href="créer-des-cartes-avec-ggplot2.html#cb146-18"></a>               <span class="dt">title.hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb146-19"><a href="créer-des-cartes-avec-ggplot2.html#cb146-19"></a>               <span class="dt">nrow =</span> <span class="dv">1</span>,</span>
+<span id="cb146-20"><a href="créer-des-cartes-avec-ggplot2.html#cb146-20"></a>               <span class="dt">label.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb146-21"><a href="créer-des-cartes-avec-ggplot2.html#cb146-21"></a>               <span class="dt">label.hjust =</span> <span class="dv">1</span></span>
+<span id="cb146-22"><a href="créer-des-cartes-avec-ggplot2.html#cb146-22"></a>             )</span>
+<span id="cb146-23"><a href="créer-des-cartes-avec-ggplot2.html#cb146-23"></a>           ) <span class="op">+</span></span>
+<span id="cb146-24"><a href="créer-des-cartes-avec-ggplot2.html#cb146-24"></a><span class="st">           </span><span class="kw">theme_minimal</span>()<span class="op">+</span></span>
+<span id="cb146-25"><a href="créer-des-cartes-avec-ggplot2.html#cb146-25"></a><span class="st">           </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb146-26"><a href="créer-des-cartes-avec-ggplot2.html#cb146-26"></a>                 <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))<span class="op">+</span></span>
+<span id="cb146-27"><a href="créer-des-cartes-avec-ggplot2.html#cb146-27"></a><span class="st">           </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;Taux de mortalité infantile (échelle logarithmique)&quot;</span>) <span class="op">+</span></span>
+<span id="cb146-28"><a href="créer-des-cartes-avec-ggplot2.html#cb146-28"></a><span class="st">           </span><span class="kw">facet_wrap</span>(<span class="op">~</span>timeperiod, <span class="dt">drop =</span> T)</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-125-1.png" width="1344" /></p>
+</div>
+<div id="les-cartes-à-ronds-proportionnels" class="section level3">
+<h3><span class="header-section-number">9.2.2</span> Les cartes à ronds proportionnels</h3>
+<p>ggplot ne peut attribuer par défaut un rond proportionnel à un polygone.</p>
+<p>Pour travailler sur des ronds proportionnels, il faut d’abord créer le centroid de nos zones et ensuite tracer un rond proportionnel avec <code>geom_sf()</code>.</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="créer-des-cartes-avec-ggplot2.html#cb147-1"></a>World_centroid &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(World, <span class="dt">of_largest_polygon =</span> T)</span>
+<span id="cb147-2"><a href="créer-des-cartes-avec-ggplot2.html#cb147-2"></a>sdg_indicators_sf_centroid &lt;-<span class="st"> </span>World_centroid <span class="op">%&gt;%</span></span>
+<span id="cb147-3"><a href="créer-des-cartes-avec-ggplot2.html#cb147-3"></a><span class="st">  </span><span class="kw">left_join</span>(sdg_indicators)</span>
+<span id="cb147-4"><a href="créer-des-cartes-avec-ggplot2.html#cb147-4"></a></span>
+<span id="cb147-5"><a href="créer-des-cartes-avec-ggplot2.html#cb147-5"></a>map_sdg_indicators_centroid &lt;-<span class="st"> </span>sdg_indicators_sf_centroid <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb147-6"><a href="créer-des-cartes-avec-ggplot2.html#cb147-6"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>,<span class="op">!</span><span class="kw">is.na</span>(sh_sta_mmr)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb147-7"><a href="créer-des-cartes-avec-ggplot2.html#cb147-7"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb147-8"><a href="créer-des-cartes-avec-ggplot2.html#cb147-8"></a><span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> World, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></span>
+<span id="cb147-9"><a href="créer-des-cartes-avec-ggplot2.html#cb147-9"></a><span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">color =</span> sh_sta_mmr, <span class="dt">size =</span> sh_sta_mmr))<span class="op">+</span></span>
+<span id="cb147-10"><a href="créer-des-cartes-avec-ggplot2.html#cb147-10"></a><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span></span>
+<span id="cb147-11"><a href="créer-des-cartes-avec-ggplot2.html#cb147-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))</span>
+<span id="cb147-12"><a href="créer-des-cartes-avec-ggplot2.html#cb147-12"></a></span>
+<span id="cb147-13"><a href="créer-des-cartes-avec-ggplot2.html#cb147-13"></a>map_sdg_indicators_centroid</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-126-1.png" width="1152" /></p>
+</div>
+<div id="ajouter-une-barre-déchelle-et-la-flèche-du-nord" class="section level3">
+<h3><span class="header-section-number">9.2.3</span> Ajouter une barre d’échelle et la flèche du nord</h3>
+<p>Le package <code>ggspatial</code> permet d’enrichir simplement nos cartes <code>ggplot2</code> avec une barre d’échelle et la flèche du nord.</p>
+<p>Les deux fonctions qui permettent cela sont <code>annotation_scale()</code> et <code>annotation_north_arrow()</code>.</p>
+<p>L’utilisation de ces fonctions nécessitent un système de coordonnées géographiques.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="créer-des-cartes-avec-ggplot2.html#cb148-1"></a>sdg_indicators_sf <span class="op">%&gt;%</span></span>
+<span id="cb148-2"><a href="créer-des-cartes-avec-ggplot2.html#cb148-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb148-3"><a href="créer-des-cartes-avec-ggplot2.html#cb148-3"></a><span class="st">  </span><span class="kw">st_transform</span>(<span class="dt">crs =</span> <span class="dv">4326</span>) <span class="op">%&gt;%</span></span>
+<span id="cb148-4"><a href="créer-des-cartes-avec-ggplot2.html#cb148-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb148-5"><a href="créer-des-cartes-avec-ggplot2.html#cb148-5"></a><span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> <span class="kw">log</span>(sh_sta_mmr)), <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="fl">.2</span>) <span class="op">+</span></span>
+<span id="cb148-6"><a href="créer-des-cartes-avec-ggplot2.html#cb148-6"></a><span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">crs =</span> <span class="dv">4326</span>) <span class="op">+</span></span>
+<span id="cb148-7"><a href="créer-des-cartes-avec-ggplot2.html#cb148-7"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span></span>
+<span id="cb148-8"><a href="créer-des-cartes-avec-ggplot2.html#cb148-8"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb148-9"><a href="créer-des-cartes-avec-ggplot2.html#cb148-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>)) <span class="op">+</span></span>
+<span id="cb148-10"><a href="créer-des-cartes-avec-ggplot2.html#cb148-10"></a><span class="st">  </span><span class="kw">annotation_scale</span>(<span class="dt">location =</span> <span class="st">&quot;br&quot;</span>, <span class="dt">line_width =</span> <span class="fl">.5</span>) <span class="op">+</span></span>
+<span id="cb148-11"><a href="créer-des-cartes-avec-ggplot2.html#cb148-11"></a><span class="st">  </span><span class="kw">annotation_north_arrow</span>(<span class="dt">location =</span> <span class="st">&quot;bl&quot;</span>, <span class="dt">height =</span> <span class="kw">unit</span>(<span class="fl">0.7</span>, <span class="st">&quot;cm&quot;</span>), <span class="dt">width =</span> <span class="kw">unit</span>(<span class="fl">0.7</span>, <span class="st">&quot;cm&quot;</span>))</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-127-1.png" width="1152" /></p>
+</div>
+<div id="mettre-plusieurs-cartes-côte-à-côte" class="section level3">
+<h3><span class="header-section-number">9.2.4</span> Mettre plusieurs cartes côte à côte</h3>
+<p>On peut a partir d’une même carte vouloir réaliser un zoom sur une sous partie de celle-ci.
+<code>coord_sf()</code> va nous permettre de <em>zoomer</em> sur une carte, et <code>cow_plot()</code> va nous permettre d’afficher nos deux cartes côte à côte.</p>
+<p>Pour zoomer sur une carte,<code>coord_sf()</code> va avoir besoin des coordonnées <em>x</em> et <em>y</em> du cadre sur lequel on veut zoomer.
+Le plus simple pour cela est de filtrer préalablement
+notre spatial dataframe et de récupérer la bbox de celle-ci.</p>
+<p>Filtrons par exemple sur le continent africain.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="créer-des-cartes-avec-ggplot2.html#cb149-1"></a>bbox_africa &lt;-<span class="st"> </span>World <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb149-2"><a href="créer-des-cartes-avec-ggplot2.html#cb149-2"></a><span class="st">  </span><span class="kw">filter</span>(continent<span class="op">==</span><span class="st">&quot;Africa&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb149-3"><a href="créer-des-cartes-avec-ggplot2.html#cb149-3"></a><span class="st">  </span><span class="kw">st_bbox</span>()</span></code></pre></div>
+<p>On peut ensuite réaliser une carte zoomée sur l’Afrique.</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="créer-des-cartes-avec-ggplot2.html#cb150-1"></a>map_sdg_indicators_africa &lt;-<span class="st"> </span>sdg_indicators_sf <span class="op">%&gt;%</span></span>
+<span id="cb150-2"><a href="créer-des-cartes-avec-ggplot2.html#cb150-2"></a><span class="st">  </span><span class="kw">filter</span>(timeperiod <span class="op">==</span><span class="st"> &quot;2015&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb150-3"><a href="créer-des-cartes-avec-ggplot2.html#cb150-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb150-4"><a href="créer-des-cartes-avec-ggplot2.html#cb150-4"></a><span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> <span class="kw">log</span>(sh_sta_mmr)), <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="fl">.2</span>) <span class="op">+</span></span>
+<span id="cb150-5"><a href="créer-des-cartes-avec-ggplot2.html#cb150-5"></a><span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(bbox_africa[<span class="dv">1</span>],bbox_africa[<span class="dv">3</span>]),</span>
+<span id="cb150-6"><a href="créer-des-cartes-avec-ggplot2.html#cb150-6"></a>           <span class="dt">ylim =</span> <span class="kw">c</span>(bbox_africa[<span class="dv">2</span>],bbox_africa[<span class="dv">4</span>])</span>
+<span id="cb150-7"><a href="créer-des-cartes-avec-ggplot2.html#cb150-7"></a>           ) <span class="op">+</span></span>
+<span id="cb150-8"><a href="créer-des-cartes-avec-ggplot2.html#cb150-8"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span></span>
+<span id="cb150-9"><a href="créer-des-cartes-avec-ggplot2.html#cb150-9"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb150-10"><a href="créer-des-cartes-avec-ggplot2.html#cb150-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>))</span></code></pre></div>
+<p>On peut utiliser ensuite <code>plot_grid()</code> pour afficher nos cartes côte à côte. Il faut jouer sur les largeurs relatives pour que les deux cartes s’agencent bien.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="créer-des-cartes-avec-ggplot2.html#cb151-1"></a>map_sdg_indicators_compo &lt;-<span class="st"> </span>map_sdg_indicators <span class="op">+</span></span>
+<span id="cb151-2"><a href="créer-des-cartes-avec-ggplot2.html#cb151-2"></a><span class="st">  </span><span class="kw">theme_void</span>()<span class="op">+</span></span>
+<span id="cb151-3"><a href="créer-des-cartes-avec-ggplot2.html#cb151-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;light blue&quot;</span>),<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb151-4"><a href="créer-des-cartes-avec-ggplot2.html#cb151-4"></a><span class="kw">plot_grid</span>(map_sdg_indicators_compo,map_sdg_indicators_africa,<span class="dt">rel_widths =</span> <span class="kw">c</span>(<span class="fl">1.7</span>, <span class="dv">1</span>))</span></code></pre></div>
+<p><img src="support_files/figure-html/unnamed-chunk-130-1.png" width="1152" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="les-reprojections.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="créer-des-cartes-avec-tmap.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"],
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

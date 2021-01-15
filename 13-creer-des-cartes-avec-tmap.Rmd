@@ -34,6 +34,7 @@ library(sf)
 library(tidyverse)
 #remotes::install_github("MaelTheuliere/variousdata")
 library(variousdata)
+data("World")
 ```
 
 ## tm_shape
@@ -41,19 +42,19 @@ library(variousdata)
 Pour charger une donnée géométrique, il faut utiliser la fonction `tm_shape()`. `tm_shape()` permet de fixer plusieurs options de base de notre carte : la projection, la bbox, un facteur de simplification...
 
 ```{r,eval=T,echo=T}
-wgs_84 <- tm_shape(World, projection = "longlat") + 
+mercator <- tm_shape(World, projection = st_crs(3395)) + 
     tm_polygons() + 
-tm_layout("Le monde en projection WGS84", inner.margins=c(0,0,.1,0), title.size=.8)
+tm_layout("Le monde en projection Mercator", inner.margins=c(0,0,.1,0), title.size=.8)
 
-robin <- tm_shape(World, projection = "robin") + 
+robin <- tm_shape(World, projection = "+proj=robin +lon_0=0 +x_0=0 +y_0=0") + 
     tm_polygons() +
 tm_layout(
-"Le monde en project Winkel-Tripel",
+"Le monde en projection Robinson",
     inner.margins=c(0,0,.1,0), title.size=.8)
 ```
 
 ```{r,echo = F,eval=T}
-tmap_arrange(wgs_84,robin)
+tmap_arrange(mercator,robin)
 ```
 
 ## Exemple de carte choroplèthe
